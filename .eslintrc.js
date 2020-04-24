@@ -8,12 +8,21 @@ module.exports = {
     // @typescript-eslint/eslint-plugin that would conflict with prettier
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
+    'plugin:react/recommended',
   ],
   parserOptions: {
     // Allows for the parsing of modern ECMAScript features
     ecmaVersion: 2019,
     // Allows for the use of imports
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
   },
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs

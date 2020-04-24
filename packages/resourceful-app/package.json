@@ -2,17 +2,17 @@
   "name": "@poppanator/resourceful-app",
   "scripts": {
     "start": "electron .",
-    "dev:be": "yarn clean:be && tsc -w -p ./tsconfig.json",
-    "dev:fe": "yarn clean:fe && parcel watch -d ./dist/fe ./src/fe/index.html --public-url .",
-    "build:be": "yarn clean:be && tsc -p ./tsconfig.json",
-    "build:fe": "yarn clean:fe && parcel build -d ./dist/fe ./src/fe/index.html --public-url .",
+    "dev:app": "yarn clean:app && tsc -w",
+    "dev:ui": "yarn clean:ui && parcel watch -d ./dist/ui ./src/ui/app.html --public-url .",
+    "build:app": "yarn clean:app && tsc -p ./tsconfig.json",
+    "build:ui": "yarn clean:ui && parcel build -d ./dist/ui ./src/ui/app.html --public-url .",
     "clean": "rimraf dist",
-    "clean:be": "rimraf dist/be",
-    "clean:fe": "rimraf dist/fe"
+    "clean:app": "rimraf dist/app",
+    "clean:ui": "rimraf dist/ui"
   },
   "private": true,
   "version": "0.0.1",
-  "main": "dist/be/main.js",
+  "main": "dist/app/main.js",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
@@ -35,9 +35,9 @@
   "app": {
     "dest": "./dist",
     "srcPaths": {
-      "scss": "src/fe/scss/**/*.scss",
-      "img": "src/fe/img/**/*.[png,svg]",
-      "html": "src/fe/**/*.html"
+      "scss": "src/scss/**/*.scss",
+      "img": "src/img/**/*.[png,svg]",
+      "html": "src/**/*.html"
     }
   }
 }

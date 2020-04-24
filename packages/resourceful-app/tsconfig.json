@@ -1,15 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    // "module": "es2020",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "target": "ES2019",
     "allowJs": true,
-    "lib": ["dom", "es6", "es2020"],
+    "lib": ["dom", "esnext"],
     "jsx": "react",
     "outDir": "./dist",
     "rootDir": "./src",
-    "types": ["node"]
+    "types": ["node", "react"]
   },
   "include": ["./src/**/*.ts"]
 }

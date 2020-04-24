@@ -16,7 +16,7 @@ function createWindow(): void {
     },
   })
 
-  mainWindow.loadFile(join(__dirname, '../fe/index.html'))
+  mainWindow.loadFile(join(__dirname, '../ui/app.html'))
 
   if (process.env.RF_DEV_TOOLS) {
     mainWindow.webContents.openDevTools()
