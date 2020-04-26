@@ -22,7 +22,7 @@ export class PageStateStore {
     return store ?? (store = new this())
   }
 
-  @observable public state: PageState = PageState.HomeScreen
+  @observable public state: PageState = PageState.Projects
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}

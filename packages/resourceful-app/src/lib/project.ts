@@ -3,6 +3,7 @@ import { v4 } from 'uuid'
 export interface Project {
   id: string
   name: string
+  selected?: boolean
 }
 
 export function makeProject(project?: Partial<Project>): Project {

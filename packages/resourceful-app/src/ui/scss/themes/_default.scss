@@ -1,12 +1,13 @@
 :root {
-  --primary-bg: #121420;
-  --primary-bg2: #1b2432;
-  --primary-bg3: #403f4c;
-  --primary: #b76d68;
-  --secondary: #95b8d1;
+  --primary-bg: #{$primary-bg};
+  --primary-bg2: #{$primary-bg2};
+  --primary-bg3: #{$primary-bg3};
+  --primary: #{$primary};
+  --secondary: #{$secondary};
+  --tabs-bg: #{$tabs-bg};
 
-  --primary-text: #79828a;
+  --primary-text: #{$primary-text};
 
-  --font-size: 1rem;
-  --gutter-width: 1rem;
+  --font-size: #{$font-size};
+  --gutter-width: #{$gutter-width};
 }

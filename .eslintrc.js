@@ -38,5 +38,6 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+    'react/prop-types': ['off'],
   },
 }

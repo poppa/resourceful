@@ -1,9 +1,10 @@
 import React, { FC } from 'react'
 import { observer } from 'mobx-react'
-import { pageStateStore } from '../../storage'
+import { pageStateStore, projectsStore } from '../../storage'
 import { withChildren } from '../../lib'
 import { PageState } from '../../storage/pagestate'
 import HomeScreen from '../Homescreen'
+import Projects from '../Projects/Projects'
 
 const PageStateComp: FC = observer(
   withChildren(
@@ -13,7 +14,7 @@ const PageStateComp: FC = observer(
           return <HomeScreen />
 
         case PageState.Projects:
-          return <div>Projects man</div>
+          return <Projects projects={projectsStore.projects} />
 
         default:
           return <div>Unknown page state</div>
