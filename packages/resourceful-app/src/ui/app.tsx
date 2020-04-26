@@ -1,9 +1,30 @@
+import { install } from 'source-map-support'
+install()
+import './augmentation'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Homescreen from './components/Homescreen'
+import { AppContainer } from 'react-hot-loader'
+// See https://github.com/mobxjs/mobx-react-lite/#observer-batching
+import 'mobx-react/batchingForReactDom'
+import PageStateComp from './components/PageState/PageState'
+import { isUndefined } from '../lib'
 
 const Main = (): JSX.Element => {
-  return <Homescreen />
+  return (
+    <AppContainer>
+      <PageStateComp />
+    </AppContainer>
+  )
 }
 
-ReactDOM.render(<Main />, document.getElementById('app'))
+function render(): void {
+  ReactDOM.render(<Main />, document.getElementById('app'))
+}
+
+if (!isUndefined(window)) {
+  render()
+}
+
+if (module.hot) {
+  module.hot.accept(render)
+}

@@ -19,6 +19,15 @@
     justify-content: center;
     user-select: none;
     cursor: pointer;
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out, border-color 0.3s ease-in,
+      color 0.5s ease-in;
+
+    &:hover {
+      transform: scale(1.2);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
   }
 
   &__flash {
