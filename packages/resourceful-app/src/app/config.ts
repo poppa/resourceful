@@ -51,10 +51,10 @@ class Config {
 
     if (r.no) {
       panic(`Unable to read projects dir "${base}": %o`, r.no)
-    } else {
-      for (const f of r.value) {
-        console.log(`f:`, f)
-      }
+    }
+
+    for (const f of r.value) {
+      console.log(`f:`, f)
     }
 
     return ret
