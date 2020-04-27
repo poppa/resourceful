@@ -29,7 +29,7 @@ class Config {
       return this._projectsDir
     }
 
-    const d = join(this.userDataPath, 'projcts')
+    const d = join(this.userDataPath, 'projects')
 
     if (!(await fileExists(d)).yes) {
       const r = await mkDir(d)
