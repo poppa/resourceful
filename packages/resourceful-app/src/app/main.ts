@@ -6,7 +6,7 @@ import getenv from 'getenv'
 
 let mainWindow: Electron.BrowserWindow | undefined
 
-if (getenv('ELECTRON_ENV') === 'development') {
+if (getenv('ELECTRON_RELOAD', '')) {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('electron-reload')(__dirname, {
     electron: join(__dirname, '../../../../node_modules', '.bin', 'electron'),
