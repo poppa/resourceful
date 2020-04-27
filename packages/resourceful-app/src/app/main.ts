@@ -2,11 +2,11 @@ import { install } from 'source-map-support'
 install()
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
-import { getenv } from '../lib'
+import getenv from 'getenv'
 
 let mainWindow: Electron.BrowserWindow | undefined
 
-if (getenv('ELECTRON_ENV', 'production') === 'development') {
+if (getenv('ELECTRON_ENV') === 'development') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('electron-reload')(__dirname, {
     electron: join(__dirname, '../../../../node_modules', '.bin', 'electron'),
@@ -21,7 +21,8 @@ function createWindow(): void {
     width: 1600,
     height: 800,
     webPreferences: {
-      // preload: join(__dirname, "preload.js"),
+      nodeIntegration: true,
+      preload: join(__dirname, 'bootstrap.js'),
     },
   })
 

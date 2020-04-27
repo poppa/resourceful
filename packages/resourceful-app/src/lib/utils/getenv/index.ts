@@ -1,1 +1,0 @@
-export { getenv } from './getenv'
