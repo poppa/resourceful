@@ -32,7 +32,7 @@ class Config {
     const d = join(this.userDataPath, 'projects')
 
     if (!(await fileExists(d)).yes) {
-      const r = await mkDir(d)
+      const r = await mkDir(d, true)
 
       if (r.no) {
         panic(`Failed creating projects dir "${d}": %o`, r.no)
