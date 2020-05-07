@@ -3,6 +3,7 @@ install()
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import getenv from 'getenv'
+import { config } from './config'
 
 let mainWindow: Electron.BrowserWindow | undefined
 
@@ -28,7 +29,7 @@ function createWindow(): void {
 
   mainWindow.loadFile(join(__dirname, '../ui/app.html'))
 
-  if (process.env.RF_DEV_TOOLS) {
+  if (config.devTools) {
     mainWindow.webContents.openDevTools()
   }
 

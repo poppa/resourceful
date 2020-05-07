@@ -24,6 +24,11 @@ class Config {
     return app.getPath('appData')
   }
 
+  @Env('RF_DEV_TOOLS')
+  public get devTools(): boolean {
+    return false
+  }
+
   public async projectsDir(): Promise<string> {
     if (this._projectsDir) {
       return this._projectsDir
@@ -31,11 +36,11 @@ class Config {
 
     const d = join(this.userDataPath, 'projects')
 
-    if (!(await fileExists(d)).yes) {
+    if (!(await fileExists(d)).success) {
       const r = await mkDir(d, true)
 
-      if (r.no) {
-        panic(`Failed creating projects dir "${d}": %o`, r.no)
+      if (r.failure) {
+        panic(`Failed creating projects dir "${d}": %o`, r.error)
       }
     }
 
@@ -49,11 +54,11 @@ class Config {
     const base = await this.projectsDir()
     const r = await readDir(base)
 
-    if (r.no) {
-      panic(`Unable to read projects dir "${base}": %o`, r.no)
+    if (r.failure) {
+      panic(`Unable to read projects dir "${base}": %o`, r.error)
     }
 
-    for (const f of r.value) {
+    for (const f of r.result) {
       console.log(`f:`, f)
     }
 

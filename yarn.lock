@@ -8381,6 +8381,11 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
+safe-result@^1.0.0-beta.2:
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/safe-result/-/safe-result-1.0.0-beta.2.tgz#9c3b835eec71202191c39e688e9adc70643ef27a"
+  integrity sha512-RgFDSZFl/i8rv5xOgUnlxuW7yoBqUqa7mwyNIvX4sNBbv2jhWtJ5xJEZzmjiw3pthdosaQbPB7VfetwNj1PPVA==
+
 "safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"

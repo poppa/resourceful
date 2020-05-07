@@ -1,6 +1,6 @@
 import { PathLike, promises, Stats } from 'fs'
 import { W_OK } from 'constants'
-import { AsyncResult, success, failure } from '../../lib'
+import { AsyncResult, success, failure } from 'safe-result'
 
 export async function fileExists(p: PathLike): AsyncResult<boolean> {
   try {
@@ -22,12 +22,12 @@ export async function fileStat(p: PathLike): AsyncResult<Stats> {
 
 export async function isDir(p: PathLike): AsyncResult<boolean> {
   const r = await fileStat(p)
-  return r.yes ? success(r.value.isDirectory()) : r
+  return r.success ? success(r.result.isDirectory()) : r
 }
 
 export async function isFile(p: PathLike): AsyncResult<boolean> {
   const r = await fileStat(p)
-  return r.yes ? success(r.value.isFile()) : r
+  return r.success ? success(r.result.isFile()) : r
 }
 
 export async function mkDir(
