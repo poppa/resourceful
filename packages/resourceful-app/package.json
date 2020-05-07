@@ -2,7 +2,7 @@
   "name": "@poppanator/resourceful-app",
   "scripts": {
     "start": "ELECTRON_ENV=production electron .",
-    "start:dev": "ELECTRON_ENV=develoment electron .",
+    "start:dev": "ELECTRON_ENV=development electron .",
     "dev:app": "yarn clean:app && tsc -w",
     "dev:ui": "yarn clean:ui && parcel watch --hmr-port 8798 --hmr-hostname localhost -d ./dist/ui ./src/ui/app.html --public-url .",
     "build:app": "yarn clean:app && tsc -p ./tsconfig.json",

@@ -29,6 +29,19 @@ class Config {
     return false
   }
 
+  @Env('RF_ELECTRON_RELOAD')
+  public get electronReload(): boolean {
+    return false
+  }
+
+  public get isProductionMode(): boolean {
+    return process.env.ELECTRON_ENV !== 'development'
+  }
+
+  public get isDevelopmentMode(): boolean {
+    return process.env.ELECTRON_ENV === 'development'
+  }
+
   public async projectsDir(): Promise<string> {
     if (this._projectsDir) {
       return this._projectsDir
