@@ -19,6 +19,7 @@
     "axios": "^0.19.2",
     "babel-runtime": "^6.26.0",
     "deepmerge": "^4.2.2",
+    "electron": "^8.2.3",
     "getenv": "^1.0.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-es2019": "^1.0.0"
   }
 }

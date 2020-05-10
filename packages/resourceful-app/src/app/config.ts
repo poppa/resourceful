@@ -3,10 +3,10 @@ import getenv from 'getenv'
 import { join } from 'path'
 import { Env } from './lib/env'
 import { fileExists, mkDir, readDir } from './lib/async-fs'
-import { Versions, Maybe, Project } from '../lib'
+import { Versions, Maybe, Project, AppRuntimeInfo } from '../lib'
 import { panic } from './lib/panic'
 
-class Config {
+class Config implements AppRuntimeInfo {
   private _projectsDir: Maybe<string>
 
   @Env('RF_USER_DATA_PATH')
@@ -84,6 +84,19 @@ class Config {
       node: process.versions.chrome,
       chrome: process.versions.chrome,
       app: getenv('npm_package_version', '0.0.0'),
+    }
+  }
+
+  public toJson(): AppRuntimeInfo {
+    return {
+      appDataPath: this.appDataPath,
+      cachePath: this.cachePath,
+      devTools: this.devTools,
+      electronReload: this.electronReload,
+      isDevelopmentMode: this.isDevelopmentMode,
+      isProductionMode: this.isProductionMode,
+      userDataPath: this.userDataPath,
+      versions: this.versions,
     }
   }
 }

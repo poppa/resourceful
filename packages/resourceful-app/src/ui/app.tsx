@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import './augmentation'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -16,7 +17,6 @@ const Main = (): JSX.Element => {
 }
 
 function render(): void {
-  console.log(`Render`)
   ReactDOM.render(<Main />, document.getElementById('app'))
 }
 

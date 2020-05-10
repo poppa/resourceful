@@ -3,6 +3,7 @@ install()
 import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { config } from './config'
+import '../lib/ipc/server'
 
 let mainWindow: Electron.BrowserWindow | undefined
 
