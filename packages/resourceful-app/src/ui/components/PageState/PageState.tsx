@@ -10,6 +10,9 @@ const PageStateComp: FC = observer(
   withChildren(
     (): JSX.Element => {
       switch (pageStateStore.state) {
+        case PageState.Initializing:
+          return <div>Initializing...</div>
+
         case PageState.HomeScreen:
           return <HomeScreen />
 

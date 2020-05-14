@@ -2,6 +2,12 @@ import { PathLike, promises, Stats } from 'fs'
 import { W_OK } from 'constants'
 import { AsyncResult, success, failure } from 'safe-result'
 
+export interface WriteFileOptions {
+  encoding?: string
+  mode?: string | number
+  flag?: string | number
+}
+
 export async function fileExists(p: PathLike): AsyncResult<boolean> {
   try {
     await promises.access(p, W_OK)
@@ -46,6 +52,19 @@ export async function readDir(p: PathLike): AsyncResult<string[]> {
   try {
     const r = await promises.readdir(p)
     return success(r)
+  } catch (e) {
+    return failure(e)
+  }
+}
+
+export async function writeFile(
+  p: PathLike,
+  data: string | Buffer,
+  options?: WriteFileOptions
+): AsyncResult<boolean> {
+  try {
+    await promises.writeFile(p, data, options)
+    return success(true)
   } catch (e) {
     return failure(e)
   }

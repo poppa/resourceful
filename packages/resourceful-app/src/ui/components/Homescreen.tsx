@@ -10,10 +10,10 @@ const Homescreen = (): JSX.Element => {
         onClick={(): number => (pageStateStore.state = PageState.Projects)}
       >
         <div className="homescreen__flash">Create A Project</div>
-        <div className="homescreen_text">
+        <div className="homescreen__text">
           You don&apos;t seem to have any projects created yet.
         </div>
-        <div className="homescreen_text">Click here to create your first</div>
+        <div className="homescreen__text">Click here to create your first</div>
       </div>
     </div>
   )

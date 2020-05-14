@@ -4,11 +4,7 @@ import { observable, computed, action } from 'mobx'
 let store: Maybe<ProjectsStore>
 
 export class ProjectsStore {
-  @observable private _projects: Project[] = [
-    { id: '1', name: 'Daily', selected: true },
-    { id: '2', name: 'Bygg' },
-    { id: '3', name: 'Kommunal Rapport' },
-  ]
+  @observable private _projects: Project[] = []
 
   static create(): ProjectsStore {
     return store ?? (store = new this())
@@ -21,8 +17,17 @@ export class ProjectsStore {
     return this._projects
   }
 
+  @computed public get hasProjects(): boolean {
+    return this._projects.length > 0
+  }
+
+  public async loadProjects(): Promise<void> {
+    return
+  }
+
   @action public activate(p: Project): void {
     const cpy = [...this._projects]
+
     cpy.find((pp) => {
       if (pp.selected) {
         pp.selected = false
@@ -30,12 +35,12 @@ export class ProjectsStore {
       }
       return false
     })
+
     cpy.find((pp) => {
       if (pp.id === p.id) {
         pp.selected = true
         return true
       }
-
       return false
     })
 

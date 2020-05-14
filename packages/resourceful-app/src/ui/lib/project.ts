@@ -1,10 +1,5 @@
 import { v4 } from 'uuid'
-
-export interface Project {
-  id: string
-  name: string
-  selected?: boolean
-}
+import { Project } from '../../lib/interfaces/project'
 
 export function makeProject(project?: Partial<Project>): Project {
   project = project ?? {}
@@ -14,7 +9,7 @@ export function makeProject(project?: Partial<Project>): Project {
   }
 
   if (!project.name) {
-    project.name = 'Unnamed'
+    project.name = '<Unnamed>'
   }
 
   return project as Project

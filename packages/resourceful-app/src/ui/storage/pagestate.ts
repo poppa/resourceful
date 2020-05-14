@@ -1,11 +1,13 @@
-import { observable } from 'mobx'
+import { observable, computed } from 'mobx'
 import { Maybe } from '../../lib/types/types'
 import { isUndefined } from '../../lib/utils/typeguards'
-import { loadConfig } from '../../lib/ipc/client'
+import Result from 'safe-result'
+import { staticStore, projectsStore } from '.'
 
 let store: Maybe<PageStateStore>
 
 export enum PageState {
+  Initializing,
   HomeScreen,
   Projects,
 }
@@ -23,10 +25,34 @@ export class PageStateStore {
     return store ?? (store = new this())
   }
 
-  @observable public state: PageState = PageState.Projects
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {
-    loadConfig().then((r) => console.log(`Ipc load config done:`, r.versions))
+    this.init()
+  }
+
+  @observable private _state: PageState = PageState.Initializing
+
+  @computed public get state(): PageState {
+    return this._state
+  }
+
+  public set state(state: PageState) {
+    this._state = state
+  }
+
+  private async init(): Promise<void> {
+    const x = await Result.all([
+      staticStore.loadConfig(),
+      projectsStore.loadProjects(),
+    ])
+
+    if (x.success) {
+      console.log(`All init done`)
+
+      if (projectsStore.hasProjects) {
+        this._state = PageState.Projects
+      } else {
+        this._state = PageState.HomeScreen
+      }
+    }
   }
 }
