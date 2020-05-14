@@ -1,7 +1,7 @@
-import { Maybe } from '../../lib/types/types'
-import { loadConfig } from '../../lib/ipc/client'
-import { AppRuntimeInfo } from '../../lib'
 import { computed, observable } from 'mobx'
+import { Maybe } from '../../lib/types/types'
+import { AppRuntimeInfo } from '../../lib'
+import { IpcClient } from '../lib'
 
 let store: Maybe<StaticStore>
 
@@ -16,7 +16,7 @@ export class StaticStore {
   private constructor() {}
 
   public async loadConfig(): Promise<void> {
-    this._appRuntimeInfo = await loadConfig()
+    this._appRuntimeInfo = await IpcClient.loadConfig()
   }
 
   @computed get appRuntimeInfo(): Maybe<AppRuntimeInfo> {

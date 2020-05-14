@@ -7,7 +7,9 @@ const Homescreen = (): JSX.Element => {
     <div className="homescreen">
       <div
         className="homescreen__wrapper"
-        onClick={(): number => (pageStateStore.state = PageState.Projects)}
+        onClick={(): void => {
+          pageStateStore.set(PageState.CreateProject)
+        }}
       >
         <div className="homescreen__flash">Create A Project</div>
         <div className="homescreen__text">

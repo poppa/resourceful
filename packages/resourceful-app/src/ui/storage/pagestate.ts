@@ -1,4 +1,4 @@
-import { observable, computed } from 'mobx'
+import { observable, computed, action } from 'mobx'
 import { Maybe } from '../../lib/types/types'
 import { isUndefined } from '../../lib/utils/typeguards'
 import Result from 'safe-result'
@@ -10,6 +10,7 @@ export enum PageState {
   Initializing,
   HomeScreen,
   Projects,
+  CreateProject,
 }
 
 export function isPageState(n: Maybe<number>): boolean {
@@ -37,6 +38,11 @@ export class PageStateStore {
 
   public set state(state: PageState) {
     this._state = state
+  }
+
+  @action public set(state: PageState): this {
+    this._state = state
+    return this
   }
 
   private async init(): Promise<void> {

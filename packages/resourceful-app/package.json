@@ -16,6 +16,11 @@
   "main": "dist/app/main.js",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.9.14",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.9.14",
+    "@material-ui/system": "^4.9.14",
+    "@material-ui/utils": "^4.9.12",
     "axios": "^0.19.2",
     "babel-runtime": "^6.26.0",
     "deepmerge": "^4.2.2",
