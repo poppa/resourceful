@@ -2,8 +2,8 @@ import { app } from 'electron'
 import getenv from 'getenv'
 import { join } from 'path'
 import { Env } from './lib/env'
-import { fileExists, mkDir, readDir } from './lib/async-fs'
-import { Versions, Maybe, Project, AppRuntimeInfo } from '../lib'
+import { fileExists, mkDir } from './lib/async-fs'
+import { Versions, Maybe, AppRuntimeInfo } from '../lib'
 import { panic } from './lib/panic'
 
 class Config implements AppRuntimeInfo {
@@ -60,22 +60,6 @@ class Config implements AppRuntimeInfo {
     this._projectsDir = d
 
     return d
-  }
-
-  public async getProjects(): Promise<Project[]> {
-    const ret: Project[] = []
-    const base = await this.projectsDir()
-    const r = await readDir(base)
-
-    if (r.failure) {
-      panic(`Unable to read projects dir "${base}": %o`, r.error)
-    }
-
-    for (const f of r.result) {
-      console.log(`f:`, f)
-    }
-
-    return ret
   }
 
   public get versions(): Versions {

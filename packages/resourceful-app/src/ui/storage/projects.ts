@@ -16,23 +16,54 @@ export class ProjectsStore {
   private constructor() {}
 
   @computed public get projects(): Project[] {
-    return this._projects
+    return [...this._projects]
   }
 
   @computed public get hasProjects(): boolean {
     return this._projects.length > 0
   }
 
-  @action public async createProject(p?: Project): Promise<Project> {
+  @action public async createProject(p?: Project): Promise<boolean> {
     p = p ?? makeProject()
-    const mp = await IpcClient.createProject(p)
-    this._projects.push(mp)
-    this.activate(mp)
-    return mp
+
+    const mp = await IpcClient.saveProject(p)
+
+    if (mp) {
+      const prev = this._projects.find((p) => p.selected)
+
+      if (prev) {
+        prev.selected = false
+        // FIXME: Should we await here?
+        IpcClient.saveProject(prev)
+      }
+
+      if (!mp.selected) {
+        mp.selected = true
+        await IpcClient.saveProject(mp)
+      }
+
+      this._projects.push(mp)
+      this.activate(mp)
+    }
+
+    return !!mp
   }
 
-  public async loadProjects(): Promise<void> {
-    return
+  @action public async loadProjects(): Promise<void> {
+    const ps = await IpcClient.loadProjets()
+
+    if (ps) {
+      if (ps.length && !ps.find((p) => p.selected)) {
+        console.log(`No selected project from disk`)
+        ps[0].selected = true
+        await IpcClient.saveProject(ps[0])
+        console.log(`Saved project as selected`)
+      }
+
+      this._projects = ps
+    } else {
+      console.error(`Failed loading projects`)
+    }
   }
 
   @action public activate(p: Project): void {

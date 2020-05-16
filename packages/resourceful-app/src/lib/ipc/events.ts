@@ -1,4 +1,5 @@
 export enum Events {
   RequestConfig = 'request-config',
-  CreateProject = 'create-project',
+  SaveProject = 'save-project',
+  LoadProjects = 'load-projects',
 }

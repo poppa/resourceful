@@ -1,6 +1,7 @@
 import { Events } from '../events'
 import { IpcRenderer } from 'electron'
 import { AppRuntimeInfo, Project } from '../../interfaces'
+import { Maybe } from '../../types/types'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 
@@ -10,8 +11,12 @@ export async function loadConfig(): Promise<AppRuntimeInfo> {
   >
 }
 
-export async function createProject(p: Project): Promise<Project> {
-  return (ipcRenderer.invoke(Events.CreateProject, p) as unknown) as Promise<
+export async function saveProject(p: Project): Promise<Project | false> {
+  return (ipcRenderer.invoke(Events.SaveProject, p) as unknown) as Promise<
     Project
   >
+}
+
+export async function loadProjets(): Promise<Maybe<Project[]>> {
+  return ipcRenderer.invoke(Events.LoadProjects) as Promise<Maybe<Project[]>>
 }

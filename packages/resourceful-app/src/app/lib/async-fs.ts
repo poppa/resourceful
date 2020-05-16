@@ -57,6 +57,15 @@ export async function readDir(p: PathLike): AsyncResult<string[]> {
   }
 }
 
+export async function readFile(f: PathLike): AsyncResult<Buffer> {
+  try {
+    const r = await promises.readFile(f)
+    return success(r)
+  } catch (e) {
+    return failure(e)
+  }
+}
+
 export async function writeFile(
   p: PathLike,
   data: string | Buffer,

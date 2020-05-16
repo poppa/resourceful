@@ -24,9 +24,12 @@ const CreateProjectComponent: FC = observer(
             e.preventDefault()
             if (state.isOk) {
               const p = makeProject({ name: state.text })
-              projectsStore.createProject(p).then(() => {
-                console.log(`Project done`)
-                pageStateStore.set(PageState.Projects)
+              projectsStore.createProject(p).then((r) => {
+                if (r) {
+                  pageStateStore.set(PageState.Projects)
+                } else {
+                  console.error(`Failed creating project`)
+                }
               })
               return false
             } else {
