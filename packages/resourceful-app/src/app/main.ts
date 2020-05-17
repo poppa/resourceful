@@ -4,6 +4,7 @@ import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { config } from './config'
 import '../lib/ipc/server'
+import { setAppMenu } from './menu'
 
 let mainWindow: Electron.BrowserWindow | undefined
 
@@ -40,6 +41,7 @@ function createWindow(): void {
   }
 
   mainWindow.on('closed', () => (mainWindow = undefined))
+  setAppMenu()
 }
 
 app.allowRendererProcessReuse = true
