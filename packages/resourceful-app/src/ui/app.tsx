@@ -7,6 +7,7 @@ import { AppContainer } from 'react-hot-loader'
 import 'mobx-react/batchingForReactDom'
 import PageStateComp from './components/PageState/PageState'
 import { isUndefined } from '../lib'
+import './lib/clipboard'
 
 const Main = (): JSX.Element => {
   return (

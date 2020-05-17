@@ -1,9 +1,11 @@
 import { ipcMain } from 'electron'
 import { Events } from '../events'
 import { config } from '../../../app/config'
-import { AppRuntimeInfo, Project } from '../../interfaces'
+import { AppRuntimeInfo, Project, Resource } from '../../interfaces'
 import { saveProject, loadProjects } from '../../../app/lib/project'
 import { Maybe } from '../../types/types'
+import { AsyncResult } from 'safe-result'
+import { resovleResource } from '../../../app/resource-handlers'
 
 // Server config
 ipcMain.handle(
@@ -29,4 +31,13 @@ ipcMain.handle(
 ipcMain.handle(
   Events.LoadProjects,
   async (): Promise<Maybe<Project[]>> => loadProjects()
+)
+
+// Resolve resource
+ipcMain.handle(
+  Events.ResolveResource,
+  async (_, buffer: string): AsyncResult<Resource> => {
+    console.log(`Resolve resource:`, buffer)
+    return await resovleResource(buffer)
+  }
 )

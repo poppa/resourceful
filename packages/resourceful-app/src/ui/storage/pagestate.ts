@@ -1,6 +1,6 @@
 import { observable, computed, action } from 'mobx'
 import { Maybe } from '../../lib/types/types'
-import { isUndefined } from '../../lib/utils/typeguards'
+import { isUndefined } from '../../lib/typeguards/generic'
 import Result from 'safe-result'
 import { staticStore, projectsStore } from '.'
 

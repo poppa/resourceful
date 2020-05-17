@@ -23,6 +23,12 @@ export class ProjectsStore {
     return this._projects.length > 0
   }
 
+  @action public async resolveResource(buf: string): Promise<void> {
+    console.log(`Resovle resource:`, buf)
+    const r = await IpcClient.resovleResource(buf)
+    console.log(`Got:`, r)
+  }
+
   @action public async createProject(p?: Project): Promise<boolean> {
     p = p ?? makeProject()
 
