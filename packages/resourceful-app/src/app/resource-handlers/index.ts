@@ -1,14 +1,19 @@
 import { AsyncResult, success, failure } from 'safe-result'
-import { Resource, ResourceType } from '../../lib'
+import { Resource, Maybe } from '../../lib'
 import { handler as webHandler } from './web'
+import { ResolveResourceArgs } from '../../lib/ipc/types'
+import { logDebug } from '../../lib/debug'
 
-export async function resovleResource(buf: string): AsyncResult<Resource> {
-  if (await webHandler(buf)) {
-    return success({
-      name: buf.substring(0, 10),
-      type: ResourceType.Url,
-      contentType: 'text/html',
-    })
+const debug = logDebug('resolve-resource')
+
+export async function resovleResource(
+  args: ResolveResourceArgs
+): AsyncResult<Resource> {
+  debug('resolveResource(%O)', args)
+  const resource: Maybe<Resource> = await webHandler(args)
+
+  if (resource) {
+    return success(resource)
   }
 
   return failure(new Error('Unhandled resource'))

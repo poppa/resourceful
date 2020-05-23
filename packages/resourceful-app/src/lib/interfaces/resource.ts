@@ -7,6 +7,7 @@ export enum ResourceType {
 
 export interface Resource {
   readonly type: ResourceType
+  readonly id: string
   name: string
   contentType?: string
 }

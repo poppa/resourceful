@@ -15,6 +15,16 @@ export class ProjectsStore {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
+  @computed public get currentProject(): Project {
+    const p = this._projects.find((p) => p.selected)
+
+    if (!p) {
+      throw new Error('No current project')
+    }
+
+    return p
+  }
+
   @computed public get projects(): Project[] {
     return [...this._projects]
   }
@@ -25,7 +35,12 @@ export class ProjectsStore {
 
   @action public async resolveResource(buf: string): Promise<void> {
     console.log(`Resovle resource:`, buf)
-    const r = await IpcClient.resovleResource(buf)
+
+    const r = await IpcClient.resovleResource({
+      buffer: buf,
+      project: this.currentProject,
+    })
+
     console.log(`Got:`, r)
   }
 

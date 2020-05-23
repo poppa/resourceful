@@ -1,6 +1,10 @@
 import { AsyncResult, success, failure } from 'safe-result'
-import axios from 'axios'
-import { PlainObject } from '../../lib'
+import axios, { AxiosError } from 'axios'
+import cheerio from 'cheerio'
+import { PlainObject, isPlainObject } from '../../lib'
+import { logDebug } from '../../lib/debug'
+
+const debug = logDebug('download')
 
 function getContentType(headers: PlainObject): string {
   if (headers['content-type']) {
@@ -29,31 +33,99 @@ function getCharset(headers: PlainObject): string {
   return 'utf-8'
 }
 
-async function parseSnippet(_html: string): Promise<void> {
-  //
+function isAxiosError(o: unknown): o is AxiosError {
+  return (
+    o instanceof Error &&
+    'isAxiosError' in o &&
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    o.isAxiosError === true
+  )
 }
 
-export async function downloadUrl(url: string): AsyncResult<string> {
+interface Data {
+  data: string
+}
+
+interface PageMeta {
+  title: string
+  description?: string
+  icon?: string
+  image?: string
+  contentType: string
+}
+
+function parseHtmlSnippet(html: string): PageMeta {
+  const $ = cheerio.load(html)
+  const meta = $('meta')
+
+  const pageMeta: Partial<PageMeta> = {}
+
+  meta.each((_, el) => {
+    const attr = el.attribs
+
+    if (attr.property === 'og:title') {
+      pageMeta.title = attr.content
+    } else if (attr.property === 'og:description') {
+      pageMeta.description = attr.content
+    } else if (attr.property === 'og:image') {
+      pageMeta.image = attr.content
+    } else if (!pageMeta.description && attr.name === 'description') {
+      pageMeta.description = attr.value
+    }
+  })
+
+  if (!pageMeta.title) {
+    const ttl = $('title')
+    ttl.each((_, el) => (pageMeta.title = el.nodeValue))
+  }
+
+  if (!pageMeta.title) {
+    pageMeta.title = '<No title>'
+  }
+
+  debug(`Resolved page meta: %O`, pageMeta)
+  return pageMeta as PageMeta
+}
+
+export type WebPage = Data & PageMeta
+export type DownloadData = Data | WebPage
+
+export function isWebPage(o: unknown): o is WebPage {
+  return isPlainObject(o) && 'data' in o && 'title' in o
+}
+
+export async function downloadUrl(url: string): AsyncResult<DownloadData> {
   try {
-    console.log(`Begin dowload:`, url)
+    debug(`Begin dowload:`, url)
     const x = await axios.get(url)
 
     if (x.status / 100 === 2) {
       const ct = getContentType(x.headers || {})
       const cs = getCharset(x.headers)
 
-      console.log(`Downloaded:`, x.status, ct, cs)
+      debug(`Downloaded:`, x.status, ct, cs)
 
       if (ct === 'text/html') {
-        parseSnippet(x.data)
+        const metadata = parseHtmlSnippet(x.data)
+        metadata.contentType = 'text/html'
+        return success({ ...metadata, data: x.data })
+      } else {
+        debug(`Non-HTML content type`)
       }
 
-      return success('yay')
+      return success({ data: x.data })
     } else {
       throw new Error(`Non-200 response ${x.status} ${x.statusText}`)
     }
   } catch (e) {
-    console.error('Download Error:', e)
+    if (isAxiosError(e)) {
+      console.log(`Axios Error:`, e.config)
+      console.log(`Axios Error:`, e.code, e.name, e.message)
+    } else {
+      console.error('Download Error:', e)
+    }
+
     return failure(e)
   }
 }

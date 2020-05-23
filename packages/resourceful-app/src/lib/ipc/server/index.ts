@@ -6,6 +6,10 @@ import { saveProject, loadProjects } from '../../../app/lib/project'
 import { Maybe } from '../../types/types'
 import { AsyncResult } from 'safe-result'
 import { resovleResource } from '../../../app/resource-handlers'
+import { ResolveResourceArgs } from '../types'
+import { logDebug } from '../../debug'
+
+const debug = logDebug('ipc-main')
 
 // Server config
 ipcMain.handle(
@@ -36,8 +40,8 @@ ipcMain.handle(
 // Resolve resource
 ipcMain.handle(
   Events.ResolveResource,
-  async (_, buffer: string): AsyncResult<Resource> => {
-    console.log(`Resolve resource:`, buffer)
-    return await resovleResource(buffer)
+  async (_, args: ResolveResourceArgs): AsyncResult<Resource> => {
+    debug(`ipcMain.handle(%s, %o):`, Events.ResolveResource, args)
+    return await resovleResource(args)
   }
 )
