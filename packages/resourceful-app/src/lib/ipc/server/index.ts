@@ -4,7 +4,6 @@ import { config } from '../../../app/config'
 import { AppRuntimeInfo, Project, Resource } from '../../interfaces'
 import { saveProject, loadProjects } from '../../../app/lib/project'
 import { Maybe } from '../../types/types'
-import { AsyncResult } from 'safe-result'
 import { resovleResource } from '../../../app/resource-handlers'
 import { ResolveResourceArgs } from '../types'
 import { logDebug } from '../../debug'
@@ -40,8 +39,14 @@ ipcMain.handle(
 // Resolve resource
 ipcMain.handle(
   Events.ResolveResource,
-  async (_, args: ResolveResourceArgs): AsyncResult<Resource> => {
+  async (_, args: ResolveResourceArgs): Promise<Resource | Error> => {
     debug(`ipcMain.handle(%s, %o):`, Events.ResolveResource, args)
-    return await resovleResource(args)
+    const resource = await resovleResource(args)
+
+    if (resource.success) {
+      return resource.result
+    } else {
+      return { message: resource.error.message, name: resource.error.name }
+    }
   }
 )

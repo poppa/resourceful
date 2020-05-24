@@ -41,7 +41,17 @@ export class ProjectsStore {
       project: this.currentProject,
     })
 
-    console.log(`Got:`, r)
+    if (r.success) {
+      const cp = this.currentProject
+      console.log(`Resource resolved successfully:`, r.result)
+      cp.resources = [...cp.resources, r.result]
+      console.log(`Current project:`, cp)
+      console.log(`Saving project`)
+      await IpcClient.saveProject(this.currentProject)
+      console.log(`Saved project`)
+    } else {
+      console.error(`Failed creating resource:`, r.error)
+    }
   }
 
   @action public async createProject(p?: Project): Promise<boolean> {

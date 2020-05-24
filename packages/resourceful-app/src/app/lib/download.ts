@@ -1,7 +1,7 @@
 import { AsyncResult, success, failure } from 'safe-result'
 import axios, { AxiosError } from 'axios'
 import cheerio from 'cheerio'
-import { PlainObject, isPlainObject } from '../../lib'
+import { PlainObject, isPlainObject, Maybe } from '../../lib'
 import { logDebug } from '../../lib/debug'
 
 const debug = logDebug('download')
@@ -45,6 +45,7 @@ function isAxiosError(o: unknown): o is AxiosError {
 
 interface Data {
   data: string
+  extension?: string
 }
 
 interface PageMeta {
@@ -95,16 +96,28 @@ export function isWebPage(o: unknown): o is WebPage {
   return isPlainObject(o) && 'data' in o && 'title' in o
 }
 
+function extensionFromFileName(file: string): Maybe<string> {
+  const m = file.match(/.+(\.[a-z0-9]+)($|\?)/i)
+
+  if (m) {
+    return m[1]
+  }
+
+  return undefined
+}
+
 export async function downloadUrl(url: string): AsyncResult<DownloadData> {
   try {
     debug(`Begin dowload:`, url)
-    const x = await axios.get(url)
+    const x = await axios.get(url, {
+      responseType: 'arraybuffer',
+    })
 
     if (x.status / 100 === 2) {
       const ct = getContentType(x.headers || {})
       const cs = getCharset(x.headers)
 
-      debug(`Downloaded:`, x.status, ct, cs)
+      debug(`Downloaded:`, x.status, ct, cs, typeof x.data)
 
       if (ct === 'text/html') {
         const metadata = parseHtmlSnippet(x.data)
@@ -114,7 +127,7 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
         debug(`Non-HTML content type`)
       }
 
-      return success({ data: x.data })
+      return success({ data: x.data, extension: extensionFromFileName(url) })
     } else {
       throw new Error(`Non-200 response ${x.status} ${x.statusText}`)
     }

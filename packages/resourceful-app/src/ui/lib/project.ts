@@ -12,5 +12,9 @@ export function makeProject(project?: Partial<Project>): Project {
     project.name = '<Unnamed>'
   }
 
+  if (!project.resources) {
+    project.resources = []
+  }
+
   return project as Project
 }

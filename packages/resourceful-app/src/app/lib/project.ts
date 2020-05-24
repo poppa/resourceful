@@ -5,7 +5,7 @@ import { fileExists, mkDir, writeFile, readDir, readFile } from './async-fs'
 
 const ProjectFileName = '__rf-project.json'
 
-async function getProjectDirPath(proj: Project): Promise<string> {
+export async function getProjectDirPath(proj: Project): Promise<string> {
   const root = await config.projectsDir()
   return join(root, proj.id)
 }

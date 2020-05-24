@@ -13,6 +13,7 @@ export async function resovleResource(
   const resource: Maybe<Resource> = await webHandler(args)
 
   if (resource) {
+    debug('resolveResource() resovled: %O', resource)
     return success(resource)
   }
 
