@@ -93,9 +93,20 @@ function parseHtmlSnippet(html: string): PageMeta {
     const licon = $('link[rel="icon"]')
 
     if (licon.length) {
-      const n = licon.toArray()[licon.length - 1]
-      debug('Icons no shortcut:', n)
-      pageMeta.icon = n.attribs.href
+      let topSize = 0
+
+      licon.each((_, el) => {
+        const s = el.attribs.sizes
+        if (s) {
+          const nt = parseInt(s, 10)
+          console.log(`Parsed size:`, nt)
+
+          if (nt > topSize) {
+            topSize = nt
+            pageMeta.icon = el.attribs.href
+          }
+        }
+      })
     }
   }
 

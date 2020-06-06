@@ -1,4 +1,4 @@
-import Result, { failure } from 'safe-result'
+import Result, { failure, success } from 'safe-result'
 import { downloadUrl, WebPage, DownloadData } from '../lib/download'
 import { Resource, ResourceType, Maybe, ResourceAssets } from '../../lib'
 import { ResolveResourceArgs } from '../../lib/ipc/types'
@@ -68,7 +68,6 @@ export async function handler({
           )
 
           const rdir = await makeResourceDir(resource, project)
-
           debug('Resource dir is:', rdir)
 
           if (rdir) {
@@ -77,9 +76,15 @@ export async function handler({
 
               if (d) {
                 const name = `${file.key}${d.extension ?? ''}`
-                return writeFile(join(rdir, name), d.data, {
+                const wok = await writeFile(join(rdir, name), d.data, {
                   encoding: 'binary',
                 })
+
+                if (wok.success) {
+                  return success(name)
+                } else {
+                  return wok.error
+                }
               } else {
                 return failure(file.data.error)
               }
@@ -92,7 +97,8 @@ export async function handler({
 
             successes.forEach((v, i) => {
               if (rr.success && rr.result[i]) {
-                assets[v.key as keyof ResourceAssets] = true
+                console.log(`Result I:`, rr.result[i])
+                assets[v.key as keyof ResourceAssets] = rr.result[i].toString()
               }
             })
 

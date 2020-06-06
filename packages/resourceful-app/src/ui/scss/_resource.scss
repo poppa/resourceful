@@ -1,0 +1,53 @@
+.resource {
+  border: 1px solid var(--primary);
+  border-radius: var(--border-radius);
+  width: 350px;
+
+  transition: border-color 0.2s ease-in;
+
+  &:hover {
+    border-color: var(--secondary);
+    cursor: pointer;
+  }
+
+  & + .resource {
+    margin-top: var(--gutter-width);
+  }
+
+  &__header,
+  &__body {
+    padding: var(--gutter-width);
+  }
+
+  &__header {
+    display: grid;
+    align-items: flex-start;
+    grid-template-columns: 32px 1fr;
+  }
+
+  &__icon {
+    display: block;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    border-radius: 100%;
+    background-color: var(--primary-bg3);
+
+    &-image {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__card {
+    overflow: hidden;
+    height: 180px;
+
+    &-image {
+      width: 100%;
+      height: auto;
+      object-position: 50% 50%;
+    }
+  }
+}

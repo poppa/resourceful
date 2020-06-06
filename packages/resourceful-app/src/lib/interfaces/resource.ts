@@ -7,8 +7,8 @@ export enum ResourceType {
 }
 
 export interface ResourceAssets {
-  icon?: boolean
-  image?: boolean
+  icon?: string
+  image?: string
 }
 
 export interface Resource {
