@@ -1,10 +1,8 @@
-import { Resource, Project, Maybe } from '../../lib'
+import { Resource, Project, Maybe, ResourceOf } from '../../lib'
 import { v4 } from 'uuid'
 import { join } from 'path'
 import { getProjectDirPath } from './project'
 import { mkDir } from './async-fs'
-
-type MakeResourceArgs = Omit<Resource, 'id'>
 
 export async function getResourceDirPath(
   resource: Resource,
@@ -27,7 +25,8 @@ export async function makeResourceDir(
   return undefined
 }
 
-export function makeResource(resource: MakeResourceArgs): Resource {
-  const res: Resource = { id: v4(), ...resource }
-  return res as Resource
+export function makeResource<T extends Omit<Resource, 'id'>>(
+  resource: T
+): ResourceOf<T> {
+  return ({ id: v4(), ...resource } as unknown) as ResourceOf<T>
 }

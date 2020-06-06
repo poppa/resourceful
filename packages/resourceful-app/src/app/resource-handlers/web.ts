@@ -1,6 +1,6 @@
 import Result, { failure } from 'safe-result'
 import { downloadUrl, WebPage, DownloadData } from '../lib/download'
-import { Resource, ResourceType, Maybe } from '../../lib'
+import { Resource, ResourceType, Maybe, ResourceAssets } from '../../lib'
 import { ResolveResourceArgs } from '../../lib/ipc/types'
 import { logDebug } from '../../lib/debug'
 import { makeResource, makeResourceDir } from '../lib/resource'
@@ -41,6 +41,7 @@ export async function handler({
         type: ResourceType.Url,
         name: data.title,
         contentType: 'text/html',
+        href: buffer,
       })
 
       const x: Array<Promise<AssetDownload>> = []
@@ -57,11 +58,13 @@ export async function handler({
 
       if (x.length) {
         const xrs = await Result.all(x)
+        debug('Result of fetch:', xrs.unwrap())
+        const successes = xrs.result?.filter((x) => x.data.success) ?? []
 
-        if (xrs.success) {
+        if (successes.length) {
           debug(
             'Got assets results:',
-            xrs.result.map((rr) => rr.key)
+            successes.map((rr) => rr.key)
           )
 
           const rdir = await makeResourceDir(resource, project)
@@ -69,7 +72,7 @@ export async function handler({
           debug('Resource dir is:', rdir)
 
           if (rdir) {
-            const wres = xrs.result.map(async (file) => {
+            const wres = successes.map(async (file) => {
               const d = file.data.result
 
               if (d) {
@@ -83,11 +86,21 @@ export async function handler({
             })
 
             const rr = await Result.allSettled(wres)
-            debug('Result of saves:', rr.unwrap())
+            debug('Result of saves: %O <> %O', rr.result, rr.error)
+
+            const assets: ResourceAssets = {}
+
+            successes.forEach((v, i) => {
+              if (rr.success && rr.result[i]) {
+                assets[v.key as keyof ResourceAssets] = true
+              }
+            })
+
+            resource.assets = assets
           }
         } else if (xrs.error) {
-          debug('Some assets failed:', xrs.error)
-          console.error(`Error downloading resource assets:`, xrs.error)
+          debug('Some assets failed, or didnt exist')
+          // FIXME: Write to log here
         }
       }
 

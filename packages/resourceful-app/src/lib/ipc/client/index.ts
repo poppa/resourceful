@@ -6,16 +6,25 @@ import { AsyncResult, success, failure } from 'safe-result'
 import { ResolveResourceArgs } from '../types'
 import { isPlainObject, isResource } from '../../typeguards'
 import { logDebug } from '../../debug'
+import { toJS } from 'mobx'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 const debug = logDebug('resolve-resource')
+
+function deserialize<T>(obj: T): T {
+  if (!isPlainObject(obj)) {
+    return toJS(obj)
+  } else {
+    return obj
+  }
+}
 
 export async function loadConfig(): Promise<AppRuntimeInfo> {
   return ipcRenderer.invoke(Events.RequestConfig)
 }
 
 export async function saveProject(p: Project): Promise<Project | false> {
-  return ipcRenderer.invoke(Events.SaveProject, { ...p })
+  return ipcRenderer.invoke(Events.SaveProject, deserialize(p))
 }
 
 export async function loadProjets(): Promise<Maybe<Project[]>> {
@@ -26,11 +35,10 @@ export async function resovleResource({
   buffer,
   project,
 }: ResolveResourceArgs): AsyncResult<Resource> {
-  if (!isPlainObject(project)) {
-    project = { ...project }
-  }
+  project = deserialize(project)
 
   debug(`Sending:`, { buffer, project })
+
   const res = await ipcRenderer.invoke(Events.ResolveResource, {
     buffer,
     project,

@@ -85,6 +85,24 @@ function parseHtmlSnippet(html: string): PageMeta {
     pageMeta.title = '<No title>'
   }
 
+  const fav = $('link[rel="shortcut icon"]')
+
+  if (fav.length) {
+    pageMeta.icon = fav.attr('href')
+  } else {
+    const licon = $('link[rel="icon"]')
+
+    if (licon.length) {
+      const n = licon.toArray()[licon.length - 1]
+      debug('Icons no shortcut:', n)
+      pageMeta.icon = n.attribs.href
+    }
+  }
+
+  if (!pageMeta.icon) {
+    pageMeta.icon = '/favicon.ico'
+  }
+
   debug(`Resolved page meta: %O`, pageMeta)
   return pageMeta as PageMeta
 }
@@ -121,6 +139,11 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
 
       if (ct === 'text/html') {
         const metadata = parseHtmlSnippet(x.data)
+
+        if (metadata.icon && !metadata.icon.startsWith('http')) {
+          metadata.icon = new URL(metadata.icon, url).toString()
+          debug('Relative Icon converted:', metadata.icon)
+        }
         metadata.contentType = 'text/html'
         return success({ ...metadata, data: x.data })
       } else {
@@ -132,11 +155,12 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
       throw new Error(`Non-200 response ${x.status} ${x.statusText}`)
     }
   } catch (e) {
+    // FIXME: Write to log
     if (isAxiosError(e)) {
-      console.log(`Axios Error:`, e.config)
-      console.log(`Axios Error:`, e.code, e.name, e.message)
+      debug(`Axios Error:`, e.config)
+      debug(`Axios Error:`, e.code, e.name, e.message)
     } else {
-      console.error('Download Error:', e)
+      debug('Download Error:', e)
     }
 
     return failure(e)

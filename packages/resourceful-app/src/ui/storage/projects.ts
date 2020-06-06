@@ -1,5 +1,5 @@
 import { Maybe, Project } from '../../lib'
-import { observable, computed, action } from 'mobx'
+import { observable, computed, action, toJS } from 'mobx'
 import { makeProject } from '../lib/project'
 import { IpcClient } from '../lib'
 
@@ -38,7 +38,7 @@ export class ProjectsStore {
 
     const r = await IpcClient.resovleResource({
       buffer: buf,
-      project: this.currentProject,
+      project: toJS(this.currentProject),
     })
 
     if (r.success) {
