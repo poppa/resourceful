@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Resource, isWebResource } from '../../../lib'
+import { Resource, isWebResource, isFileResource } from '../../../lib'
 import { resolveDefaultFilePath, resolveProjectFilePath } from '../../lib'
 import { projectsStore } from '../../storage'
 import { observer } from 'mobx-react'
@@ -26,9 +26,10 @@ export class ResourceComponent extends Component<ResourceProps> {
   }
 
   private onClick(r: Resource): void {
-    console.log(`Got click:`, r)
     if (isWebResource(r)) {
       shell.openExternal(r.href)
+    } else if (isFileResource(r)) {
+      shell.openItem(r.path)
     }
   }
 
@@ -40,12 +41,24 @@ export class ResourceComponent extends Component<ResourceProps> {
         : resolveDefaultFilePath(`card.png`)
       return (
         <div className="resource__card">
-          <img src={url} className="resource__card-image" />
+          <img src={url} className="resource__card-image" draggable={false} />
         </div>
       )
-    } else {
-      return null
+    } else if (isFileResource(r)) {
+      if (r.contentType.startsWith('image/')) {
+        return (
+          <div className="resource__file-image">
+            <img
+              src={r.path}
+              className="resource__file-image--image"
+              draggable={false}
+            />
+          </div>
+        )
+      }
     }
+
+    return null
   }
 
   private icon(r: Resource): JSX.Element {

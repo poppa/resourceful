@@ -2,6 +2,7 @@
   border: 1px solid var(--primary);
   border-radius: var(--border-radius);
   width: 350px;
+  user-select: none;
 
   transition: border-color 0.2s ease-in;
 
@@ -23,6 +24,11 @@
     display: grid;
     align-items: flex-start;
     grid-template-columns: 32px 1fr;
+  }
+
+  &__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__icon {
@@ -48,6 +54,15 @@
       width: 100%;
       height: auto;
       object-position: 50% 50%;
+    }
+  }
+
+  &__file-image {
+    overflow: hidden;
+
+    &--image {
+      width: 100%;
+      height: auto;
     }
   }
 }

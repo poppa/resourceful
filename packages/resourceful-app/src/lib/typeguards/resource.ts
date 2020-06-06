@@ -4,6 +4,7 @@ import {
   FileResource,
   CmdResource,
   TextResource,
+  ResourceType,
 } from '../interfaces/resource'
 
 export function isResource(o: unknown): o is Resource {
@@ -18,17 +19,17 @@ export function isResource(o: unknown): o is Resource {
 }
 
 export function isWebResource(o: unknown): o is WebResource {
-  return isResource(o) && 'href' in o
+  return isResource(o) && o.type === ResourceType.Url
 }
 
 export function isFileResource(o: unknown): o is FileResource {
-  return isResource(o) && 'path' in o
+  return isResource(o) && o.type === ResourceType.File
 }
 
 export function isCmdResource(o: unknown): o is CmdResource {
-  return isResource(o) && 'cmd' in o
+  return isResource(o) && o.type === ResourceType.Cmd
 }
 
 export function isTextResource(o: unknown): o is TextResource {
-  return isResource(o) && 'text' in o
+  return isResource(o) && o.type === ResourceType.Text
 }
