@@ -1,13 +1,16 @@
 .resource {
+  $self: &;
   border: 1px solid var(--primary);
+  border-left-width: 3px;
   border-radius: var(--border-radius);
   width: 350px;
   user-select: none;
 
-  transition: border-color 0.2s ease-in;
+  transition: border-color 0.2s ease-in, color 0.2s ease-in;
 
   &:hover {
     border-color: var(--secondary);
+    color: var(--primary-text-contrast);
     cursor: pointer;
   }
 
@@ -39,6 +42,9 @@
     overflow: hidden;
     border-radius: 100%;
     background-color: var(--primary-bg3);
+    display: grid;
+    align-items: center;
+    justify-items: center;
 
     &-image {
       width: 100%;
@@ -46,30 +52,52 @@
     }
 
     svg {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
+      display: block;
+      width: 16px;
+      height: 16px;
       fill: var(--primary);
+      transition: fill 0.2s ease-out;
+
+      #{$self}:hover & {
+        fill: var(--secondary);
+      }
     }
   }
 
   &__card {
+    position: relative;
     overflow: hidden;
-    height: 180px;
+    height: 140px;
 
     &-image {
+      display: block;
+      position: absolute;
       width: 100%;
       height: auto;
-      object-position: 50% 50%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto auto;
     }
   }
 
   &__file-image {
+    position: relative;
     overflow: hidden;
+    height: 140px;
+    // padding-bottom: 56%;
 
     &--image {
+      display: block;
+      position: absolute;
       width: 100%;
       height: auto;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto auto;
     }
   }
 }

@@ -27,6 +27,11 @@
   padding: 8px 10px;
   font-size: 0.8rem;
   cursor: pointer;
+  transition: color 0.2s ease-in;
+
+  &:hover {
+    color: var(--primary-text-contrast);
+  }
 
   &:first-child {
     border-left: 0;

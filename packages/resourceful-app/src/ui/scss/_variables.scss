@@ -1,10 +1,15 @@
-$primary-bg: #121420 !default;
-$primary-bg2: #1b2432 !default;
-$primary-bg3: #403f4c !default;
+// $primary-bg: #121420 !default;
+$primary-bg: #121212 !default;
+// $primary-bg2: #1b2432 !default;
+$primary-bg2: #242424 !default;
+// $primary-bg3: #403f4c !default;
+$primary-bg3: #404040 !default;
 $primary: #b76d68 !default;
 $secondary: #95b8d1 !default;
 $primary-text: #79828a !default;
+$primary-text-contrast: #fff !default;
+
 $font-size: 1rem !default;
 $gutter-width: 1rem !default;
 
-$tabs-bg: darken($primary-bg2, 4%);
+$tabs-bg: darken($primary-bg2, 4%) !default;

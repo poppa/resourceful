@@ -4,16 +4,18 @@ import { ProjectProps } from '../Projects'
 import { projectsStore } from '../../../storage'
 
 interface TabProps {
-  selected?: boolean
+  project: Project
 }
 
-const Tab: FC<Project & TabProps> = (p): JSX.Element => {
+const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
   return (
     <button
-      className={`tab${p.selected ? ' tab__selected' : ''}`}
-      onClick={(): void => projectsStore.activate(p)}
+      className={`tab${project.selected ? ' tab__selected' : ''}`}
+      onClick={(): void =>
+        project.selected ? void 0 : projectsStore.activate(project)
+      }
     >
-      {p.name}
+      {project.name}
     </button>
   )
 }
@@ -23,12 +25,7 @@ const Tabs: FC<ProjectProps> = (props): JSX.Element => {
     <div className="tabs">
       <div className="tabs__projects">
         {props.projects.map((p) => (
-          <Tab
-            name={p.name}
-            id={p.id}
-            key={`tab-${p.id}`}
-            selected={p.selected}
-          />
+          <Tab project={p} key={`tab-${p.id}`} />
         ))}
       </div>
       <div className="tabs__actions">
