@@ -1,10 +1,14 @@
+import { basename } from 'path'
+import { lookup } from 'mime-types'
 import { ResolveResourceArgs } from '../../lib/ipc/types'
 import { Resource, Maybe, ResourceType, FileResource } from '../../lib'
 import { logDebug } from '../../lib/debug'
 import { fileExists, isDir } from '../lib/async-fs'
 import { makeResource } from '../lib/resource'
-import { basename } from 'path'
-import { lookup } from 'mime-types'
+import {
+  getMimeTypeFromKnownExtensions,
+  getNameFromKnownFileType,
+} from '../../lib/helpers'
 
 const debug = logDebug('resolve-file-resource')
 
@@ -16,16 +20,18 @@ export async function handler({
     if (await fileExists(buffer)) {
       debug(`Resolve File:`, buffer, project.name)
       const isdir = await isDir(buffer)
-      const mime = isdir.result ? 'directory' : lookup(buffer) ?? 'unknown'
+      const mime = isdir.result
+        ? 'directory'
+        : lookup(buffer) || getMimeTypeFromKnownExtensions(buffer)
 
       const resource = makeResource({
         type: ResourceType.File,
-        name: basename(buffer),
+        name: (await getNameFromKnownFileType(buffer)) || basename(buffer),
         path: buffer,
         contentType: mime,
       } as FileResource)
 
-      console.log(`Resource:`, resource)
+      debug(`Resource:`, resource)
 
       return resource
     }
