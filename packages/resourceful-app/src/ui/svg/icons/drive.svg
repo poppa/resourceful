@@ -1,8 +1,1 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<svg version="1.1" id="Layer_1" 
-	xmlns="http://www.w3.org/2000/svg" 
-	xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 455 455" style="enable-background:new 0 0 455 455;" xml:space="preserve">
-	<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M0,0v455h455V0H0z M277.054,88.975l100.619,175.027h-99.124L177.947,88.975
-	H277.054z M70,278.512l94.768-167.681l51.057,87.513l-96.263,167.681L70,278.512z M335.383,366.025H144.334l49.635-87.513H385
-	L335.383,366.025z"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455 455"><path d="M0 0v455h455V0H0zm277.054 88.975l100.619 175.027h-99.124L177.947 88.975h99.107zM70 278.512l94.768-167.681 51.057 87.513-96.263 167.681L70 278.512zm265.383 87.513H144.334l49.635-87.513H385l-49.617 87.513z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
