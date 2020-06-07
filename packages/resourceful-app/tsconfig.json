@@ -11,5 +11,5 @@
     "rootDir": "./src",
     "types": ["node", "react"]
   },
-  "include": ["./src/**/*.ts"]
+  "include": ["./src/**/*.ts", "src/ui/lib/icon.tsx"]
 }

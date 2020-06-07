@@ -11,3 +11,7 @@ export function resolveProjectFilePath(file: string): string {
 export function resolveDefaultFilePath(file: string): string {
   return `images/${file}`
 }
+
+export function resolveDefaultIconPath(file: string): string {
+  return `svg/icons/${file}`
+}

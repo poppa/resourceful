@@ -9,7 +9,8 @@
     "build:ui": "yarn clean:ui && parcel build --target=electron -d ./dist/ui ./src/ui/app.html --public-url .",
     "clean": "rimraf dist",
     "clean:app": "rimraf dist/app",
-    "clean:ui": "rimraf dist/ui"
+    "clean:ui": "rimraf dist/ui",
+    "svgo": "svgo src/ui/svg/**/*.svg"
   },
   "private": true,
   "version": "0.0.1",
@@ -21,6 +22,7 @@
     "@material-ui/styles": "^4.9.14",
     "@material-ui/system": "^4.9.14",
     "@material-ui/utils": "^4.9.12",
+    "@svgr/parcel-plugin-svgr": "^5.4.0",
     "axios": "^0.19.2",
     "babel-runtime": "^6.26.0",
     "cheerio": "^1.0.0-rc.3",

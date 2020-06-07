@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Resource, isWebResource, isFileResource } from '../../../lib'
-import { resolveDefaultFilePath, resolveProjectFilePath } from '../../lib'
-import { projectsStore } from '../../storage'
 import { observer } from 'mobx-react'
+import { Resource, isWebResource, isFileResource } from '../../../lib'
+import {
+  resolveDefaultFilePath,
+  resolveProjectFilePath,
+  getIconForResource,
+} from '../../lib'
+import { projectsStore } from '../../storage'
 
 const { shell } = window.require('electron') as typeof import('electron')
 
@@ -65,10 +69,14 @@ export class ResourceComponent extends Component<ResourceProps> {
     const cp = projectsStore.currentProject
     const url = r.assets?.icon
       ? resolveProjectFilePath(`${cp.id}/${r.id}/${r.assets.icon}`)
-      : resolveDefaultFilePath(`type-${r.type}.png`)
+      : undefined
     return (
       <div className="resource__icon">
-        <img src={url} className="resource__icon-image" />
+        {url ? (
+          <img src={url} className="resource__icon-image" />
+        ) : (
+          getIconForResource(r)
+        )}
       </div>
     )
   }

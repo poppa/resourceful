@@ -1,4 +1,5 @@
 export * from './proptype'
 export * from './clipboard'
 export * from './resource'
+export * from './icon'
 export * as IpcClient from '../../lib/ipc/client'
