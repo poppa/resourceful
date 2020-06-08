@@ -16,6 +16,7 @@ import PSDIcon from '../svg/icons/adobe-photoshop.svg'
 import AIIcon from '../svg/icons/adobe-illustrator.svg'
 import InddIcon from '../svg/icons/adobe-indesign.svg'
 import FolderIcon from '../svg/icons/folder.svg'
+import ImageIcon from '../svg/icons/image.svg'
 
 const ExtToSvg: PlainObject<JSX.Element> = {
   '.code-workspace': <VScodeIcon width={null} height={null} />,
@@ -54,6 +55,10 @@ export function getIconForResource(r: Resource): Maybe<JSX.Element> {
     case ResourceType.File: {
       if (r.contentType === 'directory') {
         return <FolderIcon />
+      }
+
+      if (r.contentType?.startsWith('image/')) {
+        return <ImageIcon />
       }
 
       return getIcon((r as FileResource).path) ?? <DocumentIcon />
