@@ -1,4 +1,4 @@
-import { Maybe, Project } from '../../lib'
+import { Maybe, Project, Resource } from '../../lib'
 import { observable, computed, action, toJS } from 'mobx'
 import { makeProject } from '../lib/project'
 import { IpcClient } from '../lib'
@@ -14,6 +14,10 @@ export class ProjectsStore {
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
+
+  public findResourceById(id: string): Maybe<Resource> {
+    return this.currentProject.resources.find((r) => r.id === id)
+  }
 
   @computed public get currentProject(): Project {
     const p = this._projects.find((p) => p.selected)
@@ -52,6 +56,22 @@ export class ProjectsStore {
     } else {
       console.error(`Failed creating resource:`, r.error)
     }
+  }
+
+  public async saveCurrentProject(): Promise<boolean> {
+    if (this.currentProject) {
+      const res = await IpcClient.saveProject(this.currentProject)
+
+      if (res) {
+        return true
+      } else {
+        console.error(`Failed saving project`)
+      }
+    } else {
+      console.debug(`No current project to save`)
+    }
+
+    return false
   }
 
   @action public async createProject(p?: Project): Promise<boolean> {

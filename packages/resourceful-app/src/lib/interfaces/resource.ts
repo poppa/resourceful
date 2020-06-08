@@ -1,3 +1,5 @@
+import { Point } from './point'
+
 export enum ResourceType {
   Any,
   Url,
@@ -17,6 +19,7 @@ export interface Resource {
   name: string
   contentType?: string
   assets?: ResourceAssets
+  position?: Point
 }
 
 export interface WebResource extends Resource {

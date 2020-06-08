@@ -6,7 +6,7 @@ import {
   resolveProjectFilePath,
   getIconForResource,
 } from '../../lib'
-import { projectsStore } from '../../storage'
+import { projectsStore, dragStateStore } from '../../storage'
 
 const { shell } = window.require('electron') as typeof import('electron')
 
@@ -14,12 +14,47 @@ export interface ResourceProps {
   resource: Resource
 }
 
+function handleOnStartDrag(e: React.DragEvent): void {
+  const elem = e.currentTarget as HTMLDivElement
+  console.log(`Start drag:`, elem)
+
+  e.dataTransfer.effectAllowed = 'move'
+  e.dataTransfer.dropEffect = 'move'
+  dragStateStore.element = e.currentTarget
+  dragStateStore.mouseOffset = {
+    x: e.clientX - elem.offsetLeft,
+    y: e.clientY - elem.offsetTop,
+  }
+}
+
+function handleOnDragEnd(e: React.DragEvent): void {
+  console.log(`Drag end:`, e.currentTarget)
+  dragStateStore.clear()
+}
+
 @observer
 export class ResourceComponent extends Component<ResourceProps> {
   public render(): JSX.Element {
     const r = this.props.resource
+    const classlist = ['resource']
+    const styles: React.CSSProperties = {}
+
+    if (r.position) {
+      classlist.push('resource--moved')
+      styles.top = r.position.y
+      styles.left = r.position.x
+    }
+
     return (
-      <div className="resource" onClick={(): void => this.onClick(r)}>
+      <div
+        className={classlist.join(' ')}
+        style={styles}
+        onClick={(): void => this.onClick(r)}
+        draggable={true}
+        onDragStart={handleOnStartDrag}
+        onDragEnd={handleOnDragEnd}
+        id={r.id}
+      >
         <div className="resource__header">
           {this.icon(r)}
           <div className="resource__title">{r.name}</div>

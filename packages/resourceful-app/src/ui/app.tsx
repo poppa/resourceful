@@ -10,6 +10,7 @@ import { isUndefined } from '../lib'
 import './lib/clipboard'
 
 const Main = (): JSX.Element => {
+  console.log(`Main rendered`)
   return (
     <AppContainer>
       <PageStateComp />

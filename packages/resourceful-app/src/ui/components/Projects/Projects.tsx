@@ -2,12 +2,20 @@ import React, { FC } from 'react'
 import Tabs from './Tabs/Tabs'
 import { Project } from '../../../lib'
 import ProjectComponent from './Project/Project'
-import { staticStore, projectsStore } from '../../storage'
+import { staticStore, projectsStore, dragStateStore } from '../../storage'
+import { handleMovedResource } from '../../lib'
 
 const handleDrop = async (e: React.DragEvent): Promise<void> => {
-  console.log(`Got drop dude:`, e.dataTransfer.files)
   e.preventDefault()
   e.stopPropagation()
+
+  if (dragStateStore.element) {
+    console.log(`Drop is resource`)
+    handleMovedResource({ element: dragStateStore.element, event: e })
+    return
+  }
+
+  console.log(`Got file drop dude:`, e.dataTransfer.files)
 
   const files = e.dataTransfer.files
 
@@ -23,7 +31,12 @@ const handleDragOver = (e: React.DragEvent): void => {
 
 const handleDragEnter = (e: React.DragEvent): void => {
   console.log(`Drag enter:`, e)
-  e.dataTransfer.dropEffect = 'file'
+
+  if (dragStateStore.element) {
+    e.dataTransfer.dropEffect = 'move'
+  } else {
+    e.dataTransfer.dropEffect = 'file'
+  }
 }
 
 const handleDragLeave = (e: React.DragEvent): void => {

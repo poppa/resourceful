@@ -5,8 +5,12 @@
   border-radius: var(--border-radius);
   width: 350px;
   user-select: none;
-
+  background-color: var(--primary-bg);
   transition: border-color 0.2s ease-in, color 0.2s ease-in;
+
+  &--moved {
+    position: absolute;
+  }
 
   &:hover {
     border-color: var(--secondary);
