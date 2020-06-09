@@ -1,7 +1,7 @@
 import { Maybe, Project, Resource } from '../../lib'
 import { observable, computed, action, toJS } from 'mobx'
 import { makeProject } from '../lib/project'
-import { IpcClient } from '../lib'
+import { IpcClient, upgradeResource } from '../lib'
 
 let store: Maybe<ProjectsStore>
 
@@ -100,10 +100,29 @@ export class ProjectsStore {
     return !!mp
   }
 
+  @action public async deleteResource(resource: Resource): Promise<void> {
+    const cp = this.currentProject
+    if (cp) {
+      const pos = cp.resources.findIndex((r) => r.id === resource.id)
+
+      if (pos > -1) {
+        const rest = [...cp.resources]
+        rest.splice(pos, 1)
+        cp.resources = rest
+
+        await this.saveCurrentProject()
+      }
+    }
+  }
+
   @action public async loadProjects(): Promise<void> {
     const ps = await IpcClient.loadProjets()
 
     if (ps) {
+      ps.forEach((pp) => pp.resources.forEach((rr) => upgradeResource(rr)))
+
+      console.log(`pp:`, ps)
+
       if (ps.length && !ps.find((p) => p.selected)) {
         console.log(`No selected project from disk`)
         ps[0].selected = true

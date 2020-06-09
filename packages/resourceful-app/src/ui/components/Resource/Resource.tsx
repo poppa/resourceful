@@ -1,12 +1,19 @@
 import React, { FC } from 'react'
 import { observer } from 'mobx-react'
+import IconButton from '@material-ui/core/IconButton/IconButton'
+import MoreVert from '@material-ui/icons/MoreVert'
 import { Resource, isWebResource, isFileResource } from '../../../lib'
 import {
   resolveDefaultFilePath,
   resolveProjectFilePath,
   getIconForResource,
+  setResourceState,
 } from '../../lib'
-import { projectsStore, dragStateStore } from '../../storage'
+import {
+  projectsStore,
+  dragStateStore,
+  resourceActionsState,
+} from '../../storage'
 
 const { shell } = window.require('electron') as typeof import('electron')
 
@@ -42,6 +49,9 @@ function onClick(r: Resource): void {
 
 function card(r: Resource): JSX.Element | null {
   if (isWebResource(r)) {
+    if (!r.state?.hasCard) {
+      setResourceState({ resource: r, state: { hasCard: true } })
+    }
     const cp = projectsStore.currentProject
     const url = r.assets?.image
       ? resolveProjectFilePath(`${cp.id}/${r.id}/${r.assets.image}`)
@@ -53,6 +63,10 @@ function card(r: Resource): JSX.Element | null {
     )
   } else if (isFileResource(r)) {
     if (r.contentType.startsWith('image/')) {
+      if (!r.state?.hasCard) {
+        setResourceState({ resource: r, state: { hasCard: true } })
+      }
+
       return (
         <div className="resource__file-image">
           <img
@@ -95,6 +109,12 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     styles.left = r.position.x
   }
 
+  if (r.state?.collapsed) {
+    classlist.push('resource--collapsed')
+  }
+
+  const ref = React.createRef<HTMLButtonElement>()
+
   return (
     <div
       className={classlist.join(' ')}
@@ -108,6 +128,25 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
       <div className="resource__header">
         {icon(r)}
         <div className="resource__title">{r.name}</div>
+        <div className="resource__action">
+          <IconButton
+            aria-label="Actions"
+            color="inherit"
+            size="small"
+            ref={ref}
+            onMouseDown={(e): void => {
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+            onClick={(e): void => {
+              e.stopPropagation()
+              e.preventDefault()
+              resourceActionsState.toggleRef({ ref, resource: r })
+            }}
+          >
+            <MoreVert fontSize="small" />
+          </IconButton>
+        </div>
       </div>
       {card(r)}
     </div>

@@ -1,4 +1,41 @@
 import { staticStore, projectsStore, dragStateStore } from '../storage'
+import { Resource, ResourceState } from '../../lib'
+
+export function upgradeResource(resource: Resource): Resource {
+  if (!resource.state) {
+    resource.state = { collapsed: false }
+  }
+
+  return resource
+}
+
+export interface SetResourceStateProps {
+  resource: Resource
+  state: Partial<ResourceState>
+  save?: boolean
+}
+
+export function setResourceState({
+  resource,
+  state,
+  save,
+}: SetResourceStateProps): Resource {
+  console.log(`Set resource state:`, resource)
+  resource.state = { ...resource.state, ...state }
+
+  if (save) {
+    projectsStore
+      .saveCurrentProject()
+      .catch((err) =>
+        console.error(
+          `Failed saving project after setting resource state:`,
+          err
+        )
+      )
+  }
+
+  return resource
+}
 
 export function isResourceHTMLElement(e: unknown): e is HTMLDivElement {
   return (
@@ -18,14 +55,12 @@ export function handleMovedResource({
 }): void {
   if (isResourceHTMLElement(element)) {
     const rs = projectsStore.findResourceById(element.id)
-    console.log('Event client:', event.clientX, event.clientY)
-    console.log(`Mouse offset:`, dragStateStore.mouseOffset)
     const ms = dragStateStore.mouseOffset ?? { x: 0, y: 0 }
 
     if (rs) {
       rs.position = {
         x: event.clientX - ms.x,
-        y: event.clientY - ms.y - 16,
+        y: event.clientY - ms.y - 12,
       }
 
       projectsStore

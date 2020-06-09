@@ -1,4 +1,5 @@
 import { Point } from './point'
+import { PlainObject } from '../types'
 
 export enum ResourceType {
   Any,
@@ -13,6 +14,10 @@ export interface ResourceAssets {
   image?: string
 }
 
+export interface ResourceState extends PlainObject {
+  collapsed?: boolean
+}
+
 export interface Resource {
   readonly type: ResourceType
   readonly id: string
@@ -20,6 +25,7 @@ export interface Resource {
   contentType?: string
   assets?: ResourceAssets
   position?: Point
+  state?: ResourceState
 }
 
 export interface WebResource extends Resource {

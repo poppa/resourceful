@@ -4,6 +4,8 @@ import { Project } from '../../../lib'
 import ProjectComponent from './Project/Project'
 import { staticStore, projectsStore, dragStateStore } from '../../storage'
 import { handleMovedResource } from '../../lib'
+import ResourceActions from '../Resource/ResourceActions'
+import Confirm from '../Confirm'
 
 const handleDrop = async (e: React.DragEvent): Promise<void> => {
   e.preventDefault()
@@ -19,6 +21,9 @@ const handleDrop = async (e: React.DragEvent): Promise<void> => {
 
   const files = e.dataTransfer.files
 
+  // FIXME: Why does files not have an interator
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
   for (const file of files) {
     await projectsStore.resolveResource(file.path)
   }
@@ -26,7 +31,6 @@ const handleDrop = async (e: React.DragEvent): Promise<void> => {
 
 const handleDragOver = (e: React.DragEvent): void => {
   e.preventDefault()
-  // console.log(`Drag over:`, e)
 }
 
 const handleDragEnter = (e: React.DragEvent): void => {
@@ -56,6 +60,8 @@ const ProjectsComponent: FC<ProjectProps> = (props): JSX.Element => {
   return (
     <>
       <Tabs projects={props.projects} />
+      <ResourceActions />
+      <Confirm />
       <div
         className="workspace"
         onDragEnter={handleDragEnter}

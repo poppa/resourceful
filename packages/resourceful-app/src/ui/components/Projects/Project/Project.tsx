@@ -1,11 +1,14 @@
 import React, { FC } from 'react'
+import { observer } from 'mobx-react'
 import { Project } from '../../../../lib'
 import ResourceComponent from '../../Resource/Resource'
-import { observer } from 'mobx-react'
 
-const ProjectComponent: FC<{ project: Project }> = observer(
-  (props): JSX.Element => {
-    console.log(`Project resources:`, props.project)
+const ProjectComponent: FC<{ project?: Project }> = observer(
+  (props): JSX.Element | null => {
+    if (!props.project) {
+      return null
+    }
+
     return (
       <div className="canvas">
         {props.project.resources.map((res) => (
