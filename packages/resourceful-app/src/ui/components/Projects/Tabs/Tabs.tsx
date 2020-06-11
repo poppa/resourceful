@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Project } from '../../../../lib'
 import { ProjectProps } from '../Projects'
-import { projectsStore } from '../../../storage'
+import { projectsStore, createProjectDialogState } from '../../../storage'
 
 interface TabProps {
   project: Project
@@ -30,7 +30,14 @@ const Tabs: FC<ProjectProps> = (props): JSX.Element => {
       </div>
       <div className="tabs__actions">
         <button className="tab tab__action tabs__action-config">c</button>
-        <button className="tab tab__action tabs__action-new-project">+</button>
+        <button
+          className="tab tab__action tabs__action-new-project"
+          onClick={(): void => {
+            createProjectDialogState.isOpen = true
+          }}
+        >
+          +
+        </button>
       </div>
     </div>
   )

@@ -49,10 +49,7 @@ export class ProjectsStore {
       const cp = this.currentProject
       console.log(`Resource resolved successfully:`, r.result)
       cp.resources = [...cp.resources, r.result]
-      console.log(`Current project:`, cp)
-      console.log(`Saving project`)
       await IpcClient.saveProject(this.currentProject)
-      console.log(`Saved project`)
     } else {
       console.error(`Failed creating resource:`, r.error)
     }
@@ -60,15 +57,21 @@ export class ProjectsStore {
 
   public async saveCurrentProject(): Promise<boolean> {
     if (this.currentProject) {
-      const res = await IpcClient.saveProject(this.currentProject)
-
-      if (res) {
-        return true
-      } else {
-        console.error(`Failed saving project`)
-      }
+      return this.saveProject(this.currentProject)
     } else {
       console.debug(`No current project to save`)
+    }
+
+    return false
+  }
+
+  private async saveProject(p: Project): Promise<boolean> {
+    const res = await IpcClient.saveProject(p)
+
+    if (res) {
+      return true
+    } else {
+      console.error(`Failed saving project:`, p.name)
     }
 
     return false
@@ -80,21 +83,8 @@ export class ProjectsStore {
     const mp = await IpcClient.saveProject(p)
 
     if (mp) {
-      const prev = this._projects.find((p) => p.selected)
-
-      if (prev) {
-        prev.selected = false
-        // FIXME: Should we await here?
-        IpcClient.saveProject(prev)
-      }
-
-      if (!mp.selected) {
-        mp.selected = true
-        await IpcClient.saveProject(mp)
-      }
-
       this._projects.push(mp)
-      this.activate(mp)
+      this.activate(mp, true)
     }
 
     return !!mp
@@ -126,7 +116,7 @@ export class ProjectsStore {
       if (ps.length && !ps.find((p) => p.selected)) {
         console.log(`No selected project from disk`)
         ps[0].selected = true
-        await IpcClient.saveProject(ps[0])
+        await this.saveProject(ps[0])
         console.log(`Saved project as selected`)
       }
 
@@ -136,20 +126,29 @@ export class ProjectsStore {
     }
   }
 
-  @action public activate(p: Project): void {
+  @action public activate(p: Project, save = true): void {
     const cpy = [...this._projects]
 
     cpy.find((pp) => {
       if (pp.selected) {
         pp.selected = false
+
+        if (save) {
+          this.saveProject(pp).catch((e) => console.error(`Crap1:`, e))
+        }
+
         return true
       }
+
       return false
     })
 
     cpy.find((pp) => {
       if (pp.id === p.id) {
         pp.selected = true
+        if (save) {
+          this.saveProject(pp).catch((e) => console.error(`Crap2:`, e))
+        }
         return true
       }
       return false

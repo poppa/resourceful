@@ -5,7 +5,7 @@ import { withChildren } from '../../lib'
 import { PageState } from '../../storage/pagestate'
 import HomeScreen from '../Homescreen'
 import Projects from '../Projects/Projects'
-import CreateProject from '../Projects/CreateProject'
+import CreateProjectDialog from '../Projects/CreateProjectDialog'
 
 const PageStateComp: FC = observer(
   withChildren(
@@ -15,13 +15,20 @@ const PageStateComp: FC = observer(
           return <div>Initializing...</div>
 
         case PageState.HomeScreen:
-          return <HomeScreen />
-
-        case PageState.CreateProject:
-          return <CreateProject />
+          return (
+            <>
+              <CreateProjectDialog />
+              <HomeScreen />
+            </>
+          )
 
         case PageState.Projects:
-          return <Projects projects={projectsStore.projects} />
+          return (
+            <>
+              <CreateProjectDialog />
+              <Projects projects={projectsStore.projects} />
+            </>
+          )
 
         default:
           return <div>Unknown page state</div>

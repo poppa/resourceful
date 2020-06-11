@@ -62,3 +62,13 @@ export class ConfirmState {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 }
+
+let createProjectDialogStore: Maybe<CreateProjectDialogState>
+
+export class CreateProjectDialogState {
+  public static create(): CreateProjectDialogState {
+    return createProjectDialogStore ?? (createProjectDialogStore = new this())
+  }
+
+  @observable public isOpen = false
+}

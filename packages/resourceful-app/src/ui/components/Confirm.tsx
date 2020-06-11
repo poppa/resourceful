@@ -11,7 +11,6 @@ import { observer } from 'mobx-react'
 import { confirmState } from '../storage'
 
 const Confirm: FC = observer(() => {
-  console.log(`Confirm state:`, confirmState)
   return (
     <Dialog open={confirmState.isOpen}>
       {confirmState.state?.title ? <DialogTitle>The title</DialogTitle> : null}
