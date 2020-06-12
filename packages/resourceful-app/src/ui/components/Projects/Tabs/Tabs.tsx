@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
 import { Project } from '../../../../lib'
 import { ProjectProps } from '../Projects'
+import AddIcon from '@material-ui/icons/AddCircleOutline'
+import ConfigIcon from '@material-ui/icons/Build'
 import { projectsStore, createProjectDialogState } from '../../../storage'
 
 interface TabProps {
@@ -29,14 +31,16 @@ const Tabs: FC<ProjectProps> = (props): JSX.Element => {
         ))}
       </div>
       <div className="tabs__actions">
-        <button className="tab tab__action tabs__action-config">c</button>
+        <button className="tab tab__action tabs__action-config">
+          <ConfigIcon fontSize="small" />
+        </button>
         <button
           className="tab tab__action tabs__action-new-project"
           onClick={(): void => {
             createProjectDialogState.isOpen = true
           }}
         >
-          +
+          <AddIcon fontSize="small" />
         </button>
       </div>
     </div>

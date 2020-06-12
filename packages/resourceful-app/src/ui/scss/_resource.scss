@@ -7,7 +7,7 @@
   user-select: none;
   background-color: var(--primary-bg);
   transition: border-color 0.2s ease-in, color 0.2s ease-in,
-    opacity 0.2s ease-in;
+    opacity 0.2s ease-in, left 0.3s ease-out, top 0.3s ease-in-out;
   opacity: 0.8;
 
   &--moved {
