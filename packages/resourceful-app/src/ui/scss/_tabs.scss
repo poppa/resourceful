@@ -30,6 +30,7 @@
   font-size: 0.8rem;
   cursor: pointer;
   transition: color 0.2s ease-in;
+  user-select: none;
 
   &:hover {
     color: var(--primary-text-contrast);

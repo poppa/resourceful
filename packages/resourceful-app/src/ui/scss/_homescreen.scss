@@ -2,8 +2,6 @@
   min-height: 100%;
   color: var(--secondary-bg);
   display: grid;
-  // grid-template-columns: 1fr;
-  // grid-template-rows: 1fr;
   justify-items: center;
   align-content: center;
 
@@ -27,6 +25,10 @@
       transform: scale(1.2);
       border-color: var(--primary);
       color: var(--primary);
+    }
+
+    &--nocursor {
+      cursor: default;
     }
   }
 

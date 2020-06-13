@@ -12,13 +12,13 @@ const ProjectComponent: FC<{ project?: Project }> = observer(
     if (!props.project.resources.length) {
       return (
         <div className="homescreen">
-          <div className="homescreen__wrapper">
+          <div className="homescreen__wrapper homescreen__wrapper--nocursor">
             <div className="homescreen__flash">No resources</div>
             <div className="homescreen__text">
               You don&apos;t have any resources in this projects yet.
             </div>
             <div className="homescreen__text">
-              Paste URLs, drag and drop a files and directories onto here to
+              Paste URLs, drag and drop files and directories onto here to
               create them.
             </div>
           </div>
