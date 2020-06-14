@@ -41,7 +41,6 @@ function makeTrayIcon(): void {
         },
       },
       {
-        label: 'Quit',
         role: 'quit',
       },
     ])
