@@ -5,6 +5,7 @@ import { Env } from './lib/env'
 import { fileExists, mkDir } from './lib/async-fs'
 import { Versions, Maybe, AppRuntimeInfo } from '../lib'
 import { panic } from './lib/panic'
+import { platform } from 'os'
 
 class Config implements AppRuntimeInfo {
   private _projectsDir: Maybe<string>
@@ -71,6 +72,10 @@ class Config implements AppRuntimeInfo {
     }
   }
 
+  public get platform(): string {
+    return platform()
+  }
+
   public toJson(): AppRuntimeInfo {
     return {
       appDataPath: this.appDataPath,
@@ -81,6 +86,7 @@ class Config implements AppRuntimeInfo {
       isProductionMode: this.isProductionMode,
       userDataPath: this.userDataPath,
       versions: this.versions,
+      platform: this.platform,
     }
   }
 }

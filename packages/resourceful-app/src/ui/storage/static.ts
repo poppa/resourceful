@@ -2,6 +2,7 @@ import { computed, observable } from 'mobx'
 import { Maybe } from '../../lib/types/types'
 import { AppRuntimeInfo } from '../../lib'
 import { IpcClient } from '../lib'
+import { initSystemPrefs } from '../lib/system-preferences'
 
 let store: Maybe<StaticStore>
 
@@ -17,6 +18,8 @@ export class StaticStore {
 
   public async loadConfig(): Promise<void> {
     this._appRuntimeInfo = await IpcClient.loadConfig()
+    console.log(`Apply theme?`)
+    initSystemPrefs()
   }
 
   @computed get appRuntimeInfo(): Maybe<AppRuntimeInfo> {

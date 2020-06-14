@@ -1,12 +1,13 @@
 import { install } from 'source-map-support'
 install()
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, nativeTheme, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { config } from './config'
 import '../lib/ipc/server'
 import { setAppMenu } from './menu'
+import { MaybeNull, Maybe } from '../lib'
 
-let mainWindow: Electron.BrowserWindow | undefined
+let mainWindow: MaybeNull<Electron.BrowserWindow> = null
 
 if (config.isDevelopmentMode) {
   config.projectsDir().then((p) => console.log(`Projects dir: ${p}`))
@@ -20,8 +21,38 @@ if (config.electronReload) {
   })
 }
 
+const AppIcon = join(__dirname, '..', '..', 'src/app/resourceful-logo.png')
+
+let tray: Maybe<Tray>
+
+function makeTrayIcon(): void {
+  tray = new Tray(AppIcon)
+  tray.setContextMenu(
+    Menu.buildFromTemplate([
+      {
+        label: 'Show',
+        click(): void {
+          if (mainWindow) {
+            mainWindow.show()
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            createWindow()
+          }
+        },
+      },
+      {
+        label: 'Quit',
+        role: 'quit',
+      },
+    ])
+  )
+}
+
 function createWindow(): void {
+  console.log(`createWindow()`)
+
   mainWindow = new BrowserWindow({
+    icon: AppIcon,
     fullscreenable: true,
     darkTheme: true,
     title: 'Resourceful',
@@ -40,14 +71,23 @@ function createWindow(): void {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.on('closed', () => (mainWindow = undefined))
-  setAppMenu()
+  mainWindow.on('closed', () => {
+    mainWindow = null
+  })
 }
+
+nativeTheme.on('updated', () => {
+  console.log(`Native theme updated:`, nativeTheme.shouldUseDarkColors)
+})
 
 app.allowRendererProcessReuse = true
 
 app
-  .on('ready', createWindow)
+  .on('ready', () => {
+    createWindow()
+    setAppMenu()
+    makeTrayIcon()
+  })
   .on('window-all-closed', () => {
     // Make this configurable
     if (process.platform !== 'darwin') {
@@ -55,6 +95,8 @@ app
     }
   })
   .on('activate', () => {
+    console.log(`app on activate`)
+
     // Make this configurable
     if (mainWindow === null) {
       createWindow()

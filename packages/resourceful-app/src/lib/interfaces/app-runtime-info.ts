@@ -9,4 +9,5 @@ export interface AppRuntimeInfo {
   isProductionMode: boolean
   userDataPath: string
   versions: Versions
+  platform: string
 }

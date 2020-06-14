@@ -115,13 +115,9 @@ export class ProjectsStore {
     if (ps) {
       ps.forEach((pp) => pp.resources.forEach((rr) => upgradeResource(rr)))
 
-      console.log(`pp:`, ps)
-
       if (ps.length && !ps.find((p) => p.selected)) {
-        console.log(`No selected project from disk`)
         ps[0].selected = true
         await this.saveProject(ps[0])
-        console.log(`Saved project as selected`)
       }
 
       this._projects = ps
@@ -150,6 +146,7 @@ export class ProjectsStore {
     cpy.find((pp) => {
       if (pp.id === p.id) {
         pp.selected = true
+
         if (save) {
           this.saveProject(pp).catch((e) => console.error(`Crap2:`, e))
         }

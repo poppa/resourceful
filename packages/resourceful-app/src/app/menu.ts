@@ -3,7 +3,7 @@ import { Menu } from 'electron'
 const menu = Menu.buildFromTemplate([
   {
     label: 'Edit',
-    submenu: [{ role: 'quit' }],
+    submenu: [{ role: 'close' }, { role: 'quit' }],
   },
   {
     label: 'Project',
