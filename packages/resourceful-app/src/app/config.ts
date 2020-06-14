@@ -65,7 +65,7 @@ class Config implements AppRuntimeInfo {
   public get versions(): Versions {
     return {
       electron: process.versions.electron,
-      node: process.versions.chrome,
+      node: process.versions.node,
       chrome: process.versions.chrome,
       app: getenv('npm_package_version', '0.0.0'),
     }

@@ -1,4 +1,9 @@
-import { staticStore, projectsStore, dragStateStore } from '../storage'
+import {
+  staticStore,
+  projectsStore,
+  dragStateStore,
+  confirmState,
+} from '../storage'
 import { Resource, ResourceState } from '../../lib'
 
 export function upgradeResource(resource: Resource): Resource {
@@ -20,7 +25,7 @@ export function setResourceState({
   state,
   save,
 }: SetResourceStateProps): Resource {
-  console.log(`Set resource state:`, resource)
+  console.log(`Set resource state:`, resource, state)
   resource.state = { ...resource.state, ...state }
 
   if (save) {
@@ -86,4 +91,24 @@ export function resolveDefaultFilePath(file: string): string {
 
 export function resolveDefaultIconPath(file: string): string {
   return `svg/icons/${file}`
+}
+
+export const handleDelete = (resource: Resource): void => {
+  console.log(`Handle Delete Resource:`, resource)
+  confirmState.setState({
+    description: `Are you sure you want to delete the ${resource?.name} resource?`,
+    onAbort(): void {
+      console.log(`Aborted`)
+      confirmState.setState()
+    },
+    onConfirm(): void {
+      confirmState.setState()
+      if (resource) {
+        projectsStore
+          .deleteResource(resource)
+          .catch((e) => console.error(`Delete resource error:`, e))
+        // resourceActionsState.toggleRef()
+      }
+    },
+  })
 }

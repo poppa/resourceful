@@ -8,6 +8,7 @@ import 'mobx-react/batchingForReactDom'
 import PageStateComp from './components/PageState/PageState'
 import { isUndefined } from '../lib'
 import './lib/clipboard'
+import './lib/contextmenu'
 
 const Main = (): JSX.Element => {
   console.log(`Main rendered`)

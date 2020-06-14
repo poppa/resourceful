@@ -4,7 +4,6 @@ import { Project } from '../../../lib'
 import ProjectComponent from './Project/Project'
 import { staticStore, projectsStore, dragStateStore } from '../../storage'
 import { handleMovedResource } from '../../lib'
-import ResourceActions from '../Resource/ResourceActions'
 import Confirm from '../Confirm'
 
 const handleDrop = async (e: React.DragEvent): Promise<void> => {
@@ -57,10 +56,10 @@ export interface ProjectProps {
 
 const ProjectsComponent: FC<ProjectProps> = (props): JSX.Element => {
   console.log(`Runtime info:`, staticStore.appRuntimeInfo)
+
   return (
     <>
       <Tabs projects={props.projects} />
-      <ResourceActions />
       <Confirm />
       <div
         className="workspace"

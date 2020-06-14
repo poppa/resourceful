@@ -12,16 +12,10 @@ interface TabProps {
 const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
   return (
     <button
-      className={`tab${project.selected ? ' tab__selected' : ''}`}
+      className={`tab${project.selected ? ' tab__selected' : ''} tab--project`}
       onClick={(): void => {
         project.selected ? void 0 : projectsStore.activate(project)
       }}
-      // onMouseUp={(e): void => {
-      //   // Right click
-      //   if (e.nativeEvent.which === 3) {
-      //     console.log(`Dude, context menu`)
-      //   }
-      // }}
     >
       {project.name}
     </button>
