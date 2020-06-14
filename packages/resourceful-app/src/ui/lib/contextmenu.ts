@@ -5,25 +5,18 @@ import { projectsStore } from '../storage'
 import { setResourceState, handleDelete } from './resource'
 
 const { remote } = window.require('electron')
-const { Menu, MenuItem } = remote
+const { Menu } = remote
 
-const projectMenu = new Menu()
-projectMenu.append(
-  new MenuItem({
+const projectMenuTemplate: MenuItemConstructorOptions[] = [
+  {
+    id: 'menu-project-edit',
     label: 'Edit',
-    click(): void {
-      console.log(`Edit cliked`)
-    },
-  })
-)
-projectMenu.append(
-  new MenuItem({
+  },
+  {
+    id: 'menu-project-delete',
     label: 'Delete',
-    click(): void {
-      console.log(`Delete clicked`)
-    },
-  })
-)
+  },
+]
 
 const resourceMenuTemplate: MenuItemConstructorOptions[] = [
   {
@@ -56,50 +49,72 @@ function findItemById(
   return item
 }
 
+function setupProjectMenu(id: string): void {
+  console.log(`Setup project menu:`, id)
+  const proj = projectsStore.findProjectById(id)
+
+  if (!proj) {
+    console.warn(`Unknown project: ${proj}`)
+  }
+
+  const editMenu = findItemById(projectMenuTemplate, 'menu-project-edit')
+  const deleteMenu = findItemById(projectMenuTemplate, 'menu-project-delete')
+
+  editMenu.click = (): void => {
+    console.log(`Edit project:`, proj)
+  }
+
+  deleteMenu.click = (): void => {
+    console.log(`Delete project clicked:`, proj)
+  }
+}
+
+function setupResourceMenu(id: string): void {
+  const resource = projectsStore.findResourceById(id)
+
+  if (!resource) {
+    console.warn(`Resource with id ${id} not found`)
+    return
+  }
+
+  const collapseMenu = findItemById(
+    resourceMenuTemplate,
+    'menu-resource-collapse'
+  )
+
+  const deleteMenu = findItemById(resourceMenuTemplate, 'menu-resource-delete')
+
+  deleteMenu.click = (): void => {
+    handleDelete(resource)
+  }
+
+  if (resource.state?.hasCard) {
+    collapseMenu.enabled = true
+    collapseMenu.checked = resource.state.collapsed ?? false
+    collapseMenu.click = (): void => {
+      setResourceState({
+        resource,
+        state: { collapsed: !!!resource.state?.collapsed },
+        save: true,
+      })
+    }
+  } else {
+    collapseMenu.enabled = false
+    collapseMenu.checked = false
+  }
+}
+
 window.addEventListener(
   'contextmenu',
   (e) => {
-    console.log(`Context menu:`, e)
     let el: Maybe<Element>
 
-    if (findElementByClassName(e.target as Element, 'tab--project')) {
+    if ((el = findElementByClassName(e.target as Element, 'tab--project'))) {
+      setupProjectMenu(el.id)
+      const projectMenu = Menu.buildFromTemplate(projectMenuTemplate)
       projectMenu.popup()
     } else if ((el = findElementByClassName(e.target as Element, 'resource'))) {
-      const resource = projectsStore.findResourceById(el.id)
-
-      if (!resource) {
-        console.warn(`Resource with id ${el.id} not found`)
-        return
-      }
-
-      const collapseMenu = findItemById(
-        resourceMenuTemplate,
-        'menu-resource-collapse'
-      )
-      const deleteMenu = findItemById(
-        resourceMenuTemplate,
-        'menu-resource-delete'
-      )
-
-      deleteMenu.click = (): void => {
-        handleDelete(resource)
-      }
-
-      if (resource.state?.hasCard) {
-        collapseMenu.enabled = true
-        collapseMenu.checked = resource.state.collapsed ?? false
-        collapseMenu.click = (): void => {
-          setResourceState({
-            resource,
-            state: { collapsed: !!!resource.state?.collapsed },
-            save: true,
-          })
-        }
-      } else {
-        collapseMenu.enabled = false
-        collapseMenu.checked = false
-      }
-
+      setupResourceMenu(el.id)
       const resourceMenu = Menu.buildFromTemplate(resourceMenuTemplate)
       resourceMenu.popup()
     } else if (findElementByClassName(e.target as Element, 'canvas')) {

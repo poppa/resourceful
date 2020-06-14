@@ -12,6 +12,7 @@ interface TabProps {
 const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
   return (
     <button
+      id={project.id}
       className={`tab${project.selected ? ' tab__selected' : ''} tab--project`}
       onClick={(): void => {
         project.selected ? void 0 : projectsStore.activate(project)

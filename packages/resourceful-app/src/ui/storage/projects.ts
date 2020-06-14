@@ -19,6 +19,10 @@ export class ProjectsStore {
     return this.currentProject.resources.find((r) => r.id === id)
   }
 
+  @action public findProjectById(id: string): Maybe<Project> {
+    return this._projects.find((p) => p.id === id)
+  }
+
   @computed public get currentProject(): Project {
     const p = this._projects.find((p) => p.selected)
 
