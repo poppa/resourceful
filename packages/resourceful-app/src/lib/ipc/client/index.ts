@@ -62,3 +62,10 @@ export async function deleteProject(project: Project): AsyncResult<boolean> {
 
   return success(true)
 }
+
+export async function deleteResource(resource: Resource): AsyncResult<boolean> {
+  resource = deserialize(resource)
+  const res = await ipcRenderer.invoke(Events.DeleteResource, resource)
+  debug(`Delete resource ${resource.name} result: ${res}`)
+  return success(true)
+}

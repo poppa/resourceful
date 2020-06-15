@@ -4,4 +4,5 @@ export enum Events {
   LoadProjects = 'load-projects',
   ResolveResource = 'resolve-resource',
   DeleteProject = 'delete-project',
+  DeleteResource = 'delete-resource',
 }

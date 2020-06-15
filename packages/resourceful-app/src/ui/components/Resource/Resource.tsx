@@ -42,7 +42,7 @@ function onClick(r: Resource): void {
 }
 
 function card(r: Resource): JSX.Element | null {
-  if (isWebResource(r)) {
+  if (isWebResource(r) && r.assets?.image) {
     if (!r.state?.hasCard) {
       setResourceState({ resource: r, state: { hasCard: true } })
     }

@@ -125,10 +125,16 @@ export class ProjectsStore {
       const pos = cp.resources.findIndex((r) => r.id === resource.id)
 
       if (pos > -1) {
+        const rmres = await IpcClient.deleteResource(resource)
+
+        if (!rmres) {
+          // FIXME: Notify
+          console.error(`Failed removing resource from disk`)
+        }
+
         const rest = [...cp.resources]
         rest.splice(pos, 1)
         cp.resources = rest
-
         await this.saveCurrentProject()
       }
     }

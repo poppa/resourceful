@@ -11,6 +11,7 @@ import { Maybe } from '../../types/types'
 import { resovleResource } from '../../../app/resource-handlers'
 import { ResolveResourceArgs } from '../types'
 import { logDebug } from '../../debug'
+import { deleteResource } from '../../../app/lib/resource'
 
 const debug = logDebug('ipc-main')
 
@@ -55,6 +56,7 @@ ipcMain.handle(
   }
 )
 
+// Delete project
 ipcMain.handle(
   Events.DeleteProject,
   async (_, args: Project): Promise<boolean> => {
@@ -62,5 +64,21 @@ ipcMain.handle(
     const delres = await deleteProject(args)
     console.log(`Delete result:`, delres)
     return delres.success ? delres.result : false
+  }
+)
+
+ipcMain.handle(
+  Events.DeleteResource,
+  async (_, args: Resource): Promise<boolean> => {
+    debug(`Delete resource:`, args)
+    const ok = await deleteResource(args)
+
+    if (ok.success) {
+      return ok.result
+    } else {
+      console.log(`Result not ok:`, ok)
+    }
+
+    return false
   }
 )

@@ -1,15 +1,37 @@
-import { Menu } from 'electron'
+import { Menu, MenuItemConstructorOptions } from 'electron'
 
-const menu = Menu.buildFromTemplate([
+const mainMenuTemplate: MenuItemConstructorOptions[] = [
   {
-    label: 'Edit',
-    submenu: [{ role: 'close' }, { role: 'quit' }],
+    label: 'Resourceful',
+    submenu: [
+      { role: 'about' },
+      { type: 'separator' },
+      { role: 'services' },
+      { type: 'separator' },
+      { role: 'hide' },
+      { role: 'hideOthers' },
+      { role: 'unhide' },
+      { type: 'separator' },
+      { role: 'close' },
+      { role: 'quit' },
+    ],
   },
   {
     label: 'Project',
-    submenu: [{ label: 'Edit' }, { role: 'paste' }, { role: 'resetZoom' }],
+    submenu: [{ label: 'Edit' }, { role: 'delete' }, { role: 'paste' }],
   },
-])
+  {
+    role: 'viewMenu',
+    submenu: [
+      { role: 'reload' },
+      { role: 'resetZoom' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' },
+    ],
+  },
+]
+
+const menu = Menu.buildFromTemplate(mainMenuTemplate)
 
 export function setAppMenu(): void {
   Menu.setApplicationMenu(menu)
