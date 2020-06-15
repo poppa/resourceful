@@ -1,4 +1,4 @@
-import { PathLike, promises, Stats } from 'fs'
+import { PathLike, promises, Stats, RmDirAsyncOptions } from 'fs'
 import { W_OK } from 'constants'
 import { AsyncResult, success, failure } from 'safe-result'
 
@@ -74,6 +74,22 @@ export async function writeFile(
   try {
     await promises.writeFile(p, data, options)
     return success(true)
+  } catch (e) {
+    return failure(e)
+  }
+}
+
+export async function rmDir(
+  path: PathLike,
+  opts?: RmDirAsyncOptions
+): AsyncResult<boolean> {
+  try {
+    if (await isDir(path)) {
+      await promises.rmdir(path, opts)
+      return success(true)
+    }
+
+    return success(false)
   } catch (e) {
     return failure(e)
   }

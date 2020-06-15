@@ -1,7 +1,15 @@
+import { AsyncResult } from 'safe-result'
+import { join } from 'path'
 import { Project, Maybe } from '../../lib'
 import { config } from '../config'
-import { join } from 'path'
-import { fileExists, mkDir, writeFile, readDir, readFile } from './async-fs'
+import {
+  fileExists,
+  mkDir,
+  writeFile,
+  readDir,
+  readFile,
+  rmDir,
+} from './async-fs'
 
 const ProjectFileName = '__rf-project.json'
 
@@ -62,4 +70,12 @@ export async function loadProjects(): Promise<Maybe<Project[]>> {
     console.error(`Error reading projects dir:`, pdir)
     return undefined
   }
+}
+
+export async function deleteProject(p: Project): AsyncResult<boolean> {
+  const pdir = await getProjectDirPath(p)
+  const rmres = await rmDir(pdir, { recursive: true })
+  console.log(`Result:`, rmres)
+
+  return rmres
 }

@@ -3,4 +3,5 @@ export enum Events {
   SaveProject = 'save-project',
   LoadProjects = 'load-projects',
   ResolveResource = 'resolve-resource',
+  DeleteProject = 'delete-project',
 }

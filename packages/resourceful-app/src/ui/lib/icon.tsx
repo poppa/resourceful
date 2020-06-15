@@ -21,7 +21,7 @@ import ImageIcon from '../svg/icons/image.svg'
 const ExtToSvg: PlainObject<JSX.Element> = {
   '.code-workspace': <VScodeIcon width={null} height={null} />,
   '.pdf': <PDFIcon width={null} height={null} />,
-  '.ps': <PSDIcon />,
+  '.psd': <PSDIcon />,
   '.ai': <AIIcon />,
   '.eps': <AIIcon />,
   '.indd': <InddIcon />,

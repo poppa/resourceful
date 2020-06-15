@@ -1,7 +1,7 @@
 import { MenuItemConstructorOptions } from 'electron'
 import { findElementByClassName } from './find-element'
 import { Maybe } from '../../lib'
-import { projectsStore } from '../storage'
+import { projectsStore, confirmState } from '../storage'
 import { setResourceState, handleDelete } from './resource'
 
 const { remote } = window.require('electron')
@@ -66,6 +66,19 @@ function setupProjectMenu(id: string): void {
 
   deleteMenu.click = (): void => {
     console.log(`Delete project clicked:`, proj)
+    confirmState.setState({
+      description: `Are you sure you want to delete the project ${proj?.name}?`,
+      onAbort(): void {
+        console.log(`Aborted`)
+        confirmState.setState()
+      },
+      async onConfirm(): Promise<void> {
+        console.log(`We should really delete`)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        await projectsStore.deleteProject(proj!)
+        confirmState.setState()
+      },
+    })
   }
 }
 

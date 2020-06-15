@@ -2,7 +2,11 @@ import { ipcMain } from 'electron'
 import { Events } from '../events'
 import { config } from '../../../app/config'
 import { AppRuntimeInfo, Project, Resource } from '../../interfaces'
-import { saveProject, loadProjects } from '../../../app/lib/project'
+import {
+  saveProject,
+  loadProjects,
+  deleteProject,
+} from '../../../app/lib/project'
 import { Maybe } from '../../types/types'
 import { resovleResource } from '../../../app/resource-handlers'
 import { ResolveResourceArgs } from '../types'
@@ -48,5 +52,15 @@ ipcMain.handle(
     } else {
       return { message: resource.error.message, name: resource.error.name }
     }
+  }
+)
+
+ipcMain.handle(
+  Events.DeleteProject,
+  async (_, args: Project): Promise<boolean> => {
+    debug(`Delete project invoked server side:`, args)
+    const delres = await deleteProject(args)
+    console.log(`Delete result:`, delres)
+    return delres.success ? delres.result : false
   }
 )

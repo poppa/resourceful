@@ -94,8 +94,33 @@ export class ProjectsStore {
     return !!mp
   }
 
+  @action public async deleteProject(p: Project): Promise<boolean> {
+    const r = await IpcClient.deleteProject(p)
+
+    if (r.success && r.result === true) {
+      const pos = this._projects.findIndex((pp) => pp.id === p.id)
+
+      if (pos > -1) {
+        const wasSelected = p.selected
+        const cpy = [...this._projects]
+        cpy.splice(pos, 1)
+
+        if (wasSelected && cpy.length) {
+          cpy[0].selected = true
+        }
+
+        this._projects = [...cpy]
+      }
+
+      return true
+    } else {
+      return false
+    }
+  }
+
   @action public async deleteResource(resource: Resource): Promise<void> {
     const cp = this.currentProject
+
     if (cp) {
       const pos = cp.resources.findIndex((r) => r.id === resource.id)
 

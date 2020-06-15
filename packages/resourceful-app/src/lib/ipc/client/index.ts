@@ -9,7 +9,7 @@ import { logDebug } from '../../debug'
 import { toJS } from 'mobx'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
-const debug = logDebug('resolve-resource')
+const debug = logDebug('ipc-client')
 
 function deserialize<T>(obj: T): T {
   if (!isPlainObject(obj)) {
@@ -51,4 +51,14 @@ export async function resovleResource({
   } else {
     return failure(res)
   }
+}
+
+export async function deleteProject(project: Project): AsyncResult<boolean> {
+  project = deserialize(project)
+
+  debug(`Sending project for deletion:`, project)
+  const res = await ipcRenderer.invoke(Events.DeleteProject, project)
+  debug(`---> res:`, res)
+
+  return success(true)
 }
