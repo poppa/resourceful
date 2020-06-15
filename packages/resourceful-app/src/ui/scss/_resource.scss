@@ -40,17 +40,15 @@
   &__header {
     display: grid;
     align-items: flex-start;
-    grid-template-columns: 32px auto 26px;
+    grid-template-columns: 32px auto;
   }
 
   &__title {
     overflow: hidden;
+    display: inline-block;
     text-overflow: ellipsis;
+    align-self: center;
   }
-
-  // &__action {
-  //   background: lime;
-  // }
 
   &__icon {
     display: block;
