@@ -27,7 +27,7 @@ export async function saveProject(p: Project): Promise<Project | false> {
   return ipcRenderer.invoke(Events.SaveProject, deserialize(p))
 }
 
-export async function loadProjets(): Promise<Maybe<Project[]>> {
+export async function loadProjects(): Promise<Maybe<Project[]>> {
   return ipcRenderer.invoke(Events.LoadProjects)
 }
 

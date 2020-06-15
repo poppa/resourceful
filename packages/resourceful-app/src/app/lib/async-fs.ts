@@ -72,7 +72,13 @@ export async function writeFile(
   options?: WriteFileOptions
 ): AsyncResult<boolean> {
   try {
-    await promises.writeFile(p, data, options)
+    await promises.writeFile(
+      p,
+      data,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      options
+    )
     return success(true)
   } catch (e) {
     return failure(e)

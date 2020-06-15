@@ -141,7 +141,7 @@ export class ProjectsStore {
   }
 
   @action public async loadProjects(): Promise<void> {
-    const ps = await IpcClient.loadProjets()
+    const ps = await IpcClient.loadProjects()
 
     if (ps) {
       ps.forEach((pp) => pp.resources.forEach((rr) => upgradeResource(rr)))
