@@ -6,6 +6,7 @@ import { config } from './config'
 import '../lib/ipc/server'
 import { setAppMenu } from './menu'
 import { MaybeNull, Maybe } from '../lib'
+import { colors } from './colors'
 
 let mainWindow: MaybeNull<Electron.BrowserWindow> = null
 
@@ -48,12 +49,11 @@ function makeTrayIcon(): void {
 }
 
 function createWindow(): void {
-  console.log(`createWindow()`)
-
   mainWindow = new BrowserWindow({
     icon: AppIcon,
     fullscreenable: true,
-    darkTheme: true,
+    darkTheme: colors.isDarkMode,
+    backgroundColor: colors.background,
     title: 'Resourceful',
     width: 1600,
     height: 800,
