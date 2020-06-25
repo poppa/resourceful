@@ -67,6 +67,7 @@ ipcMain.handle(
   }
 )
 
+// Delete resource
 ipcMain.handle(
   Events.DeleteResource,
   async (_, args: Resource): Promise<boolean> => {

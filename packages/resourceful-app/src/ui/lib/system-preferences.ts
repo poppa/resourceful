@@ -1,6 +1,5 @@
 import { staticStore } from '../storage'
-
-const { systemPreferences } = window.require('electron')
+import { applyTheme } from '../theme/theme'
 
 export function isMac(): boolean {
   const ri = staticStore.appRuntimeInfo
@@ -17,5 +16,5 @@ export function isLinux(): boolean {
 }
 
 export function initSystemPrefs(): void {
-  console.log(`Sysprefs:`, systemPreferences)
+  applyTheme()
 }

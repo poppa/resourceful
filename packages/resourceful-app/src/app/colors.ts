@@ -1,11 +1,43 @@
-import { systemPreferences, nativeTheme } from 'electron'
+import { nativeTheme, systemPreferences } from 'electron'
 import { hexToRgbCss } from '../lib/colors'
+import { EventEmitter } from 'events'
 
-class Colors {
-  private nt = nativeTheme
+export interface SystemColors {
+  isDarkMode: boolean
+  background: string
+  foreground: string
+  blue: string
+  brown: string
+  gray: string
+  green: string
+  orange: string
+  pink: string
+  purple: string
+  red: string
+  yellow: string
+  accent: string
+}
+
+export interface Colors {
+  on(event: 'updated', fn: VoidFunction): this
+}
+
+export class Colors extends EventEmitter implements SystemColors {
+  constructor() {
+    super()
+
+    nativeTheme.on('updated', () => {
+      console.log(
+        `Native theme updated: %s, bg: %s`,
+        nativeTheme.shouldUseDarkColors ? 'Dark' : 'Light',
+        systemPreferences.getColor('under-page-background')
+      )
+      this.emit('updated')
+    })
+  }
 
   public get isDarkMode(): boolean {
-    return this.nt.shouldUseDarkColors
+    return nativeTheme.shouldUseDarkColors
   }
 
   public get background(): string {
@@ -69,8 +101,8 @@ class Colors {
     return this.toPlainObject()
   }
 
-  public toPlainObject(): this {
-    const tmp: Partial<this> = {}
+  public toPlainObject(): SystemColors {
+    const tmp: Partial<SystemColors> = {}
     const proto = Reflect.getPrototypeOf(this)
 
     for (const p of Object.getOwnPropertyNames(proto)) {
@@ -84,7 +116,7 @@ class Colors {
       }
     }
 
-    return tmp as this
+    return tmp as SystemColors
   }
 }
 

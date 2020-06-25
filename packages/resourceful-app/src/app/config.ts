@@ -6,8 +6,9 @@ import { fileExists, mkDir } from './lib/async-fs'
 import { Versions, Maybe, AppRuntimeInfo } from '../lib'
 import { panic } from './lib/panic'
 import { platform } from 'os'
+import { colors } from './colors'
 
-class Config implements AppRuntimeInfo {
+class Config implements Omit<AppRuntimeInfo, 'colors'> {
   private _projectsDir: Maybe<string>
 
   @Env('RF_USER_DATA_PATH')
@@ -87,6 +88,7 @@ class Config implements AppRuntimeInfo {
       userDataPath: this.userDataPath,
       versions: this.versions,
       platform: this.platform,
+      colors: colors.toPlainObject(),
     }
   }
 }

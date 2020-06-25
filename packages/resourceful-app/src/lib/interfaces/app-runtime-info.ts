@@ -1,4 +1,5 @@
 import { Versions } from './versions'
+import { SystemColors } from '../../app/colors'
 
 export interface AppRuntimeInfo {
   appDataPath: string
@@ -10,4 +11,5 @@ export interface AppRuntimeInfo {
   userDataPath: string
   versions: Versions
   platform: string
+  colors: SystemColors
 }

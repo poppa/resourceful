@@ -1,6 +1,6 @@
 import { install } from 'source-map-support'
 install()
-import { app, BrowserWindow, nativeTheme, Tray, Menu } from 'electron'
+import { app, BrowserWindow, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { config } from './config'
 import '../lib/ipc/server'
@@ -22,12 +22,20 @@ if (config.electronReload) {
   })
 }
 
-const AppIcon = join(__dirname, '..', '..', 'src/app/resourceful-logo.png')
-
 let tray: Maybe<Tray>
 
+function getAppIcon(): string {
+  return join(
+    __dirname,
+    '..',
+    '..',
+    'assets',
+    `resourceful-logo-${colors.isDarkMode ? 'dark' : 'light'}.png`
+  )
+}
+
 function makeTrayIcon(): void {
-  tray = new Tray(AppIcon)
+  tray = new Tray(getAppIcon())
   tray.setContextMenu(
     Menu.buildFromTemplate([
       {
@@ -48,9 +56,17 @@ function makeTrayIcon(): void {
   )
 }
 
+colors.on('updated', () => {
+  console.log(`Colors:`, colors.toPlainObject())
+  tray?.setImage(getAppIcon())
+  mainWindow?.setIcon(getAppIcon())
+})
+
 function createWindow(): void {
+  console.log(`Colors:`, colors.toPlainObject())
+
   mainWindow = new BrowserWindow({
-    icon: AppIcon,
+    icon: getAppIcon(),
     fullscreenable: true,
     darkTheme: colors.isDarkMode,
     backgroundColor: colors.background,
@@ -70,14 +86,14 @@ function createWindow(): void {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+  mainWindow
+    .on('closed', () => {
+      mainWindow = null
+    })
+    .on('resize', () => {
+      console.log(`Got resize event:`, mainWindow?.getBounds())
+    })
 }
-
-nativeTheme.on('updated', () => {
-  console.log(`Native theme updated:`, nativeTheme.shouldUseDarkColors)
-})
 
 app.allowRendererProcessReuse = true
 

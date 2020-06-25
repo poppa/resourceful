@@ -18,7 +18,6 @@ export class StaticStore {
 
   public async loadConfig(): Promise<void> {
     this._appRuntimeInfo = await IpcClient.loadConfig()
-    console.log(`Apply theme?`)
     initSystemPrefs()
   }
 
