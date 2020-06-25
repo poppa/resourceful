@@ -36,7 +36,8 @@ _Light mode (with system accent color)_
 
 - Support for snippet resources
 
-- Support for command snippets
+- Support for command resources
+  (e.g. start a Docker container and stuff like that)
 
 - Ordering/placement of resources
 
