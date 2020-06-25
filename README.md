@@ -9,7 +9,7 @@ documents, links to project resources like online meeting groups,
 specifications, time tracking services, code editor project files and so on.
 
 It can be a cognitive load to keep all these things in order. And this is where
-**Resourceful** is ment to fill some space.
+**Resourceful** is ment to give some relief.
 
 Create a project in **Resourceful**, copy and past urls straight in the app,
 drag and drop PDF, image, and pretty much any other file or directoy onto the
