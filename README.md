@@ -25,16 +25,18 @@ _Light mode (with system accent color)_
 
 ## Feature todo
 
-- Better themeing based on system preferences.
-  At the moment there's no themeing of any Material UI widgets
+- Better theming based on system preferences.
+  At the moment there's no theming of any Material UI widgets
 
 - Ordering of project tabs
 
 - Save and reuse app window size and position
 
-- Edit forms for projects and resources
+- Edit-forms for projects and resources
 
 - Support for snippet resources
+
+- Support for command snippets
 
 - Ordering/placement of resources
 
