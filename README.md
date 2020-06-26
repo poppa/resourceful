@@ -45,6 +45,8 @@ _Light mode (with system accent color)_
 
 - App settings
 
+- Authentication of protected web resources
+
 - ...and the list will go on
 
 ---
