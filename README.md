@@ -30,7 +30,7 @@ _Light mode (with system accent color)_
 
 - Ordering of project tabs ([Issue2][i2])
 
-- Save and reuse app window size and position ([Issue 3][i3])
+- ~~Save and reuse app window size and position ([Issue 3][i3])~~
 
 - Edit-forms for projects and resources ([Issue 4][i4])
 
