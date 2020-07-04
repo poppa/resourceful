@@ -39,10 +39,12 @@ export class Theme implements ThemeProperies {
   protected root: CSSStyleDeclaration
 
   public primary: CSSValue
+  public primaryOff: CSSValue
   public primaryBg: CSSValue
   public primaryBg2: CSSValue
   public primaryBg3: CSSValue
   public primaryText: CSSValue
+  public primaryTextContrast: CSSValue
   public secondary: CSSValue
   public tabsBg: CSSValue
 
@@ -50,10 +52,12 @@ export class Theme implements ThemeProperies {
     this.root = (document.querySelector('html') as HTMLHtmlElement).style
 
     this.primary = cssColor(colors.accent)
+    this.primaryOff = cssRGBValue(lighten(colors.background, 25))
     this.primaryBg = cssColor(colors.background)
     this.primaryBg2 = cssRGBValue(lighten(this.primaryBg.value as RGB, 7))
     this.primaryBg3 = cssRGBValue(lighten(this.primaryBg.value as RGB, 12))
-    this.primaryText = cssColor(colors.foreground)
+    this.primaryTextContrast = cssColor(colors.foreground)
+    this.primaryText = cssRGBValue(darken(colors.foreground, 30))
     this.secondary = cssRGBValue(lighten(this.primary.value as RGB, 20))
     this.tabsBg = cssRGBValue(darken(this.primaryBg.value as RGB, 15))
   }
@@ -130,6 +134,9 @@ class LightTheme extends Theme {
     this.primaryBg = cssRGBValue(
       lighten(cssColor(colors.background).value as RGB, 60)
     )
+    this.primaryTextContrast = cssColor(colors.foreground)
+    this.primaryText = cssRGBValue(lighten(colors.foreground, 20))
+    this.primaryOff = cssRGBValue(darken(colors.background, 20))
     this.primaryBg2 = cssRGBValue(darken(this.primaryBg.value as RGB, 12))
     this.primaryBg3 = cssRGBValue(darken(this.primaryBg.value as RGB, 19))
     this.tabsBg = cssRGBValue(darken(this.primaryBg.value as RGB, 25))

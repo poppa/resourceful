@@ -85,7 +85,14 @@ export function shade(color: ColorArg, percent: number): RGBClass {
   percent = percent / 100
 
   if (typeof color === 'string') {
-    color = hexToRgb(color)
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const tmp = parseColor(color)
+
+    if (!tmp) {
+      throw new Error(`Unable to parse color ${color}`)
+    }
+
+    color = tmp
   }
 
   const t = percent < 0 ? 0 : 255,
