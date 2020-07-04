@@ -7,6 +7,7 @@ import '../lib/ipc/server'
 import { setAppMenu } from './menu'
 import { MaybeNull, Maybe } from '../lib'
 import { colors } from './colors'
+import { saveWindowBounds, store } from './store'
 
 let mainWindow: MaybeNull<Electron.BrowserWindow> = null
 
@@ -57,7 +58,6 @@ function makeTrayIcon(): void {
 }
 
 colors.on('updated', () => {
-  console.log(`Colors:`, colors.toPlainObject())
   tray?.setImage(getAppIcon())
   mainWindow?.setIcon(getAppIcon())
 })
@@ -65,14 +65,23 @@ colors.on('updated', () => {
 function createWindow(): void {
   console.log(`Colors:`, colors.toPlainObject())
 
+  const bounds = store.get('windowBounds') ?? {
+    x: undefined,
+    y: undefined,
+    width: 1600,
+    height: 800,
+  }
+
   mainWindow = new BrowserWindow({
     icon: getAppIcon(),
     fullscreenable: true,
     darkTheme: colors.isDarkMode,
     backgroundColor: colors.background,
     title: 'Resourceful',
-    width: 1600,
-    height: 800,
+    width: bounds.width,
+    height: bounds.height,
+    x: bounds.x,
+    y: bounds.y,
     webPreferences: {
       nodeIntegration: true,
       preload: join(__dirname, 'bootstrap.js'),
@@ -86,13 +95,9 @@ function createWindow(): void {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow
-    .on('closed', () => {
-      mainWindow = null
-    })
-    .on('resize', () => {
-      console.log(`Got resize event:`, mainWindow?.getBounds())
-    })
+  mainWindow.on('closed', () => {
+    mainWindow = null
+  })
 }
 
 app.allowRendererProcessReuse = true
@@ -104,6 +109,8 @@ app
     makeTrayIcon()
   })
   .on('window-all-closed', () => {
+    console.log(`Closing window...`)
+    saveWindowBounds(mainWindow?.getBounds())
     // Make this configurable
     if (process.platform !== 'darwin') {
       app.quit()
@@ -116,4 +123,8 @@ app
     if (mainWindow === null) {
       createWindow()
     }
+  })
+  .on('before-quit', () => {
+    console.log(`About to quit the app`)
+    saveWindowBounds(mainWindow?.getBounds())
   })

@@ -30,6 +30,7 @@
     "debug": "^4.1.1",
     "deepmerge": "^4.2.2",
     "electron": "^8.2.3",
+    "electron-store": "^5.2.0",
     "getenv": "^1.0.0",
     "mime-types": "^2.1.27",
     "mobx": "^5.15.4",
