@@ -26,26 +26,26 @@ _Light mode (with system accent color)_
 ## Feature todo
 
 - Better theming based on system preferences.
-  At the moment there's no theming of any Material UI widgets [GH-1]
+  At the moment there's no theming of any Material UI widgets ([Issue 1][i1])
 
-- Ordering of project tabs [GH-2]
+- Ordering of project tabs ([Issue2][i2])
 
-- Save and reuse app window size and position [GH-3]
+- Save and reuse app window size and position ([Issue 3][i3])
 
-- Edit-forms for projects and resources [GH-4]
+- Edit-forms for projects and resources ([Issue 4][i4])
 
-- Support for snippet resources [GH-5]
+- Support for snippet resources ([Issue 5][i5])
 
 - Support for command resources
-  (e.g. start a Docker container and stuff like that) [GH-6]
+  (e.g. start a Docker container and stuff like that) ([Issue 6][i6])
 
-- Ordering/placement of resources [GH-7]
+- Ordering/placement of resources ([Issue 7][i7])
 
-- Project workspace zoom [GH-8]
+- Project workspace zoom ([Issue 8][i8])
 
-- App settings [GH-9]
+- App settings ([Issue 9][i9])
 
-- Authentication of protected web resources [GH-10]
+- Authentication of protected web resources ([Issue 10][i10])
 
 - ...and the list will go on
 
@@ -67,3 +67,14 @@ yarn build
 # Starts the app
 yarn start
 ```
+
+[i1]: https://github.com/poppa/resourceful/issues/1
+[i2]: https://github.com/poppa/resourceful/issues/2
+[i3]: https://github.com/poppa/resourceful/issues/3
+[i4]: https://github.com/poppa/resourceful/issues/4
+[i5]: https://github.com/poppa/resourceful/issues/5
+[i6]: https://github.com/poppa/resourceful/issues/6
+[i7]: https://github.com/poppa/resourceful/issues/7
+[i8]: https://github.com/poppa/resourceful/issues/8
+[i9]: https://github.com/poppa/resourceful/issues/9
+[i10]: https://github.com/poppa/resourceful/issues/10
