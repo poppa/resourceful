@@ -26,26 +26,26 @@ _Light mode (with system accent color)_
 ## Feature todo
 
 - Better theming based on system preferences.
-  At the moment there's no theming of any Material UI widgets
+  At the moment there's no theming of any Material UI widgets [GH-1]
 
-- Ordering of project tabs
+- Ordering of project tabs [GH-2]
 
-- Save and reuse app window size and position
+- Save and reuse app window size and position [GH-3]
 
-- Edit-forms for projects and resources
+- Edit-forms for projects and resources [GH-4]
 
-- Support for snippet resources
+- Support for snippet resources [GH-5]
 
 - Support for command resources
-  (e.g. start a Docker container and stuff like that)
+  (e.g. start a Docker container and stuff like that) [GH-6]
 
-- Ordering/placement of resources
+- Ordering/placement of resources [GH-7]
 
-- Project workspace zoom
+- Project workspace zoom [GH-8]
 
-- App settings
+- App settings [GH-9]
 
-- Authentication of protected web resources
+- Authentication of protected web resources [GH-10]
 
 - ...and the list will go on
 
