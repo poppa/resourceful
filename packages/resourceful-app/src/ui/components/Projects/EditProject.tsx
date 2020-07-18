@@ -20,8 +20,6 @@ const EditProjectComponent: FC<Props> = observer(
     const [state, setState] = useState<State>({ isOk: false })
 
     const onSubmit = async (): Promise<boolean> => {
-      console.log(`onSubmitEditCalled:`, state)
-
       if (state.isOk) {
         project.name = state.text
         await projectsStore.saveProjectAndUpdate(project)
