@@ -3,25 +3,25 @@ import { observer } from 'mobx-react'
 import Dialog from '@material-ui/core/Dialog/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle'
 import { DialogContent, DialogActions, Button } from '@material-ui/core'
-import { createProjectDialogState } from '../../storage'
-import CreateProjectComponent from './CreateProject'
+import { editProjectDialogState } from '../../storage'
 import { Maybe } from '../../../lib'
+import EditProject from './EditProject'
 
-export type OnCreateCallback = () => Promise<boolean>
+export type OnEditedCallback = () => Promise<boolean>
 
-const CreateProjectDialog: FC = observer(() => {
-  const s = createProjectDialogState
+const EditProjectDialog: FC = observer(() => {
+  const s = editProjectDialogState
 
   let onSubmit: Maybe<() => Promise<boolean>>
-  const fire = (fn: OnCreateCallback): void => {
+  const fire = (fn: OnEditedCallback): void => {
     onSubmit = fn
   }
 
   return (
     <Dialog open={s.isOpen} maxWidth="xs" fullWidth={true}>
-      <DialogTitle>Create project</DialogTitle>
+      <DialogTitle>Edit project</DialogTitle>
       <DialogContent>
-        <CreateProjectComponent onCreate={fire} />
+        <EditProject onEdited={fire} project={s.project} />
       </DialogContent>
       <DialogActions>
         <Button
@@ -40,11 +40,11 @@ const CreateProjectDialog: FC = observer(() => {
           }}
           color="primary"
         >
-          Create
+          Save
         </Button>
       </DialogActions>
     </Dialog>
   )
 })
 
-export default CreateProjectDialog
+export default EditProjectDialog

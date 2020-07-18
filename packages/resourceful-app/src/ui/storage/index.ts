@@ -6,6 +6,7 @@ import {
   ResourceActionState,
   ConfirmState,
   CreateProjectDialogState,
+  EditProjectDialogState,
 } from './misc'
 
 export const projectsStore = ProjectsStore.create()
@@ -14,5 +15,6 @@ export const dragStateStore = DragStateStore.create()
 export const resourceActionsState = ResourceActionState.create()
 export const confirmState = ConfirmState.create()
 export const createProjectDialogState = CreateProjectDialogState.create()
+export const editProjectDialogState = EditProjectDialogState.create()
 // Need to keep this last
 export const pageStateStore = PageStateStore.create()

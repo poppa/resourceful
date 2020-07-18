@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx'
 import { RefObject } from 'react'
-import { Maybe, Resource } from '../../lib'
+import { Maybe, Resource, Project } from '../../lib'
 
 let resourceActionStore: Maybe<ResourceActionState>
 
@@ -71,4 +71,27 @@ export class CreateProjectDialogState {
   }
 
   @observable public isOpen = false
+}
+
+let editProjectDialogStore: Maybe<EditProjectDialogState>
+
+export class EditProjectDialogState {
+  public static create(): EditProjectDialogState {
+    return editProjectDialogStore ?? (editProjectDialogStore = new this())
+  }
+
+  @observable public isOpen = false
+  @observable public project?: Project
+
+  @action setProject(proj?: Project): this {
+    if (proj) {
+      this.isOpen = true
+      this.project = proj
+    } else {
+      this.isOpen = false
+      this.project = undefined
+    }
+
+    return this
+  }
 }

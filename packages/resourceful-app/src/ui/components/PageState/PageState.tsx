@@ -6,6 +6,7 @@ import { PageState } from '../../storage/pagestate'
 import HomeScreen from '../Homescreen'
 import Projects from '../Projects/Projects'
 import CreateProjectDialog from '../Projects/CreateProjectDialog'
+import EditProjectDialog from '../Projects/EditProjectDialog'
 
 const PageStateComp: FC = observer(
   withChildren(
@@ -26,6 +27,7 @@ const PageStateComp: FC = observer(
           return (
             <>
               <CreateProjectDialog />
+              <EditProjectDialog />
               <Projects projects={projectsStore.projects} />
             </>
           )

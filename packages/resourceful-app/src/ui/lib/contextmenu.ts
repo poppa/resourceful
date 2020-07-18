@@ -1,7 +1,7 @@
 import { MenuItemConstructorOptions } from 'electron'
 import { findElementByClassName } from './find-element'
 import { Maybe } from '../../lib'
-import { projectsStore, confirmState } from '../storage'
+import { projectsStore, confirmState, editProjectDialogState } from '../storage'
 import { setResourceState, handleDelete } from './resource'
 
 const { remote } = window.require('electron')
@@ -62,6 +62,7 @@ function setupProjectMenu(id: string): void {
 
   editMenu.click = (): void => {
     console.log(`Edit project:`, proj)
+    editProjectDialogState.setProject(proj)
   }
 
   deleteMenu.click = (): void => {

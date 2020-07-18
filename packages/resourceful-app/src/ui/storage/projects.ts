@@ -69,13 +69,28 @@ export class ProjectsStore {
     return false
   }
 
-  private async saveProject(p: Project): Promise<boolean> {
+  public async saveProject(p: Project): Promise<boolean> {
     const res = await IpcClient.saveProject(p)
 
     if (res) {
       return true
     } else {
       console.error(`Failed saving project:`, p.name)
+    }
+
+    return false
+  }
+
+  public async saveProjectAndUpdate(p: Project): Promise<boolean> {
+    if (await this.saveProject(p)) {
+      const idx = this.findProjectIndex(p)
+
+      if (idx > -1) {
+        const cpy = [...this.projects]
+        cpy[idx] = p
+        this._projects = cpy
+        return true
+      }
     }
 
     return false
@@ -187,5 +202,9 @@ export class ProjectsStore {
     })
 
     this._projects = cpy
+  }
+
+  private findProjectIndex(p: Project): number {
+    return this.projects.findIndex((pp) => pp.id === p.id)
   }
 }
