@@ -29,7 +29,7 @@
   padding: 8px 10px;
   font-size: 0.8rem;
   cursor: pointer;
-  transition: color 0.2s ease-in;
+  transition: color 0.2s ease-in, opacity 0.3s ease-in;
   user-select: none;
 
   &:hover {
@@ -54,5 +54,13 @@
 
   &__action {
     border-top: 0;
+  }
+
+  &--draggedover {
+    opacity: 0.4;
+  }
+
+  &--dragged {
+    opacity: 0.1;
   }
 }

@@ -14,7 +14,6 @@ export class CSSValue {
   }
 
   toString(): string {
-    console.log(`toString(%O, %O)`, this.value, this.value?.toString())
     if (this.value !== undefined) {
       return this.value.toString()
     }
@@ -53,7 +52,6 @@ export function cssRGBValue(rgb: RGB): CSSValue {
 
 export function cssColor(c: string): CSSValue {
   const p = parseColor(c)
-  console.log(`Parsed color:`, c, p)
 
   if (p) {
     return new CSSValue(p)

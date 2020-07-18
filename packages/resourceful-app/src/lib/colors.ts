@@ -122,7 +122,7 @@ export function parseColor(c: string): Maybe<RGBClass> {
     return hexToRgbClass(c)
   } else {
     const m = reRgb.exec(c)
-    console.log(`RGB:`, c, m)
+
     if (m) {
       return new RGBClass({
         r: parseInt(m[1], 10),

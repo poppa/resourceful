@@ -14,7 +14,6 @@ export interface ThemeProperies {
 }
 
 export function applyTheme(): void {
-  console.log(`Apply theme`)
   const colors = staticStore.appRuntimeInfo?.colors
 
   if (!colors) {
@@ -68,7 +67,6 @@ export class Theme implements ThemeProperies {
 
   public setProp(which: string, what: CSSValue | string): this {
     const val = what.toString()
-    console.log(`setProp(--%s, %O, %O)`, which, val, what)
     this.root.setProperty('--' + which, val)
     return this
   }
@@ -84,7 +82,6 @@ export class Theme implements ThemeProperies {
     if (val && val instanceof CSSValue) {
       if (!val.isUndefined()) {
         const cssprop = this.jsPropToCss(prop)
-        console.log(`Prop:`, this[prop])
         this.setProp(cssprop, this[prop].toString())
       }
     }

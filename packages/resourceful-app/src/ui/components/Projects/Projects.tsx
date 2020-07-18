@@ -20,7 +20,7 @@ const handleDrop = async (e: React.DragEvent): Promise<void> => {
 
   const files = e.dataTransfer.files
 
-  // FIXME: Why does files not have an interator
+  // FIXME: Why does files not have an iterator
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   for (const file of files) {
