@@ -34,9 +34,7 @@ const CreateProjectDialog: FC = observer(() => {
         </Button>
         <Button
           onClick={async (): Promise<void> => {
-            console.log('Now what')
             if (onSubmit && (await onSubmit())) {
-              console.log(`Okey dokey`)
               s.isOpen = false
             }
           }}
