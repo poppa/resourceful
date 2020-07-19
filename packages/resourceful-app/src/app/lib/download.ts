@@ -140,6 +140,7 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
     debug(`Begin dowload:`, url)
     const x = await axios.get(url, {
       responseType: 'arraybuffer',
+      withCredentials: true,
     })
 
     if (x.status / 100 === 2) {

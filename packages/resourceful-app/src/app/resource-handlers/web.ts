@@ -97,7 +97,6 @@ export async function handler({
 
             successes.forEach((v, i) => {
               if (rr.success && rr.result[i]) {
-                console.log(`Result I:`, rr.result[i])
                 assets[v.key as keyof ResourceAssets] = rr.result[i].toString()
               }
             })
