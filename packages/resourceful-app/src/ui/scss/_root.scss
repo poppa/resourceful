@@ -24,3 +24,7 @@ body {
   overflow: hidden;
   height: 100%;
 }
+
+.MuiFormControl-root + .MuiFormControl-root {
+  margin-top: var(--gutter-width);
+}

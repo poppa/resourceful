@@ -95,3 +95,26 @@ export class EditProjectDialogState {
     return this
   }
 }
+
+let editResourceDialogStore: Maybe<EditResourceDialogState>
+
+export class EditResourceDialogState {
+  public static create(): EditResourceDialogState {
+    return editResourceDialogStore ?? (editResourceDialogStore = new this())
+  }
+
+  @observable public isOpen = false
+  @observable public resource?: Resource
+
+  @action setResource(resource?: Resource): this {
+    if (resource) {
+      this.isOpen = true
+      this.resource = resource
+    } else {
+      this.isOpen = false
+      this.resource = undefined
+    }
+
+    return this
+  }
+}

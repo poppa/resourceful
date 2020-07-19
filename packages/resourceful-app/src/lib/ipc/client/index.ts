@@ -11,7 +11,7 @@ import { toJS } from 'mobx'
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 const debug = logDebug('ipc-client')
 
-function deserialize<T>(obj: T): T {
+export function deserialize<T>(obj: T): T {
   if (!isPlainObject(obj)) {
     return toJS(obj)
   } else {

@@ -1,7 +1,12 @@
 import { MenuItemConstructorOptions } from 'electron'
 import { findElementByClassName } from './find-element'
 import { Maybe } from '../../lib'
-import { projectsStore, confirmState, editProjectDialogState } from '../storage'
+import {
+  projectsStore,
+  confirmState,
+  editProjectDialogState,
+  editResourceDialogState,
+} from '../storage'
 import { setResourceState, handleDelete } from './resource'
 
 const { remote } = window.require('electron')
@@ -115,6 +120,12 @@ function setupResourceMenu(id: string): void {
   } else {
     collapseMenu.enabled = false
     collapseMenu.checked = false
+  }
+
+  const editMenu = findItemById(resourceMenuTemplate, 'menu-resource-edit')
+  editMenu.click = (): void => {
+    console.log(`Edit resource:`, resource)
+    editResourceDialogState.setResource(resource)
   }
 }
 
