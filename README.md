@@ -32,7 +32,7 @@ _Light mode (with system accent color)_
 
 - ~~Save and reuse app window size and position ([Issue 3][i3])~~
 
-- Edit-forms for projects and resources ([Issue 4][i4])
+- ~~Edit-forms for projects and resources ([Issue 4][i4])~~
 
 - Support for snippet resources ([Issue 5][i5])
 
