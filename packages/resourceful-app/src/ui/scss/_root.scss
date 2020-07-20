@@ -28,3 +28,7 @@ body {
 .MuiFormControl-root + .MuiFormControl-root {
   margin-top: var(--gutter-width);
 }
+
+.textarea--code {
+  font-family: monospace;
+}

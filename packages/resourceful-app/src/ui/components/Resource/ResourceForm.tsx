@@ -6,9 +6,11 @@ import {
   isCmdResource,
   isWebResource,
   isTextResource,
+  isSnippetResource,
 } from '../../../lib'
 import FormControl from '@material-ui/core/FormControl/FormControl'
 import TextField from '@material-ui/core/TextField/TextField'
+import { TextareaAutosize } from '@material-ui/core'
 
 interface ResourceFormProps {
   resource: Resource
@@ -29,9 +31,28 @@ const ValueField: FC<ResourceFormProps> = ({ resource }) => {
     label = 'Url'
     defValue = resource.href
     type = 'url'
-  } else if (isTextResource(resource)) {
-    label = 'Text'
+  } else if (isSnippetResource(resource) || isTextResource(resource)) {
+    const classNames: string[] = []
+    if (isTextResource(resource)) {
+      label = 'Text'
+    } else if (isSnippetResource) {
+      label = 'Source code'
+      classNames.push('textarea--code')
+    }
+
     defValue = resource.text
+
+    return (
+      <FormControl fullWidth={true}>
+        <TextareaAutosize
+          required={true}
+          name="text"
+          id="resource-text"
+          defaultValue={defValue}
+          className={classNames.join(' ')}
+        />
+      </FormControl>
+    )
   }
 
   return (

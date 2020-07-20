@@ -7,6 +7,7 @@ export enum ResourceType {
   File,
   Cmd,
   Text,
+  Snippet,
 }
 
 export interface ResourceAssets {
@@ -50,6 +51,10 @@ export interface TextResource extends Resource {
   type: ResourceType.Text
   text: string
   contentType: string
+}
+
+export interface SnippetResource extends TextResource {
+  language?: string
 }
 
 export type ResourceOf<T extends { type: ResourceType }> = T extends {

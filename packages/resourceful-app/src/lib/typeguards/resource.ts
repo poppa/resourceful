@@ -5,6 +5,7 @@ import {
   CmdResource,
   TextResource,
   ResourceType,
+  SnippetResource,
 } from '../interfaces/resource'
 
 export function isResource(o: unknown): o is Resource {
@@ -32,4 +33,8 @@ export function isCmdResource(o: unknown): o is CmdResource {
 
 export function isTextResource(o: unknown): o is TextResource {
   return isResource(o) && o.type === ResourceType.Text
+}
+
+export function isSnippetResource(o: unknown): o is SnippetResource {
+  return isResource(o) && 'language' in o
 }

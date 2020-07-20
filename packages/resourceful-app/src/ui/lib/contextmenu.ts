@@ -1,6 +1,6 @@
 import { MenuItemConstructorOptions } from 'electron'
 import { findElementByClassName } from './find-element'
-import { Maybe } from '../../lib'
+import { Maybe, isSnippetResource, isTextResource } from '../../lib'
 import {
   projectsStore,
   confirmState,
@@ -107,9 +107,13 @@ function setupResourceMenu(id: string): void {
     handleDelete(resource)
   }
 
-  if (resource.state?.hasCard) {
+  if (
+    resource.state?.hasCard ||
+    isSnippetResource(resource) ||
+    isTextResource(resource)
+  ) {
     collapseMenu.enabled = true
-    collapseMenu.checked = resource.state.collapsed ?? false
+    collapseMenu.checked = resource.state?.collapsed ?? false
     collapseMenu.click = (): void => {
       setResourceState({
         resource,

@@ -1,6 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { observer } from 'mobx-react'
-import { Resource, isWebResource, isFileResource } from '../../../lib'
+import {
+  Resource,
+  isWebResource,
+  isFileResource,
+  isSnippetResource,
+  isTextResource,
+} from '../../../lib'
 import {
   resolveDefaultFilePath,
   resolveProjectFilePath,
@@ -33,11 +39,13 @@ function handleOnDragEnd(e: React.DragEvent): void {
   dragStateStore.clear()
 }
 
-function onClick(r: Resource): void {
+function onClick(r: Resource): void | boolean {
   if (isWebResource(r)) {
     shell.openExternal(r.href)
   } else if (isFileResource(r)) {
     shell.openItem(r.path)
+  } else if (isSnippetResource(r) || isTextResource(r)) {
+    return true
   }
 }
 
@@ -71,6 +79,13 @@ function card(r: Resource): JSX.Element | null {
         </div>
       )
     }
+  } else if (isSnippetResource(r)) {
+    console.log(`Is snippet:`, r)
+    return (
+      <div className={`resource__snippet`}>
+        <div className={`resource__code`}>{r.text}</div>
+      </div>
+    )
   }
 
   return null
@@ -92,6 +107,10 @@ function icon(r: Resource): JSX.Element {
   )
 }
 
+interface LocalState {
+  isOpen: boolean
+}
+
 const ResourceComponent: FC<ResourceProps> = observer((props) => {
   const r = props.resource
   const classlist = ['resource']
@@ -107,11 +126,24 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     classlist.push('resource--collapsed')
   }
 
+  const [state, setState] = useState<LocalState>({ isOpen: false })
+
+  if (state.isOpen) {
+    classlist.push('resource--opened')
+  }
+
   return (
     <div
       className={classlist.join(' ')}
       style={styles}
-      onClick={(): void => onClick(r)}
+      onClick={(): void => {
+        const c = onClick(r)
+
+        if (c) {
+          console.log(`Set local state.isOpen to:`, !state.isOpen)
+          setState({ isOpen: !state.isOpen })
+        }
+      }}
       draggable={true}
       onDragStart={handleOnStartDrag}
       onDragEnd={handleOnDragEnd}
