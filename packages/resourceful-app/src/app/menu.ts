@@ -18,7 +18,12 @@ const mainMenuTemplate: MenuItemConstructorOptions[] = [
   },
   {
     label: 'Project',
-    submenu: [{ label: 'Edit' }, { role: 'delete' }, { role: 'paste' }],
+    submenu: [
+      { label: 'Edit' },
+      { role: 'delete' },
+      { role: 'copy' },
+      { role: 'paste' },
+    ],
   },
   {
     role: 'viewMenu',

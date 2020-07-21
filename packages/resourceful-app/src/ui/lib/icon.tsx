@@ -17,6 +17,7 @@ import AIIcon from '../svg/icons/adobe-illustrator.svg'
 import InddIcon from '../svg/icons/adobe-indesign.svg'
 import FolderIcon from '../svg/icons/folder.svg'
 import ImageIcon from '../svg/icons/image.svg'
+import SnippetIcon from '../svg/icons/snippet.svg'
 
 const ExtToSvg: PlainObject<JSX.Element> = {
   '.code-workspace': <VScodeIcon width={null} height={null} />,
@@ -48,6 +49,10 @@ function getIcon(file: string): Maybe<JSX.Element> {
 
 export function getIconForResource(r: Resource): Maybe<JSX.Element> {
   switch (r.type) {
+    case ResourceType.Snippet: {
+      return <SnippetIcon />
+    }
+
     case ResourceType.Url: {
       return <SafariIcon />
     }

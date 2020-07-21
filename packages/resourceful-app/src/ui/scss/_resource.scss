@@ -34,6 +34,7 @@ $min-width: 350px;
     height: auto;
     max-height: 80%;
     z-index: 1;
+    user-select: initial;
   }
 
   & + .resource {
@@ -49,6 +50,7 @@ $min-width: 350px;
     display: grid;
     align-items: flex-start;
     grid-template-columns: 32px auto;
+    user-select: none;
   }
 
   &__title {
@@ -137,6 +139,7 @@ $min-width: 350px;
     #{$self}--opened & {
       height: auto;
       max-height: 80%;
+      cursor: initial;
     }
   }
 

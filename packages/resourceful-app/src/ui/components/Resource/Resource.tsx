@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, EventHandler, SyntheticEvent } from 'react'
 import { observer } from 'mobx-react'
 import {
   Resource,
@@ -80,7 +80,6 @@ function card(r: Resource): JSX.Element | null {
       )
     }
   } else if (isSnippetResource(r)) {
-    console.log(`Is snippet:`, r)
     return (
       <div className={`resource__snippet`}>
         <div className={`resource__code`}>{r.text}</div>
@@ -132,24 +131,69 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     classlist.push('resource--opened')
   }
 
+  const clickHandler = (): void => {
+    const c = onClick(r)
+
+    if (c) {
+      setState({ isOpen: !state.isOpen })
+    }
+  }
+
+  const dblClickHandler: EventHandler<SyntheticEvent> = (e): void => {
+    const res = (e.target as HTMLElement).closest('.resource')
+
+    if (res) {
+      const t =
+        res.querySelector('.resource__code') ||
+        res.querySelector('.resource__text')
+
+      if (t) {
+        const range = document.createRange()
+        range.selectNode(t)
+        window.getSelection().removeAllRanges()
+        window.getSelection().addRange(range)
+      }
+    }
+  }
+
+  // if (isSnippetResource(r) || isTextResource(r)) {
+  //   return (
+  //     <div
+  //       className={classlist.join(' ')}
+  //       style={styles}
+  //       onClick={state.isOpen ? null : clickHandler}
+  //       draggable={!state.isOpen}
+  //       onDragStart={handleOnStartDrag}
+  //       onDragEnd={handleOnDragEnd}
+  //       id={r.id}
+  //     >
+  //       <div
+  //         className="resource__header"
+  //         onClick={state.isOpen ? clickHandler : null}
+  //       >
+  //         {icon(r)}
+  //         <div className="resource__title">{r.name}</div>
+  //       </div>
+  //       {card(r)}
+  //     </div>
+  //   )
+  // }
+
   return (
     <div
       className={classlist.join(' ')}
       style={styles}
-      onClick={(): void => {
-        const c = onClick(r)
-
-        if (c) {
-          console.log(`Set local state.isOpen to:`, !state.isOpen)
-          setState({ isOpen: !state.isOpen })
-        }
-      }}
+      onClick={state.isOpen ? null : clickHandler}
+      onDoubleClick={state.isOpen ? dblClickHandler : null}
       draggable={true}
       onDragStart={handleOnStartDrag}
       onDragEnd={handleOnDragEnd}
       id={r.id}
     >
-      <div className="resource__header">
+      <div
+        className="resource__header"
+        onClick={state.isOpen ? clickHandler : null}
+      >
         {icon(r)}
         <div className="resource__title">{r.name}</div>
       </div>
