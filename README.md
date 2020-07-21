@@ -34,7 +34,7 @@ _Light mode (with system accent color)_
 
 - ~~Edit-forms for projects and resources ([Issue 4][i4])~~
 
-- Support for snippet resources ([Issue 5][i5])
+- ~~Support for snippet resources ([Issue 5][i5])~~
 
 - Support for command resources
   (e.g. start a Docker container and stuff like that) ([Issue 6][i6])
