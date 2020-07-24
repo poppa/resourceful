@@ -50,6 +50,15 @@ export const columns = (): null => {
       const rr = col.r.sort((a, b) => {
         const aTop = parseInt(a.style.top, 10)
         const bTop = parseInt(b.style.top, 10)
+
+        if (isNaN(aTop) && isNaN(bTop)) {
+          return 0
+        } else if (isNaN(aTop)) {
+          return 1
+        } else if (isNaN(bTop)) {
+          return -1
+        }
+
         return aTop - bTop
       })
 
