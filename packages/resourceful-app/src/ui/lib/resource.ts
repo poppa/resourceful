@@ -5,6 +5,7 @@ import {
   confirmState,
 } from '../storage'
 import { Resource, ResourceState } from '../../lib'
+import { columns } from './resource-columns'
 
 export function upgradeResource(resource: Resource): Resource {
   if (!resource.state) {
@@ -31,6 +32,7 @@ export function setResourceState({
   if (save) {
     projectsStore
       .saveCurrentProject()
+      .then(() => columns())
       .catch((err) =>
         console.error(
           `Failed saving project after setting resource state:`,

@@ -6,12 +6,14 @@ import {
   isFileResource,
   isSnippetResource,
   isTextResource,
+  Point,
 } from '../../../lib'
 import {
   resolveDefaultFilePath,
   resolveProjectFilePath,
   getIconForResource,
   setResourceState,
+  columns,
 } from '../../lib'
 import { projectsStore, dragStateStore } from '../../storage'
 
@@ -108,6 +110,7 @@ function icon(r: Resource): JSX.Element {
 
 interface LocalState {
   isOpen: boolean
+  prevPosition?: Point
 }
 
 const ResourceComponent: FC<ResourceProps> = observer((props) => {
@@ -125,7 +128,20 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     classlist.push('resource--collapsed')
   }
 
-  const [state, setState] = useState<LocalState>({ isOpen: false })
+  const [state, setState] = useState<LocalState>({
+    isOpen: false,
+    prevPosition: r.position,
+  })
+
+  if (
+    state.prevPosition?.x !== r.position?.x ||
+    state.prevPosition?.y !== r.position?.y
+  ) {
+    setState({ ...state, prevPosition: r.position })
+    // FIXME: This is a hack. We should probably make the columns stuff react
+    //        on the resource position itself instead
+    setTimeout(columns, 500)
+  }
 
   if (state.isOpen) {
     classlist.push('resource--opened')
