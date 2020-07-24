@@ -94,7 +94,6 @@ export function resolveDefaultIconPath(file: string): string {
 }
 
 export const handleDelete = (resource: Resource): void => {
-  console.log(`Handle Delete Resource:`, resource)
   confirmState.setState({
     description: `Are you sure you want to delete the ${resource?.name} resource?`,
     onAbort(): void {
