@@ -55,7 +55,6 @@ function findItemById(
 }
 
 function setupProjectMenu(id: string): void {
-  console.log(`Setup project menu:`, id)
   const proj = projectsStore.findProjectById(id)
 
   if (!proj) {
@@ -66,12 +65,10 @@ function setupProjectMenu(id: string): void {
   const deleteMenu = findItemById(projectMenuTemplate, 'menu-project-delete')
 
   editMenu.click = (): void => {
-    console.log(`Edit project:`, proj)
     editProjectDialogState.setProject(proj)
   }
 
   deleteMenu.click = (): void => {
-    console.log(`Delete project clicked:`, proj)
     confirmState.setState({
       description: `Are you sure you want to delete the project ${proj?.name}?`,
       onAbort(): void {
@@ -128,7 +125,6 @@ function setupResourceMenu(id: string): void {
 
   const editMenu = findItemById(resourceMenuTemplate, 'menu-resource-edit')
   editMenu.click = (): void => {
-    console.log(`Edit resource:`, resource)
     editResourceDialogState.setResource(resource)
   }
 }
