@@ -138,15 +138,20 @@ window.addEventListener(
   (e) => {
     let el: Maybe<Element>
 
+    // Project tab right click
     if ((el = findElementByClassName(e.target as Element, 'tab--project'))) {
       setupProjectMenu(el.id)
       const projectMenu = Menu.buildFromTemplate(projectMenuTemplate)
       projectMenu.popup()
-    } else if ((el = findElementByClassName(e.target as Element, 'resource'))) {
+    }
+    // Resource right click
+    else if ((el = findElementByClassName(e.target as Element, 'resource'))) {
       setupResourceMenu(el.id)
       const resourceMenu = Menu.buildFromTemplate(resourceMenuTemplate)
       resourceMenu.popup()
-    } else if (findElementByClassName(e.target as Element, 'canvas')) {
+    }
+    // Canvas right click
+    else if (findElementByClassName(e.target as Element, 'canvas')) {
       console.log(`Canvas clicked:`, e)
     }
   },
