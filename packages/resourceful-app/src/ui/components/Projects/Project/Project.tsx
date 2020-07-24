@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { observer } from 'mobx-react'
 import { Project } from '../../../../lib'
 import ResourceComponent from '../../Resource/Resource'
+import { columns } from '../../../lib'
 
 const ProjectComponent: FC<{ project?: Project }> = observer(
   (props): JSX.Element | null => {
@@ -31,6 +32,7 @@ const ProjectComponent: FC<{ project?: Project }> = observer(
         {props.project.resources.map((res) => (
           <ResourceComponent key={res.id} resource={res} />
         ))}
+        {columns()}
       </div>
     )
   }

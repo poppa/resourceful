@@ -156,29 +156,6 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     }
   }
 
-  // if (isSnippetResource(r) || isTextResource(r)) {
-  //   return (
-  //     <div
-  //       className={classlist.join(' ')}
-  //       style={styles}
-  //       onClick={state.isOpen ? null : clickHandler}
-  //       draggable={!state.isOpen}
-  //       onDragStart={handleOnStartDrag}
-  //       onDragEnd={handleOnDragEnd}
-  //       id={r.id}
-  //     >
-  //       <div
-  //         className="resource__header"
-  //         onClick={state.isOpen ? clickHandler : null}
-  //       >
-  //         {icon(r)}
-  //         <div className="resource__title">{r.name}</div>
-  //       </div>
-  //       {card(r)}
-  //     </div>
-  //   )
-  // }
-
   return (
     <div
       className={classlist.join(' ')}

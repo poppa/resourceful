@@ -37,9 +37,9 @@ $min-width: 350px;
     user-select: initial;
   }
 
-  & + .resource {
-    margin-top: var(--gutter-width);
-  }
+  // & + .resource {
+  //   margin-top: var(--gutter-width);
+  // }
 
   &__header,
   &__body {
