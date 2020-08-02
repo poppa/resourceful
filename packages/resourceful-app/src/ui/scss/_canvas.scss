@@ -1,5 +1,12 @@
+.outer-canvas {
+  position: absolute;
+  top: var(--gutter-width);
+  left: var(--gutter-width);
+  right: var(--gutter-width);
+  bottom: var(--gutter-width);
+}
+
 .canvas {
-  position: relative;
-  width: 4800px;
-  height: 4800px;
+  min-width: 100%;
+  min-height: 100%;
 }

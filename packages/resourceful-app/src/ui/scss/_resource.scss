@@ -31,15 +31,10 @@ $min-width: 350px;
     width: auto;
     min-width: $min-width;
     max-width: 800px;
-    height: auto;
     max-height: 80%;
     z-index: 1;
     user-select: initial;
   }
-
-  // & + .resource {
-  //   margin-top: var(--gutter-width);
-  // }
 
   &__header,
   &__body {

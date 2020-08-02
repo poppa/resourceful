@@ -28,11 +28,13 @@ const ProjectComponent: FC<{ project?: Project }> = observer(
     }
 
     return (
-      <div className="canvas">
-        {props.project.resources.map((res) => (
-          <ResourceComponent key={res.id} resource={res} />
-        ))}
-        {columns()}
+      <div className="outer-canvas">
+        <div className="canvas">
+          {props.project.resources.map((res) => (
+            <ResourceComponent key={res.id} resource={res} />
+          ))}
+          {columns()}
+        </div>
       </div>
     )
   }
