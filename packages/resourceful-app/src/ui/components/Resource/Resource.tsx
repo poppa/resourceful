@@ -138,9 +138,12 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     state.prevPosition?.y !== r.position?.y
   ) {
     setState({ ...state, prevPosition: r.position })
-    // FIXME: This is a hack. We should probably make the columns stuff react
-    //        on the resource position itself instead
-    setTimeout(columns, 500)
+
+    if (!state.isOpen) {
+      // FIXME: This is a hack. We should probably make the columns stuff react
+      //        on the resource position itself instead
+      setTimeout(columns, 500)
+    }
   }
 
   if (state.isOpen) {
