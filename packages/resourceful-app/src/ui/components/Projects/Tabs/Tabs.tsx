@@ -62,6 +62,7 @@ const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
         const x = e.currentTarget.offsetLeft
         const y = e.currentTarget.offsetTop
         tabDragState.element = e.currentTarget
+        tabDragState.x = x
 
         setState({
           x,
@@ -92,10 +93,12 @@ const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
       }}
       onDrop={(e): void => {
         setState({ ...state, isDraggedOver: false })
-        projectsStore.moveProjectTab(
-          tabDragState.element?.id,
-          e.currentTarget.id
-        )
+        const after = e.currentTarget.offsetLeft > (tabDragState.x ?? 0)
+        projectsStore.moveProjectTab({
+          source: tabDragState.element?.id,
+          target: e.currentTarget.id,
+          after,
+        })
       }}
     >
       {project.name}

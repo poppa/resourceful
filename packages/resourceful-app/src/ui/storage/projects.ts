@@ -45,10 +45,15 @@ export class ProjectsStore {
     return this._projects.length > 0
   }
 
-  @action public async moveProjectTab(
-    source: string,
+  @action public async moveProjectTab({
+    after,
+    source,
+    target,
+  }: {
+    source: string
     target: string
-  ): Promise<void> {
+    after: boolean
+  }): Promise<void> {
     const sourceProject = this.findProjectById(source)
 
     if (!sourceProject) {
@@ -58,12 +63,18 @@ export class ProjectsStore {
     const cpy: Project[] = []
     this._projects.forEach((p) => {
       if (p.id === target) {
-        cpy.push(sourceProject)
+        if (after) {
+          cpy.push(p)
+          cpy.push(sourceProject)
+        } else {
+          cpy.push(sourceProject)
+          cpy.push(p)
+        }
       } else if (p.id === source) {
         return
+      } else {
+        cpy.push(p)
       }
-
-      cpy.push(p)
     })
 
     this._projects = cpy

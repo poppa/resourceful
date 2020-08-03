@@ -9,6 +9,7 @@ export class TabDragStateStore {
   }
 
   @observable public element: Maybe<Element>
+  @observable public x: Maybe<number>
 
   private constructor() {
     //
@@ -16,5 +17,6 @@ export class TabDragStateStore {
 
   @action public clear(): void {
     this.element = undefined
+    this.x = undefined
   }
 }
