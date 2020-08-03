@@ -5,4 +5,5 @@ export enum Events {
   ResolveResource = 'resolve-resource',
   DeleteProject = 'delete-project',
   DeleteResource = 'delete-resource',
+  SaveProjectOrder = 'save-project-order',
 }

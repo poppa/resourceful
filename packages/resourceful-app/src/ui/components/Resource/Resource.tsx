@@ -28,7 +28,6 @@ function handleOnStartDrag(e: React.DragEvent): void {
   console.log(`Start drag:`, elem)
 
   e.dataTransfer.effectAllowed = 'move'
-  e.dataTransfer.dropEffect = 'move'
   dragStateStore.element = e.currentTarget
   dragStateStore.mouseOffset = {
     x: e.clientX - elem.offsetLeft,

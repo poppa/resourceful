@@ -16,15 +16,17 @@ const handleDrop = async (e: React.DragEvent): Promise<void> => {
     return
   }
 
-  console.log(`Got file drop dude:`, e.dataTransfer.files)
-
   const files = e.dataTransfer.files
 
-  // FIXME: Why does files not have an iterator
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  for (const file of files) {
-    await projectsStore.resolveResource(file.path)
+  if (files.length) {
+    console.log(`Got file drop dude:`, e.dataTransfer.files)
+
+    // FIXME: Why does files not have an iterator
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    for (const file of files) {
+      await projectsStore.resolveResource(file.path)
+    }
   }
 }
 
@@ -33,7 +35,7 @@ const handleDragOver = (e: React.DragEvent): void => {
 }
 
 const handleDragEnter = (e: React.DragEvent): void => {
-  console.log(`Drag enter:`, e)
+  console.log(`Drag enter:`, e.dataTransfer)
 
   if (dragStateStore.element) {
     e.dataTransfer.dropEffect = 'move'

@@ -19,8 +19,12 @@ export class ProjectsStore {
     return this.currentProject.resources.find((r) => r.id === id)
   }
 
-  @action public findProjectById(id: string): Maybe<Project> {
+  public findProjectById(id: string): Maybe<Project> {
     return this._projects.find((p) => p.id === id)
+  }
+
+  public findProjectIndexById(id: string): number {
+    return this._projects.findIndex((p) => p.id === id)
   }
 
   @computed public get currentProject(): Project {
@@ -39,6 +43,32 @@ export class ProjectsStore {
 
   @computed public get hasProjects(): boolean {
     return this._projects.length > 0
+  }
+
+  @action public async moveProjectTab(
+    source: string,
+    target: string
+  ): Promise<void> {
+    const sourceProject = this.findProjectById(source)
+
+    if (!sourceProject) {
+      throw new Error(`Unknown source project ${source}`)
+    }
+
+    const cpy: Project[] = []
+    this._projects.forEach((p) => {
+      if (p.id === target) {
+        cpy.push(sourceProject)
+      } else if (p.id === source) {
+        return
+      }
+
+      cpy.push(p)
+    })
+
+    this._projects = cpy
+
+    await IpcClient.saveProjectOrder(this._projects.map((p) => p.id))
   }
 
   @action public async resolveResource(buf: string): Promise<void> {

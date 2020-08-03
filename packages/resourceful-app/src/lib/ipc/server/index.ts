@@ -12,6 +12,7 @@ import { resovleResource } from '../../../app/resource-handlers'
 import { ResolveResourceArgs } from '../types'
 import { logDebug } from '../../debug'
 import { deleteResource } from '../../../app/lib/resource'
+import { saveProjectOrder } from '../../../app/store'
 
 const debug = logDebug('ipc-main')
 
@@ -81,5 +82,15 @@ ipcMain.handle(
     }
 
     return false
+  }
+)
+
+// Save project order
+ipcMain.handle(
+  Events.SaveProjectOrder,
+  async (_, args: string[]): Promise<boolean> => {
+    debug('Save project order:', args)
+    saveProjectOrder(args)
+    return true
   }
 )

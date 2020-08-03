@@ -2,12 +2,17 @@ import React, { FC, useState } from 'react'
 import AddIcon from '@material-ui/icons/AddCircleOutline'
 import { Project } from '../../../../lib'
 import { ProjectProps } from '../Projects'
-import { projectsStore, createProjectDialogState } from '../../../storage'
+import {
+  projectsStore,
+  createProjectDialogState,
+  tabDragState,
+} from '../../../storage'
 
 interface TabProps {
   project: Project
 }
 
+// FIXME: Clean this up. There are superfluous properties here
 interface TabState {
   node?: React.RefObject<HTMLButtonElement>
   x: number
@@ -50,14 +55,13 @@ const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
       draggable={true}
       ref={state.node}
       onClick={(): void => {
-        console.log(`State on click:`, state)
         project.selected ? void 0 : projectsStore.activate(project)
       }}
       onDragStart={(e): void => {
         e.dataTransfer.effectAllowed = 'move'
         const x = e.currentTarget.offsetLeft
         const y = e.currentTarget.offsetTop
-        console.log(`Drag start:`, x, y, state.node.current)
+        tabDragState.element = e.currentTarget
 
         setState({
           x,
@@ -69,26 +73,29 @@ const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
           node: state.node,
         })
       }}
-      onDragEnd={(e): void => {
-        console.log(`Drag ended:`, e.clientX, e.clientY)
+      onDragEnd={(): void => {
         setState({ ...state, isDragged: false })
+        tabDragState.clear()
       }}
       onDragEnter={(_e): void => {
-        _e.preventDefault()
-
         if (!state.isDragged) {
           setState({ ...state, isDraggedOver: true })
         }
       }}
       onDragLeave={(_e): void => {
-        _e.preventDefault()
-
         if (!state.isDragged) {
           setState({ ...state, isDraggedOver: false })
         }
       }}
+      onDragOver={(e): void => {
+        e.preventDefault()
+      }}
       onDrop={(e): void => {
-        console.log(`I was dropped on:`, e.currentTarget)
+        setState({ ...state, isDraggedOver: false })
+        projectsStore.moveProjectTab(
+          tabDragState.element?.id,
+          e.currentTarget.id
+        )
       }}
     >
       {project.name}
@@ -97,7 +104,6 @@ const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
 }
 
 const Tabs: FC<ProjectProps> = (props): JSX.Element => {
-  console.log(`Tabs rendered`)
   return (
     <div className="tabs">
       <div className="tabs__projects">

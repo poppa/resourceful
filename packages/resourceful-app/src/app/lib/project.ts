@@ -10,6 +10,7 @@ import {
   readFile,
   rmDir,
 } from './async-fs'
+import { store, saveProjectOrder } from '../store'
 
 const ProjectFileName = '__rf-project.json'
 
@@ -65,6 +66,27 @@ export async function loadProjects(): Promise<Maybe<Project[]>> {
       }
     }
 
+    const order = store.get('projectOrder')
+
+    if (order) {
+      let ppOrdered: Project[] = []
+
+      for (const id of order) {
+        const x = pp.findIndex((p) => p.id === id)
+
+        if (x > -1) {
+          const y = pp.splice(x, 1)
+          ppOrdered = [...ppOrdered, ...y]
+        }
+      }
+
+      if (pp.length) {
+        ppOrdered = [...ppOrdered, ...pp]
+      }
+
+      return ppOrdered
+    }
+
     return pp
   } else {
     console.error(`Error reading projects dir:`, pdir)
@@ -76,6 +98,16 @@ export async function deleteProject(p: Project): AsyncResult<boolean> {
   const pdir = await getProjectDirPath(p)
   const rmres = await rmDir(pdir, { recursive: true })
   console.log(`Result:`, rmres)
+  const order = store.get('projectOrder')
+
+  if (rmres.success && order) {
+    const idx = order.findIndex((o) => o === p.id)
+
+    if (idx > -1) {
+      order.splice(idx, 1)
+      saveProjectOrder(order)
+    }
+  }
 
   return rmres
 }

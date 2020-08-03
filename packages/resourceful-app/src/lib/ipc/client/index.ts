@@ -69,3 +69,10 @@ export async function deleteResource(resource: Resource): AsyncResult<boolean> {
   debug(`Delete resource ${resource.name} result: ${res}`)
   return success(true)
 }
+
+export async function saveProjectOrder(order: string[]): AsyncResult<boolean> {
+  console.log(`Client save project order`)
+  const res = await ipcRenderer.invoke(Events.SaveProjectOrder, order)
+  console.log(`Result:`, res)
+  return success(true)
+}
