@@ -28,7 +28,7 @@ _Light mode (with system accent color)_
 - Better theming based on system preferences.
   At the moment there's no theming of any Material UI widgets ([Issue 1][i1])
 
-- Ordering of project tabs ([Issue2][i2])
+- ~~Ordering of project tabs ([Issue2][i2])~~
 
 - ~~Save and reuse app window size and position ([Issue 3][i3])~~
 
