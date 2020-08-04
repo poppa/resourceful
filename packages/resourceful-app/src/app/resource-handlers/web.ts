@@ -6,6 +6,8 @@ import { logDebug } from '../../lib/debug'
 import { makeResource, makeResourceDir } from '../lib/resource'
 import { writeFile } from '../lib/async-fs'
 import { join } from 'path'
+import { getMainWindow } from '../main'
+import { sendFeedbackMessage } from '../../lib/ipc/server'
 
 const protocols = ['http://', 'https://', 'ftp://']
 
@@ -32,6 +34,16 @@ export async function handler({
 }: ResolveResourceArgs): Promise<Maybe<Resource>> {
   if (protocols.some((p) => buffer.startsWith(p))) {
     debug(`Web resource, downloading %s`, buffer)
+    const win = getMainWindow()
+
+    if (win) {
+      debug('Sending to main window')
+      sendFeedbackMessage({
+        key: buffer,
+        message: `Downloading ${buffer}`,
+        type: 'start',
+      })
+    }
 
     const res = await downloadUrl(buffer)
 
@@ -57,6 +69,11 @@ export async function handler({
       }
 
       if (x.length) {
+        sendFeedbackMessage({
+          key: buffer,
+          message: 'Downloading additional assets',
+          type: 'update',
+        })
         const xrs = await Result.all(x)
         debug('Result of fetch:', xrs.unwrap())
         const successes = xrs.result?.filter((x) => x.data.success) ?? []
@@ -111,7 +128,15 @@ export async function handler({
 
       debug(`Save to project: %O`, project)
 
+      sendFeedbackMessage({ key: buffer, type: 'finish' })
+
       return resource
+    } else {
+      sendFeedbackMessage({
+        key: buffer,
+        message: res.error.message,
+        type: 'finish',
+      })
     }
   } else {
     debug(`Not a web resource`)

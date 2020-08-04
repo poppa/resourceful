@@ -6,4 +6,5 @@ export enum Events {
   DeleteProject = 'delete-project',
   DeleteResource = 'delete-resource',
   SaveProjectOrder = 'save-project-order',
+  FeedbackMessage = 'feedback-message',
 }

@@ -100,6 +100,10 @@ function createWindow(): void {
   })
 }
 
+export function getMainWindow(): MaybeNull<Electron.BrowserWindow> {
+  return mainWindow
+}
+
 app.allowRendererProcessReuse = true
 
 app

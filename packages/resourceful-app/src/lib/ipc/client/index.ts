@@ -3,10 +3,11 @@ import { IpcRenderer } from 'electron'
 import { AppRuntimeInfo, Project, Resource } from '../../interfaces'
 import { Maybe } from '../../types/types'
 import { AsyncResult, success, failure } from 'safe-result'
-import { ResolveResourceArgs } from '../types'
+import { ResolveResourceArgs, FeedbackMessage } from '../types'
 import { isPlainObject, isResource } from '../../typeguards'
 import { logDebug } from '../../debug'
 import { toJS } from 'mobx'
+import { createResourceState } from '../../../ui/storage'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 const debug = logDebug('ipc-client')
@@ -76,3 +77,8 @@ export async function saveProjectOrder(order: string[]): AsyncResult<boolean> {
   console.log(`Result:`, res)
   return success(true)
 }
+
+ipcRenderer.on(Events.FeedbackMessage, (_, args) => {
+  console.log(`Got communication:`, args)
+  createResourceState.add((args as unknown) as FeedbackMessage)
+})

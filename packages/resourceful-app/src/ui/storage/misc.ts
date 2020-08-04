@@ -1,6 +1,7 @@
-import { observable, action } from 'mobx'
+import { observable, action, computed } from 'mobx'
 import { RefObject } from 'react'
-import { Maybe, Resource, Project } from '../../lib'
+import { Maybe, Resource, Project, MaybeNull } from '../../lib'
+import { FeedbackMessage } from '../../lib/ipc/types'
 
 let resourceActionStore: Maybe<ResourceActionState>
 
@@ -116,5 +117,54 @@ export class EditResourceDialogState {
     }
 
     return this
+  }
+}
+
+let createResourceStore: Maybe<CreateResourceState>
+
+export class CreateResourceState {
+  public static create(): CreateResourceState {
+    return createResourceStore || (createResourceStore = new this())
+  }
+
+  private defaultDoneMessage = 'Done'
+
+  @observable public isOpen = false
+  @observable public messages: FeedbackMessage[] = []
+
+  @action public clear(): void {
+    this.messages = []
+  }
+
+  @computed public get length(): number {
+    return this.messages.length
+  }
+
+  @computed public get message(): MaybeNull<string> {
+    if (!this.messages.length) {
+      return null
+    }
+
+    return this.messages[0]?.message || this.defaultDoneMessage
+  }
+
+  @action public add(message: FeedbackMessage): void {
+    const old = this.messages.find((m) => m.key === message.key)
+
+    if (old) {
+      old.message = message.message
+
+      if (message.type === 'finish') {
+        setTimeout(() => {
+          const pos = this.messages.findIndex((m) => m.key === message.key)
+
+          if (pos > -1) {
+            this.messages.splice(pos, 1)
+          }
+        }, 3000)
+      }
+    } else {
+      this.messages = [message, ...this.messages]
+    }
   }
 }

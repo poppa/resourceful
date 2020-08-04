@@ -5,6 +5,7 @@ import ProjectComponent from './Project/Project'
 import { staticStore, projectsStore, dragStateStore } from '../../storage'
 import { handleMovedResource } from '../../lib'
 import Confirm from '../Confirm'
+import FeedbackMessage from '../FeedbackMessage'
 
 const handleDrop = async (e: React.DragEvent): Promise<void> => {
   e.preventDefault()
@@ -63,6 +64,7 @@ const ProjectsComponent: FC<ProjectProps> = (props): JSX.Element => {
     <>
       <Tabs projects={props.projects} />
       <Confirm />
+      <FeedbackMessage />
       <div
         className="workspace"
         onDragEnter={handleDragEnter}
