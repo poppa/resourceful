@@ -25,8 +25,10 @@ _Light mode (with system accent color)_
 
 ## Feature todo
 
-- Better theming based on system preferences.
-  At the moment there's no theming of any Material UI widgets ([Issue 1][i1])
+- ~~Better theming based on system preferences.
+  At the moment there's no theming of any Material UI widgets ([Issue 1][i1])~~
+
+- Themeing of Material UI widgets ([Issue 13][i13])
 
 - ~~Ordering of project tabs ([Issue2][i2])~~
 
@@ -78,3 +80,4 @@ yarn start
 [i8]: https://github.com/poppa/resourceful/issues/8
 [i9]: https://github.com/poppa/resourceful/issues/9
 [i10]: https://github.com/poppa/resourceful/issues/10
+[i13]: https://github.com/poppa/resourceful/issues/13
