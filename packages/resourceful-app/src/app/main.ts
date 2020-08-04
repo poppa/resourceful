@@ -63,8 +63,6 @@ colors.on('updated', () => {
 })
 
 function createWindow(): void {
-  console.log(`Colors:`, colors.toPlainObject())
-
   const bounds = store.get('windowBounds') ?? {
     x: undefined,
     y: undefined,
@@ -91,7 +89,6 @@ function createWindow(): void {
   mainWindow.loadFile(join(__dirname, '../ui/app.html'))
 
   if (config.devTools) {
-    console.log(`Devtools available`)
     mainWindow.webContents.openDevTools()
   }
 
@@ -113,7 +110,6 @@ app
     makeTrayIcon()
   })
   .on('window-all-closed', () => {
-    console.log(`Closing window...`)
     saveWindowBounds(mainWindow?.getBounds())
     // Make this configurable
     if (process.platform !== 'darwin') {
@@ -121,14 +117,11 @@ app
     }
   })
   .on('activate', () => {
-    console.log(`app on activate`)
-
     // Make this configurable
     if (mainWindow === null) {
       createWindow()
     }
   })
   .on('before-quit', () => {
-    console.log(`About to quit the app`)
     saveWindowBounds(mainWindow?.getBounds())
   })

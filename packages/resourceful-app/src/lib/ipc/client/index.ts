@@ -7,7 +7,9 @@ import { ResolveResourceArgs, FeedbackMessage } from '../types'
 import { isPlainObject, isResource } from '../../typeguards'
 import { logDebug } from '../../debug'
 import { toJS } from 'mobx'
-import { createResourceState } from '../../../ui/storage'
+import { createResourceState, staticStore } from '../../../ui/storage'
+import { SystemColors } from '../../../app/colors'
+import { applyTheme } from '../../../ui/theme/theme'
 
 const ipcRenderer: IpcRenderer = window.require('electron').ipcRenderer
 const debug = logDebug('ipc-client')
@@ -72,13 +74,17 @@ export async function deleteResource(resource: Resource): AsyncResult<boolean> {
 }
 
 export async function saveProjectOrder(order: string[]): AsyncResult<boolean> {
-  console.log(`Client save project order`)
-  const res = await ipcRenderer.invoke(Events.SaveProjectOrder, order)
-  console.log(`Result:`, res)
+  await ipcRenderer.invoke(Events.SaveProjectOrder, order)
   return success(true)
 }
 
 ipcRenderer.on(Events.FeedbackMessage, (_, args) => {
-  console.log(`Got communication:`, args)
   createResourceState.add((args as unknown) as FeedbackMessage)
+})
+
+ipcRenderer.on(Events.UpdateTheme, (_, args) => {
+  if (staticStore.appRuntimeInfo) {
+    staticStore.appRuntimeInfo.colors = args as SystemColors
+    applyTheme()
+  }
 })

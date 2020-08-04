@@ -14,6 +14,7 @@ import { logDebug } from '../../debug'
 import { deleteResource } from '../../../app/lib/resource'
 import { saveProjectOrder } from '../../../app/store'
 import { getMainWindow } from '../../../app/main'
+import { colors } from '../../../app/colors'
 
 const debug = logDebug('ipc-main')
 
@@ -103,3 +104,11 @@ export function sendFeedbackMessage(message: FeedbackMessage): void {
     win.webContents.send(Events.FeedbackMessage, message)
   }
 }
+
+colors.on('updated', () => {
+  const win = getMainWindow()
+
+  if (win) {
+    win.webContents.send(Events.UpdateTheme, colors.toPlainObject())
+  }
+})

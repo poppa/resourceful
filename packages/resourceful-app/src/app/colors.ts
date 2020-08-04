@@ -25,15 +25,7 @@ export interface Colors {
 export class Colors extends EventEmitter implements SystemColors {
   constructor() {
     super()
-
-    nativeTheme.on('updated', () => {
-      console.log(
-        `Native theme updated: %s, bg: %s`,
-        nativeTheme.shouldUseDarkColors ? 'Dark' : 'Light',
-        systemPreferences.getColor('under-page-background')
-      )
-      this.emit('updated')
-    })
+    nativeTheme.on('updated', () => this.emit('updated'))
   }
 
   public get isDarkMode(): boolean {
