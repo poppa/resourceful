@@ -16,7 +16,7 @@ const ProjectComponent: FC<{ project?: Project }> = observer(
           <div className="homescreen__wrapper homescreen__wrapper--nocursor">
             <div className="homescreen__flash">No resources</div>
             <div className="homescreen__text">
-              You don&apos;t have any resources in this projects yet.
+              You don&apos;t have any resources in this project yet.
             </div>
             <div className="homescreen__text">
               Paste URLs, drag and drop files and directories onto here to

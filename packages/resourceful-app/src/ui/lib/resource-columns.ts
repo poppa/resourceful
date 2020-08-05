@@ -6,6 +6,10 @@ export const columns = (): null => {
       return
     }
 
+    const height =
+      document.querySelector<HTMLDivElement>('.outer-canvas')?.offsetHeight ??
+      NaN
+
     let colWidth = NaN
     const margin = 15
     const cols: Array<{ low: number; high: number; r: HTMLDivElement[] }> = []
@@ -39,12 +43,13 @@ export const columns = (): null => {
         colWidth = res.offsetWidth + margin
       }
 
-      const y = res.offsetLeft
-      const col = findColumn(y, y + res.offsetWidth)
+      const x = res.offsetLeft
+      const col = findColumn(x, x + res.offsetWidth)
       col.push(res)
     }
 
-    for (const col of cols) {
+    for (let i = 0; i < cols.length; i++) {
+      const col = cols[i]
       let top = 0
 
       const rr = col.r.sort((a, b) => {
@@ -66,6 +71,20 @@ export const columns = (): null => {
         r.style.position = 'absolute'
         r.style.left = `${col.low}px`
         r.style.top = `${top}px`
+
+        if (top > height) {
+          if (!cols[i + 1]) {
+            cols.push({
+              low: col.high + margin,
+              high: col.high + margin + colWidth,
+              r: [],
+            })
+          }
+
+          cols[i + 1].r.push(r)
+
+          continue
+        }
 
         top += r.offsetHeight + margin
       }
