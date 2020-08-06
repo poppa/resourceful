@@ -37,7 +37,7 @@ interface ConfirmStateData {
   title?: string
   description: string
   onConfirm(): void
-  onAbort(): void
+  onAbort?(): void
 }
 
 export class ConfirmState {

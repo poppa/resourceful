@@ -105,6 +105,7 @@ export function sendFeedbackMessage(message: FeedbackMessage): void {
   }
 }
 
+// Colors updated
 colors.on('updated', () => {
   const win = getMainWindow()
 

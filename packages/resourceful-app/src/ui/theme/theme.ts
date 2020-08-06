@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { CSSValue, cssRGBValue, cssColor } from './utils'
 import { lighten, RGB, darken } from '../../lib/colors'
-import { staticStore } from '../storage'
+import { staticStore, confirmState } from '../storage'
 import { SystemColors } from '../../app/colors'
 
 export interface ThemeProperies {
@@ -13,6 +14,8 @@ export interface ThemeProperies {
   tabsBg: CSSValue
 }
 
+let theme: Theme
+
 export function applyTheme(): void {
   const colors = staticStore.appRuntimeInfo?.colors
 
@@ -21,14 +24,28 @@ export function applyTheme(): void {
     return
   }
 
-  let theme: Theme
+  const prevIsDark = theme && theme instanceof DarkTheme
+  const prevIsLight = theme && theme instanceof LightTheme
 
   if (colors.isDarkMode) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     theme = new DarkTheme(colors)
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     theme = new LightTheme(colors)
+  }
+
+  if (
+    (prevIsDark && theme instanceof LightTheme) ||
+    (prevIsLight && theme instanceof DarkTheme)
+  ) {
+    confirmState.setState({
+      description:
+        'You need to restart the application for this change to ' +
+        'take full effect',
+      title: 'System color theme changed',
+      onConfirm() {
+        confirmState.setState()
+      },
+    })
   }
 
   theme.apply()

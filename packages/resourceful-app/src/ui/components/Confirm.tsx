@@ -25,17 +25,22 @@ const Confirm: FC = observer(() => {
         }
       }}
     >
-      {confirmState.state?.title ? <DialogTitle>The title</DialogTitle> : null}
+      {confirmState.state?.title ? (
+        <DialogTitle>{confirmState.state?.title}</DialogTitle>
+      ) : null}
       <DialogContent>
         <DialogContentText>{confirmState.state?.description}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={(): void => confirmState.state?.onAbort()}
-          color="secondary"
-        >
-          Cancel
-        </Button>
+        {confirmState.state?.onAbort ? (
+          <Button
+            onClick={(): void => confirmState.state?.onAbort()}
+            color="secondary"
+          >
+            Cancel
+          </Button>
+        ) : null}
+
         <Button
           onClick={(): void => confirmState.state?.onConfirm()}
           color="primary"
