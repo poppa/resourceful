@@ -8,4 +8,5 @@ export enum Events {
   SaveProjectOrder = 'save-project-order',
   FeedbackMessage = 'feedback-message',
   UpdateTheme = 'update-theme',
+  BeginLoginRedirect = 'begin-login-redirect',
 }

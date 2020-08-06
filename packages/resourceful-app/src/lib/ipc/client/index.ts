@@ -3,11 +3,15 @@ import { IpcRenderer } from 'electron'
 import { AppRuntimeInfo, Project, Resource } from '../../interfaces'
 import { Maybe } from '../../types/types'
 import { AsyncResult, success, failure } from 'safe-result'
-import { ResolveResourceArgs, FeedbackMessage } from '../types'
+import { ResolveResourceArgs, FeedbackMessage, LoginRedirect } from '../types'
 import { isPlainObject, isResource } from '../../typeguards'
 import { logDebug } from '../../debug'
 import { toJS } from 'mobx'
-import { createResourceState, staticStore } from '../../../ui/storage'
+import {
+  createResourceState,
+  staticStore,
+  loginRedirectState,
+} from '../../../ui/storage'
 import { SystemColors } from '../../../app/colors'
 import { applyTheme } from '../../../ui/theme/theme'
 
@@ -87,4 +91,9 @@ ipcRenderer.on(Events.UpdateTheme, (_, args) => {
     staticStore.appRuntimeInfo.colors = args as SystemColors
     applyTheme()
   }
+})
+
+ipcRenderer.on(Events.BeginLoginRedirect, (_, args: LoginRedirect) => {
+  console.log(`Got login redirect:`, args)
+  loginRedirectState.location = args
 })

@@ -1,7 +1,7 @@
 import { observable, action, computed } from 'mobx'
 import { RefObject } from 'react'
 import { Maybe, Resource, Project, MaybeNull } from '../../lib'
-import { FeedbackMessage } from '../../lib/ipc/types'
+import { FeedbackMessage, LoginRedirect } from '../../lib/ipc/types'
 
 let resourceActionStore: Maybe<ResourceActionState>
 
@@ -167,4 +167,14 @@ export class CreateResourceState {
       this.messages = [message, ...this.messages]
     }
   }
+}
+
+let loginRedirectStore: Maybe<LoginRedirectState>
+
+export class LoginRedirectState {
+  public static create(): LoginRedirectState {
+    return loginRedirectStore || (loginRedirectStore = new this())
+  }
+
+  @observable public location: Maybe<LoginRedirect>
 }

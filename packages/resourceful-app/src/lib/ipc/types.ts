@@ -10,3 +10,7 @@ export interface FeedbackMessage {
   message?: string
   type: 'start' | 'update' | 'finish'
 }
+
+export interface LoginRedirect {
+  location: string
+}

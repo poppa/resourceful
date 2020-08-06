@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios'
 import cheerio from 'cheerio'
 import { PlainObject, isPlainObject, Maybe } from '../../lib'
 import { logDebug } from '../../lib/debug'
+import { loginRedirect } from '../../lib/ipc/server'
 
 const debug = logDebug('download')
 
@@ -125,6 +126,32 @@ export function isWebPage(o: unknown): o is WebPage {
   return isPlainObject(o) && 'data' in o && 'title' in o
 }
 
+const knownLoginPages: Array<RegExp | string> = [
+  // GitLab
+  /\/users\/sign_in/,
+  // Google Meet
+  /meet.google.com\/unsupported/,
+]
+
+interface HeadersLike extends PlainObject {
+  status: number
+  location?: string
+}
+
+function isLoginRedirect(headers: HeadersLike): boolean {
+  if (headers.location && typeof headers.location === 'string') {
+    return knownLoginPages.some((v) => {
+      if (typeof v === 'object' && headers.location) {
+        return v.test(headers.location)
+      } else {
+        return v === headers.location
+      }
+    })
+  }
+
+  return false
+}
+
 function extensionFromFileName(file: string): Maybe<string> {
   const m = file.match(/.+(\.[a-z0-9]+)($|\?)/i)
 
@@ -135,12 +162,24 @@ function extensionFromFileName(file: string): Maybe<string> {
   return undefined
 }
 
+export class LoginRedirectError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'LoginRedirectError'
+  }
+}
+
 export async function downloadUrl(url: string): AsyncResult<DownloadData> {
   try {
     debug(`Begin dowload:`, url)
+
     const x = await axios.get(url, {
       responseType: 'arraybuffer',
       withCredentials: true,
+      maxRedirects: 0,
+      validateStatus(status) {
+        return status < 400
+      },
     })
 
     if (x.status / 100 === 2) {
@@ -156,7 +195,9 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
           metadata.icon = new URL(metadata.icon, url).toString()
           debug('Relative Icon converted:', metadata.icon)
         }
+
         metadata.contentType = 'text/html'
+
         return success({ ...metadata, data: x.data })
       } else {
         debug(`Non-HTML content type`)
@@ -164,6 +205,13 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
 
       return success({ data: x.data, extension: extensionFromFileName(url) })
     } else {
+      debug(`Failed:`, x.headers)
+
+      if (isLoginRedirect(x.headers)) {
+        loginRedirect({ location: x.headers.location })
+        return failure(new LoginRedirectError(`${url} requires login`))
+      }
+
       throw new Error(`Non-200 response ${x.status} ${x.statusText}`)
     }
   } catch (e) {

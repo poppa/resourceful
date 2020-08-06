@@ -9,6 +9,7 @@ import {
   EditProjectDialogState,
   EditResourceDialogState,
   CreateResourceState,
+  LoginRedirectState,
 } from './misc'
 import { TabDragStateStore } from './tabdragstate'
 
@@ -22,5 +23,6 @@ export const editProjectDialogState = EditProjectDialogState.create()
 export const editResourceDialogState = EditResourceDialogState.create()
 export const tabDragState = TabDragStateStore.create()
 export const createResourceState = CreateResourceState.create()
+export const loginRedirectState = LoginRedirectState.create()
 // Need to keep this last
 export const pageStateStore = PageStateStore.create()

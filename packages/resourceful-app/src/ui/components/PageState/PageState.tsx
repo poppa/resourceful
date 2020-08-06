@@ -8,6 +8,7 @@ import Projects from '../Projects/Projects'
 import CreateProjectDialog from '../Projects/CreateProjectDialog'
 import EditProjectDialog from '../Projects/EditProjectDialog'
 import EditResourceDialog from '../Resource/EditResourceDialog'
+import LoginWrapper from '../LoginWrapper'
 
 const PageStateComp: FC = observer(
   withChildren(
@@ -27,6 +28,7 @@ const PageStateComp: FC = observer(
         case PageState.Projects:
           return (
             <>
+              <LoginWrapper />
               <CreateProjectDialog />
               <EditProjectDialog />
               <EditResourceDialog />

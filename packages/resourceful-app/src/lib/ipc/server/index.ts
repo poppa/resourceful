@@ -9,7 +9,7 @@ import {
 } from '../../../app/lib/project'
 import { Maybe } from '../../types/types'
 import { resovleResource } from '../../../app/resource-handlers'
-import { ResolveResourceArgs, FeedbackMessage } from '../types'
+import { ResolveResourceArgs, FeedbackMessage, LoginRedirect } from '../types'
 import { logDebug } from '../../debug'
 import { deleteResource } from '../../../app/lib/resource'
 import { saveProjectOrder } from '../../../app/store'
@@ -102,6 +102,14 @@ export function sendFeedbackMessage(message: FeedbackMessage): void {
 
   if (win) {
     win.webContents.send(Events.FeedbackMessage, message)
+  }
+}
+
+export function loginRedirect(obj: LoginRedirect): void {
+  const win = getMainWindow()
+
+  if (win) {
+    win.webContents.send(Events.BeginLoginRedirect, obj)
   }
 }
 
