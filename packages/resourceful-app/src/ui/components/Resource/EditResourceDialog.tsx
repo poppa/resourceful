@@ -23,42 +23,54 @@ const EditResourceDialog: FC = observer(() => {
     setState({ org: deserialize(s.resource) })
   }
 
+  const cancelCallback = (): void => {
+    if (state.org?.id !== s.resource?.id) {
+      throw new Error('State resource id !== resource id')
+    }
+
+    if (state.org && s.resource) {
+      for (const [k, v] of Object.entries(state.org)) {
+        if (s.resource[k] !== v) {
+          s.resource[k] = v
+        }
+      }
+    }
+
+    s.isOpen = false
+    setState({ org: undefined })
+  }
+
+  const onKeyEnter = async (): Promise<void> => {
+    setState({ org: undefined })
+    await projectsStore.saveCurrentProject()
+    s.isOpen = false
+  }
+
   return (
-    <Dialog open={s.isOpen} maxWidth="sm" fullWidth={true}>
+    <Dialog
+      open={s.isOpen}
+      maxWidth="sm"
+      fullWidth={true}
+      onClose={(_, reason): void => {
+        if (reason === 'escapeKeyDown') {
+          cancelCallback()
+        }
+      }}
+      onKeyDown={(e): void => {
+        if (e.which === 13) {
+          onKeyEnter()
+        }
+      }}
+    >
       <DialogTitle>Edit resource</DialogTitle>
       <DialogContent>
         <ResourceFormComponent resource={s.resource} />
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={(): void => {
-            if (state.org?.id !== s.resource?.id) {
-              throw new Error('State resource id !== resource id')
-            }
-
-            if (state.org && s.resource) {
-              for (const [k, v] of Object.entries(state.org)) {
-                if (s.resource[k] !== v) {
-                  s.resource[k] = v
-                }
-              }
-            }
-
-            s.isOpen = false
-            setState({ org: undefined })
-          }}
-          color="default"
-        >
+        <Button onClick={cancelCallback} color="default">
           Cancel
         </Button>
-        <Button
-          onClick={async (): Promise<void> => {
-            setState({ org: undefined })
-            await projectsStore.saveCurrentProject()
-            s.isOpen = false
-          }}
-          color="primary"
-        >
+        <Button onClick={onKeyEnter} color="primary" autoFocus>
           Ok
         </Button>
       </DialogActions>

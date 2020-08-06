@@ -17,8 +17,28 @@ const CreateProjectDialog: FC = observer(() => {
     onSubmit = fn
   }
 
+  const onKeyEnter = async (): Promise<void> => {
+    if (onSubmit && (await onSubmit())) {
+      s.isOpen = false
+    }
+  }
+
   return (
-    <Dialog open={s.isOpen} maxWidth="xs" fullWidth={true}>
+    <Dialog
+      open={s.isOpen}
+      maxWidth="xs"
+      fullWidth={true}
+      onClose={(_, reason): void => {
+        if (reason === 'escapeKeyDown') {
+          s.isOpen = false
+        }
+      }}
+      onKeyDown={(e): void => {
+        if (e.which === 13) {
+          onKeyEnter()
+        }
+      }}
+    >
       <DialogTitle>Create project</DialogTitle>
       <DialogContent>
         <CreateProjectComponent onCreate={fire} />
@@ -32,14 +52,7 @@ const CreateProjectDialog: FC = observer(() => {
         >
           Cancel
         </Button>
-        <Button
-          onClick={async (): Promise<void> => {
-            if (onSubmit && (await onSubmit())) {
-              s.isOpen = false
-            }
-          }}
-          color="primary"
-        >
+        <Button onClick={onKeyEnter} color="primary">
           Create
         </Button>
       </DialogActions>

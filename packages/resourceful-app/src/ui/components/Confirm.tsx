@@ -12,7 +12,19 @@ import { confirmState } from '../storage'
 
 const Confirm: FC = observer(() => {
   return (
-    <Dialog open={confirmState.isOpen}>
+    <Dialog
+      open={confirmState.isOpen}
+      onClose={(_, reason): void => {
+        if (reason === 'escapeKeyDown') {
+          confirmState.state?.onAbort()
+        }
+      }}
+      onKeyDown={(e): void => {
+        if (e.which === 13) {
+          confirmState.state?.onConfirm()
+        }
+      }}
+    >
       {confirmState.state?.title ? <DialogTitle>The title</DialogTitle> : null}
       <DialogContent>
         <DialogContentText>{confirmState.state?.description}</DialogContentText>
