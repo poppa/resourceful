@@ -2,6 +2,8 @@ import { Maybe, Project, Resource } from '../../lib'
 import { observable, computed, action, toJS } from 'mobx'
 import { makeProject } from '../lib/project'
 import { IpcClient, upgradeResource } from '../lib'
+import { pageStateStore } from '.'
+import { PageState } from './pagestate'
 
 let store: Maybe<ProjectsStore>
 
@@ -166,6 +168,10 @@ export class ProjectsStore {
         }
 
         this._projects = [...cpy]
+      }
+
+      if (!this._projects.length) {
+        pageStateStore.set(PageState.HomeScreen)
       }
 
       return true

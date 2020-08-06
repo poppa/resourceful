@@ -57,12 +57,14 @@
   },
   "build": {
     "appId": "org.poppanator.resourceful",
+    "appName": "Resourceful",
     "mac": {
       "category": ""
     }
   },
   "app": {
     "dest": "./dist",
+    "appName": "Resourceful",
     "srcPaths": {
       "scss": "src/scss/**/*.scss",
       "img": "src/img/**/*.[png,svg]",

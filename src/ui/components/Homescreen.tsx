@@ -1,6 +1,5 @@
 import React from 'react'
-import { pageStateStore } from '../storage'
-import { PageState } from '../storage/pagestate'
+import { createProjectDialogState } from '../storage'
 
 const Homescreen = (): JSX.Element => {
   return (
@@ -8,7 +7,7 @@ const Homescreen = (): JSX.Element => {
       <div
         className="homescreen__wrapper"
         onClick={(): void => {
-          pageStateStore.set(PageState.CreateProject)
+          createProjectDialogState.isOpen = true
         }}
       >
         <div className="homescreen__flash">Create A Project</div>
