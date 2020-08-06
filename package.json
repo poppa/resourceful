@@ -2,12 +2,73 @@
   "name": "resourceful",
   "version": "0.0.1",
   "repository": "https://github.com/poppa/resourceful.git",
-  "author": "Pontus Östlund <poppanator@gmail.com>",
+  "description": "Keep track of project resources",
+  "author": {
+    "name": "Pontus Östlund",
+    "email": "poppanator@gmail.com",
+    "url": "https://github.com/poppa"
+  },
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "main": "./dist/app/main",
+  "scripts": {
+    "start": "ELECTRON_ENV=production electron .",
+    "start:dev": "ELECTRON_ENV=development electron .",
+    "dev:app": "yarn clean:app && tsc -w",
+    "dev:ui": "yarn clean:ui && parcel watch --hmr-port 8798 --hmr-hostname localhost -d ./dist/ui ./src/ui/app.html --public-url .",
+    "build": "yarn build:app && yarn build:ui",
+    "build:app": "yarn clean:app && tsc -p ./tsconfig.json",
+    "build:ui": "yarn clean:ui && parcel build --target=electron -d ./dist/ui ./src/ui/app.html --public-url .",
+    "clean": "rimraf dist",
+    "clean:app": "rimraf dist/app",
+    "clean:ui": "rimraf dist/ui",
+    "svgo": "svgo src/ui/svg/**/*.svg",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.9.14",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.9.14",
+    "@material-ui/system": "^4.9.14",
+    "@material-ui/utils": "^4.9.12",
+    "@svgr/parcel-plugin-svgr": "^5.4.0",
+    "axios": "^0.19.2",
+    "babel-runtime": "^6.26.0",
+    "cheerio": "^1.0.0-rc.3",
+    "debug": "^4.1.1",
+    "deepmerge": "^4.2.2",
+    "electron-store": "^5.2.0",
+    "getenv": "^1.0.0",
+    "mime-types": "^2.1.27",
+    "mobx": "^5.15.4",
+    "mobx-react": "^6.2.2",
+    "pdf-parse": "^1.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-draggable": "^4.4.3",
+    "react-hot-loader": "^4.12.20",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "safe-result": "^1.0.0-beta.2",
+    "source-map-support": "^0.5.19",
+    "tslib": "^1.11.1",
+    "uuid": "^7.0.3"
+  },
+  "build": {
+    "appId": "org.poppanator.resourceful",
+    "mac": {
+      "category": ""
+    }
+  },
+  "app": {
+    "dest": "./dist",
+    "srcPaths": {
+      "scss": "src/scss/**/*.scss",
+      "img": "src/img/**/*.[png,svg]",
+      "html": "src/**/*.html"
+    }
+  },
   "devDependencies": {
     "@types/cheerio": "^0.22.18",
     "@types/debug": "^4.1.5",
@@ -35,6 +96,9 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^9.1.2",
     "bable-loader": "^0.0.1-security",
+    "babel-polyfill": "^6.26.0",
+    "electron": "^8.2.3",
+    "electron-builder": "^22.8.0",
     "electron-reload": "^1.5.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
