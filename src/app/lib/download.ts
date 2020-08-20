@@ -56,6 +56,18 @@ interface PageMeta {
   contentType: string
 }
 
+function trimUrl(u: Maybe<string>): Maybe<string> {
+  if (u) {
+    const pos = u.indexOf('?')
+
+    if (pos > -1) {
+      return u.substr(0, pos)
+    }
+  }
+
+  return u
+}
+
 function parseHtmlSnippet(html: string): PageMeta {
   const $ = cheerio.load(html)
   const meta = $('meta')
@@ -85,33 +97,39 @@ function parseHtmlSnippet(html: string): PageMeta {
     pageMeta.title = '<No title>'
   }
 
-  const fav = $('link[rel="shortcut icon"]')
+  const getTopSize = (list: Cheerio): void => {
+    let topSize = 0
+    list.each((_, el) => {
+      const s = el.attribs.sizes
 
-  if (fav.length) {
-    pageMeta.icon = fav.attr('href')
-  } else {
-    const licon = $('link[rel="icon"]')
+      if (s) {
+        const nt = parseInt(s, 10)
+        debug('Parsed icon size:', nt)
 
-    if (licon.length) {
-      let topSize = 0
-
-      licon.each((_, el) => {
-        const s = el.attribs.sizes
-        if (s) {
-          const nt = parseInt(s, 10)
-          console.log(`Parsed size:`, nt)
-
-          if (nt > topSize) {
-            topSize = nt
-            pageMeta.icon = el.attribs.href
-          }
+        if (nt > topSize) {
+          topSize = nt
+          pageMeta.icon = trimUrl(el.attribs.href)
         }
-      })
-    }
+      }
+    })
   }
 
+  const apple = $('link[rel="apple-touch-icon"]')
+  getTopSize(apple)
+
   if (!pageMeta.icon) {
-    pageMeta.icon = '/favicon.ico'
+    const fav = $('link[rel="shortcut icon"]')
+
+    if (fav.length) {
+      pageMeta.icon = trimUrl(fav.attr('href'))
+    } else {
+      const licon = $('link[rel="icon"]')
+      getTopSize(licon)
+    }
+
+    if (!pageMeta.icon) {
+      pageMeta.icon = '/favicon.ico'
+    }
   }
 
   debug(`Resolved page meta: %O`, pageMeta)
@@ -153,6 +171,12 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
         const metadata = parseHtmlSnippet(x.data)
 
         if (metadata.icon && !metadata.icon.startsWith('http')) {
+          // FIXME: Make this configurable. Some SPA-sites eff relative paths
+          if (url.match('//youtrack.')) {
+            debug('Youtrack, make icon absolute')
+            metadata.icon = `/${metadata.icon}`
+          }
+
           metadata.icon = new URL(metadata.icon, url).toString()
           debug('Relative Icon converted:', metadata.icon)
         }
