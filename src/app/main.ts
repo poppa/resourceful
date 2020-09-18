@@ -60,6 +60,7 @@ function makeTrayIcon(): void {
 colors.on('updated', () => {
   tray?.setImage(getAppIcon())
   mainWindow?.setIcon(getAppIcon())
+  mainWindow?.setBackgroundColor(colors.background)
 })
 
 function createWindow(): void {
