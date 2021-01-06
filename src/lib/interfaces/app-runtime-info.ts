@@ -1,5 +1,5 @@
-import { Versions } from './versions'
-import { SystemColors } from '../../app/colors'
+import type { Versions } from './versions'
+import type { SystemColors } from '../../app/colors'
 
 export interface AppRuntimeInfo {
   appDataPath: string

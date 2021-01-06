@@ -1,9 +1,10 @@
-import { AsyncResult, success, failure } from 'safe-result'
-import { Resource, Maybe } from '../../lib'
+import type { AsyncResult } from 'safe-result'
+import { success, failure } from 'safe-result'
+import type { Resource, Maybe } from '../../lib'
 import { handler as webHandler } from './web'
 import { handler as fileHandler } from './file'
 import { handler as snippetHandler } from './snippet'
-import { ResolveResourceArgs } from '../../lib/ipc/types'
+import type { ResolveResourceArgs } from '../../lib/ipc/types'
 import { logDebug } from '../../lib/debug'
 
 const debug = logDebug('resolve-resource')

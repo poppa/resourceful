@@ -1,9 +1,10 @@
-import { Resource, Project, Maybe, ResourceOf } from '../../lib'
+import type { Resource, Project, Maybe, ResourceOf } from '../../lib'
 import { v4 } from 'uuid'
 import { join } from 'path'
 import { getProjectDirPath, loadProjects } from './project'
 import { mkDir, rmDir } from './async-fs'
-import { AsyncResult, failure, success } from 'safe-result'
+import type { AsyncResult } from 'safe-result'
+import { failure, success } from 'safe-result'
 
 export async function getResourceDirPath(
   resource: Resource,

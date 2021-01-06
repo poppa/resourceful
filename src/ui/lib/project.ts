@@ -1,5 +1,5 @@
 import { v4 } from 'uuid'
-import { Project } from '../../lib/interfaces/project'
+import type { Project } from '../../lib/interfaces/project'
 
 export function makeProject(project?: Partial<Project>): Project {
   project = project ?? {}

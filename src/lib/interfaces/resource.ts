@@ -1,5 +1,5 @@
-import { Point } from './point'
-import { PlainObject } from '../types'
+import type { Point } from './point'
+import type { PlainObject } from '../types'
 
 export enum ResourceType {
   Any,

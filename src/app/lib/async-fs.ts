@@ -1,6 +1,8 @@
-import { PathLike, promises, Stats, RmDirAsyncOptions } from 'fs'
+import type { PathLike, Stats, RmDirAsyncOptions } from 'fs'
+import { promises } from 'fs'
 import { W_OK } from 'constants'
-import { AsyncResult, success, failure } from 'safe-result'
+import type { AsyncResult } from 'safe-result'
+import { success, failure } from 'safe-result'
 
 export interface WriteFileOptions {
   encoding?: string
@@ -76,7 +78,7 @@ export async function writeFile(
       p,
       data,
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      // @ts-expect-error
       options
     )
     return success(true)

@@ -1,15 +1,15 @@
 import { ipcMain } from 'electron'
 import { Events } from '../events'
 import { config } from '../../../app/config'
-import { AppRuntimeInfo, Project, Resource } from '../../interfaces'
+import type { AppRuntimeInfo, Project, Resource } from '../../interfaces'
 import {
   saveProject,
   loadProjects,
   deleteProject,
 } from '../../../app/lib/project'
-import { Maybe } from '../../types/types'
+import type { Maybe } from '../../types/types'
 import { resovleResource } from '../../../app/resource-handlers'
-import { ResolveResourceArgs, FeedbackMessage } from '../types'
+import type { ResolveResourceArgs, FeedbackMessage } from '../types'
 import { logDebug } from '../../debug'
 import { deleteResource } from '../../../app/lib/resource'
 import { saveProjectOrder } from '../../../app/store'

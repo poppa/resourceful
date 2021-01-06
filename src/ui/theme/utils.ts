@@ -1,4 +1,5 @@
-import { RGB, RGBClass, parseColor } from '../../lib/colors'
+import type { RGB } from '../../lib/colors'
+import { RGBClass, parseColor } from '../../lib/colors'
 
 type CSSValueType = string | RGB | RGBClass | number | undefined
 

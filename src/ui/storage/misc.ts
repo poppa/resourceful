@@ -1,7 +1,7 @@
 import { observable, action, computed } from 'mobx'
-import { RefObject } from 'react'
-import { Maybe, Resource, Project, MaybeNull } from '../../lib'
-import { FeedbackMessage } from '../../lib/ipc/types'
+import type { RefObject } from 'react'
+import type { Maybe, Resource, Project, MaybeNull } from '../../lib'
+import type { FeedbackMessage } from '../../lib/ipc/types'
 
 let resourceActionStore: Maybe<ResourceActionState>
 
@@ -14,6 +14,7 @@ export class ResourceActionState {
   public static create(): ResourceActionState {
     return resourceActionStore ?? (resourceActionStore = new this())
   }
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
@@ -127,7 +128,7 @@ export class CreateResourceState {
     return createResourceStore || (createResourceStore = new this())
   }
 
-  private defaultDoneMessage = 'Done'
+  private readonly defaultDoneMessage = 'Done'
 
   @observable public isOpen = false
   @observable public messages: FeedbackMessage[] = []

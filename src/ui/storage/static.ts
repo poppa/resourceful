@@ -1,6 +1,6 @@
 import { computed, observable } from 'mobx'
-import { Maybe } from '../../lib/types/types'
-import { AppRuntimeInfo } from '../../lib'
+import type { Maybe } from '../../lib/types/types'
+import type { AppRuntimeInfo } from '../../lib'
 import { IpcClient } from '../lib'
 import { initSystemPrefs } from '../lib/system-preferences'
 

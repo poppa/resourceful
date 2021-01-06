@@ -1,4 +1,4 @@
-import { Resource } from './resource'
+import type { Resource } from './resource'
 
 export interface Project {
   id: string

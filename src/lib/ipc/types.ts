@@ -1,4 +1,4 @@
-import { Project } from '../interfaces'
+import type { Project } from '../interfaces'
 
 export interface ResolveResourceArgs {
   buffer: string

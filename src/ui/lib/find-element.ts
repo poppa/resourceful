@@ -1,4 +1,4 @@
-import { Maybe } from '../../lib'
+import type { Maybe } from '../../lib'
 
 export function findElementByClassName(
   el: Element,

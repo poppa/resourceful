@@ -1,4 +1,4 @@
-import { Callable, ClassType, PlainObject } from '../types'
+import type { Callable, ClassType, PlainObject } from '../types'
 
 export function isPrimitive(t: unknown): t is number | boolean | string {
   const to = typeof t

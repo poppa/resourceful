@@ -1,6 +1,7 @@
-import { MenuItemConstructorOptions } from 'electron'
+import type { MenuItemConstructorOptions } from 'electron'
 import { findElementByClassName } from './find-element'
-import { Maybe, isSnippetResource, isTextResource } from '../../lib'
+import type { Maybe } from '../../lib'
+import { isSnippetResource, isTextResource } from '../../lib'
 import {
   projectsStore,
   confirmState,
@@ -114,7 +115,7 @@ function setupResourceMenu(id: string): void {
     collapseMenu.click = (): void => {
       setResourceState({
         resource,
-        state: { collapsed: !!!resource.state?.collapsed },
+        state: { collapsed: !resource.state?.collapsed },
         save: true,
       })
     }

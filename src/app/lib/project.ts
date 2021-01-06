@@ -1,6 +1,6 @@
-import { AsyncResult } from 'safe-result'
+import type { AsyncResult } from 'safe-result'
 import { join } from 'path'
-import { Project, Maybe } from '../../lib'
+import type { Project, Maybe } from '../../lib'
 import { config } from '../config'
 import {
   fileExists,

@@ -1,4 +1,4 @@
-import { Maybe } from './types'
+import type { Maybe } from './types'
 
 export interface RGB {
   r: number

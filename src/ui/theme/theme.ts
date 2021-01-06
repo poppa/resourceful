@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { CSSValue, cssRGBValue, cssColor } from './utils'
-import { lighten, RGB, darken } from '../../lib/colors'
+import type { RGB } from '../../lib/colors'
+import { lighten, darken } from '../../lib/colors'
 import { staticStore, confirmState } from '../storage'
-import { SystemColors } from '../../app/colors'
+import type { SystemColors } from '../../app/colors'
 
 export interface ThemeProperies {
   primary: CSSValue

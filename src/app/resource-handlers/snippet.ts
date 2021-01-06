@@ -1,5 +1,6 @@
-import { ResolveResourceArgs } from '../../lib/ipc/types'
-import { Maybe, Resource, ResourceType, SnippetResource } from '../../lib'
+import type { ResolveResourceArgs } from '../../lib/ipc/types'
+import type { Maybe, Resource, SnippetResource } from '../../lib'
+import { ResourceType } from '../../lib'
 import { makeResource } from '../lib/resource'
 
 function isSourceCode(s: string): boolean {

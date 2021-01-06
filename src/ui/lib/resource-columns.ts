@@ -37,7 +37,7 @@ export const columns = (): null => {
     // Have no idea why TS doesn't think resources has an iterator???
     //
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
+    // @ts-expect-error
     for (const res of resources) {
       if (isNaN(colWidth)) {
         colWidth = res.offsetWidth + margin

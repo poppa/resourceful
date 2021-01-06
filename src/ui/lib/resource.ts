@@ -4,7 +4,7 @@ import {
   dragStateStore,
   confirmState,
 } from '../storage'
-import { Resource, ResourceState } from '../../lib'
+import type { Resource, ResourceState } from '../../lib'
 import { columns } from './resource-columns'
 
 export function upgradeResource(resource: Resource): Resource {

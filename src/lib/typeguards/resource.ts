@@ -1,12 +1,12 @@
-import {
+import type {
   WebResource,
   Resource,
   FileResource,
   CmdResource,
   TextResource,
-  ResourceType,
   SnippetResource,
 } from '../interfaces/resource'
+import { ResourceType } from '../interfaces/resource'
 
 export function isResource(o: unknown): o is Resource {
   return (

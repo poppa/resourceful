@@ -1,4 +1,4 @@
-import { PlainObject, Maybe } from '../types'
+import type { PlainObject, Maybe } from '../types'
 import { extname, basename } from 'path'
 import pdfParser from 'pdf-parse'
 import { readFile } from '../../app/lib/async-fs'

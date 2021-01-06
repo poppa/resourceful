@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx'
-import { Maybe } from '../../lib/types/types'
+import type { Maybe } from '../../lib/types/types'
 
 let store: Maybe<TabDragStateStore>
 

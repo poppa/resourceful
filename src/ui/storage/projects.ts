@@ -1,4 +1,4 @@
-import { Maybe, Project, Resource } from '../../lib'
+import type { Maybe, Project, Resource } from '../../lib'
 import { observable, computed, action, toJS } from 'mobx'
 import { makeProject } from '../lib/project'
 import { IpcClient, upgradeResource } from '../lib'

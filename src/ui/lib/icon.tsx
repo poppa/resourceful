@@ -1,12 +1,7 @@
 import React from 'react'
 
-import {
-  Resource,
-  Maybe,
-  ResourceType,
-  PlainObject,
-  FileResource,
-} from '../../lib'
+import type { Resource, Maybe, PlainObject, FileResource } from '../../lib'
+import { ResourceType } from '../../lib'
 
 import VScodeIcon from '../svg/icons/vscode.svg'
 import PDFIcon from '../svg/icons/adobe.svg'

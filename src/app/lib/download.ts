@@ -1,7 +1,10 @@
-import { AsyncResult, success, failure } from 'safe-result'
-import axios, { AxiosError } from 'axios'
+import type { AsyncResult } from 'safe-result'
+import { success, failure } from 'safe-result'
+import type { AxiosError } from 'axios'
+import axios from 'axios'
 import cheerio from 'cheerio'
-import { PlainObject, isPlainObject, Maybe } from '../../lib'
+import type { PlainObject, Maybe } from '../../lib'
+import { isPlainObject } from '../../lib'
 import { logDebug } from '../../lib/debug'
 
 const debug = logDebug('download')
@@ -38,7 +41,7 @@ function isAxiosError(o: unknown): o is AxiosError {
     o instanceof Error &&
     'isAxiosError' in o &&
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
+    // @ts-expect-error
     o.isAxiosError === true
   )
 }

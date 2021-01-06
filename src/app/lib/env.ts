@@ -24,7 +24,7 @@ export interface Env {
   Array: typeof EnvArray
 }
 
-type AnyObj = { [key: string]: unknown }
+type AnyObj = Record<string, unknown>
 
 /**
  * Method accessor decorator that will return the value of `process.env[name]`

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { PlainObject } from '../../lib'
+import type { PlainObject } from '../../lib'
 
 export type AddPropTypes<F, T> = F & {
   propTypes: T

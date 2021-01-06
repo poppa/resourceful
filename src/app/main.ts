@@ -5,7 +5,7 @@ import { join } from 'path'
 import { config } from './config'
 import '../lib/ipc/server'
 import { setAppMenu } from './menu'
-import { MaybeNull, Maybe } from '../lib'
+import type { MaybeNull, Maybe } from '../lib'
 import { colors } from './colors'
 import { saveWindowBounds, store } from './store'
 

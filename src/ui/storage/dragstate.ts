@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx'
-import { Maybe } from '../../lib/types/types'
-import { Point } from '../../lib'
+import type { Maybe } from '../../lib/types/types'
+import type { Point } from '../../lib'
 
 let store: Maybe<DragStateStore>
 
