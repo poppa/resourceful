@@ -75,7 +75,7 @@ function parseHtmlSnippet(html: string): PageMeta {
   const pageMeta: Partial<PageMeta> = {}
 
   meta.each((_, el) => {
-    const attr = el.attribs
+    const attr = (el as cheerio.TagElement).attribs
 
     if (attr.property === 'og:title') {
       pageMeta.title = attr.content
@@ -90,17 +90,17 @@ function parseHtmlSnippet(html: string): PageMeta {
 
   if (!pageMeta.title) {
     const ttl = $('title')
-    ttl.each((_, el) => (pageMeta.title = el.nodeValue))
+    ttl.each((_, el) => (pageMeta.title = (el as cheerio.TagElement).nodeValue))
   }
 
   if (!pageMeta.title) {
     pageMeta.title = '<No title>'
   }
 
-  const getTopSize = (list: Cheerio): void => {
+  const getTopSize = (list: cheerio.Cheerio): void => {
     let topSize = 0
     list.each((_, el) => {
-      const s = el.attribs.sizes
+      const s = (el as cheerio.TagElement).attribs.sizes
 
       if (s) {
         const nt = parseInt(s, 10)
@@ -108,7 +108,7 @@ function parseHtmlSnippet(html: string): PageMeta {
 
         if (nt > topSize) {
           topSize = nt
-          pageMeta.icon = trimUrl(el.attribs.href)
+          pageMeta.icon = trimUrl((el as cheerio.TagElement).attribs.href)
         }
       }
     })

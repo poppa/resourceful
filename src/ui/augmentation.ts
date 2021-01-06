@@ -2,6 +2,6 @@ export {}
 
 declare global {
   interface NodeModule {
-    hot: { accept: Function }
+    hot: { accept(fn: () => void): unknown }
   }
 }
