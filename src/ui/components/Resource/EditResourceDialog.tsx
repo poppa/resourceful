@@ -16,10 +16,6 @@ interface LocalState {
 const EditResourceDialog: FC = observer(() => {
   const s = editResourceDialogState
 
-  if (!s.resource) {
-    throw new Error(`Expected edit resource dialog state to contain a Resource`)
-  }
-
   const [state, setState] = useState<LocalState>({
     org: undefined,
   })

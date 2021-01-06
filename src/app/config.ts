@@ -26,7 +26,7 @@ class Config implements Omit<AppRuntimeInfo, 'colors'> {
     return app.getPath('appData')
   }
 
-  @Env('RF_DEV_TOOLS')
+  @Env('RF_DEV_TOOLS', Env.Boolean)
   // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   public get devTools(): boolean {
     return false

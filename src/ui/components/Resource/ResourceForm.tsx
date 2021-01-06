@@ -13,7 +13,7 @@ import TextField from '@material-ui/core/TextField/TextField'
 import { TextareaAutosize } from '@material-ui/core'
 
 interface ResourceFormProps {
-  resource: Resource
+  resource?: Resource
 }
 
 const ValueField: FC<ResourceFormProps> = ({ resource }) => {
@@ -85,6 +85,10 @@ const ValueField: FC<ResourceFormProps> = ({ resource }) => {
 
 const ResourceFormComponent: FC<ResourceFormProps> = ({ resource }) => {
   console.log(`Resource:`, resource)
+  if (!resource) {
+    return null
+  }
+
   return (
     <form onSubmit={(e): void => e.preventDefault()}>
       <FormControl fullWidth={true}>
