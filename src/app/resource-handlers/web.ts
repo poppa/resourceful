@@ -78,7 +78,7 @@ export async function handler({
         })
         const xrs = await Result.all(x)
         debug('Result of fetch:', xrs.unwrap())
-        const successes = xrs.result?.filter((x) => x.data.success) ?? []
+        const successes = xrs.result?.filter((xx) => xx.data.success) ?? []
 
         if (successes.length) {
           debug(

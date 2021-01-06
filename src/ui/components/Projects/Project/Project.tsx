@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
-import { Project } from '../../../../lib'
+import type { Project } from '../../../../lib'
 import ResourceComponent from '../../Resource/Resource'
 import { columns } from '../../../lib'
 

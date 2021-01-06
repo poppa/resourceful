@@ -27,11 +27,13 @@ class Config implements Omit<AppRuntimeInfo, 'colors'> {
   }
 
   @Env('RF_DEV_TOOLS')
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   public get devTools(): boolean {
     return false
   }
 
   @Env('RF_ELECTRON_RELOAD')
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   public get electronReload(): boolean {
     return false
   }

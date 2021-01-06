@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
 import Dialog from '@material-ui/core/Dialog/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle'
 import { DialogContent, DialogActions, Button } from '@material-ui/core'
 import { editProjectDialogState } from '../../storage'
-import { Maybe } from '../../../lib'
+import type { Maybe } from '../../../lib'
 import EditProject from './EditProject'
 
 export type OnEditedCallback = () => Promise<boolean>

@@ -22,7 +22,7 @@ export function isPageState(n: Maybe<number>): boolean {
 }
 
 export class PageStateStore {
-  static create(): PageStateStore {
+  public static create(): PageStateStore {
     return store ?? (store = new this())
   }
 

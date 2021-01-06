@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react'
+import type { FC } from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
 import Dialog from '@material-ui/core/Dialog/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle'
@@ -6,7 +7,7 @@ import { DialogContent, DialogActions, Button } from '@material-ui/core'
 import { editResourceDialogState, projectsStore } from '../../storage'
 import ResourceFormComponent from './ResourceForm'
 import { deserialize } from '../../../lib/ipc/client'
-import { Resource } from '../../../lib/interfaces/resource'
+import type { Resource } from '../../../lib/interfaces/resource'
 
 interface LocalState {
   org?: Resource
@@ -14,6 +15,10 @@ interface LocalState {
 
 const EditResourceDialog: FC = observer(() => {
   const s = editResourceDialogState
+
+  if (!s.resource) {
+    throw new Error(`Expected edit resource dialog state to contain a Resource`)
+  }
 
   const [state, setState] = useState<LocalState>({
     org: undefined,
@@ -30,8 +35,11 @@ const EditResourceDialog: FC = observer(() => {
 
     if (state.org && s.resource) {
       for (const [k, v] of Object.entries(state.org)) {
-        if (s.resource[k] !== v) {
-          s.resource[k] = v
+        const kk = k as keyof Resource
+        if (s.resource[kk] !== v) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          s.resource[kk] = v
         }
       }
     }

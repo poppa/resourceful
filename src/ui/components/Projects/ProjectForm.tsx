@@ -1,4 +1,5 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import FormControl from '@material-ui/core/FormControl/FormControl'
 import TextField from '@material-ui/core/TextField/TextField'
 

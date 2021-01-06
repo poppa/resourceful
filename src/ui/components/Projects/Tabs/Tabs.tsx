@@ -1,7 +1,8 @@
-import React, { FC, useState } from 'react'
+import type { FC } from 'react'
+import React, { useState } from 'react'
 import AddIcon from '@material-ui/icons/AddCircleOutline'
-import { Project } from '../../../../lib'
-import { ProjectProps } from '../Projects'
+import type { Project } from '../../../../lib'
+import type { ProjectProps } from '../Projects'
 import {
   projectsStore,
   createProjectDialogState,
@@ -98,9 +99,13 @@ const Tab: FC<TabProps> = ({ project }: TabProps): JSX.Element => {
           return
         }
 
+        if (!tabDragState.element) {
+          throw new Error(`Expected tab drag state to contain an element`)
+        }
+
         const after = e.currentTarget.offsetLeft > (tabDragState.x ?? 0)
         projectsStore.moveProjectTab({
-          source: tabDragState.element?.id,
+          source: tabDragState.element.id,
           target: e.currentTarget.id,
           after,
         })

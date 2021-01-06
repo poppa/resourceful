@@ -1,12 +1,13 @@
-import React, { FC, useState, EventHandler, SyntheticEvent } from 'react'
+import type electron from 'electron'
+import type { FC, EventHandler, SyntheticEvent } from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
+import type { Resource, Point } from '../../../lib'
 import {
-  Resource,
   isWebResource,
   isFileResource,
   isSnippetResource,
   isTextResource,
-  Point,
 } from '../../../lib'
 import {
   resolveDefaultFilePath,
@@ -17,7 +18,7 @@ import {
 } from '../../lib'
 import { projectsStore, dragStateStore } from '../../storage'
 
-const { shell } = window.require('electron') as typeof import('electron')
+const { shell } = window.require('electron') as typeof electron
 
 export interface ResourceProps {
   resource: Resource
@@ -149,7 +150,9 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     classlist.push('resource--opened')
   }
 
-  const clickHandler = (): void => {
+  const clickHandler = (
+    _: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ): void => {
     const c = onClick(r)
 
     if (c) {
@@ -159,17 +162,18 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
 
   const dblClickHandler: EventHandler<SyntheticEvent> = (e): void => {
     const res = (e.target as HTMLElement).closest('.resource')
+    const getSelection = window.getSelection
 
-    if (res) {
+    if (res && getSelection) {
       const t =
-        res.querySelector('.resource__code') ||
+        res.querySelector('.resource__code') ??
         res.querySelector('.resource__text')
 
       if (t) {
         const range = document.createRange()
         range.selectNode(t)
-        window.getSelection().removeAllRanges()
-        window.getSelection().addRange(range)
+        getSelection()?.removeAllRanges()
+        getSelection()?.addRange(range)
       }
     }
   }
@@ -178,8 +182,8 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     <div
       className={classlist.join(' ')}
       style={styles}
-      onClick={state.isOpen ? null : clickHandler}
-      onDoubleClick={state.isOpen ? dblClickHandler : null}
+      onClick={state.isOpen ? undefined : clickHandler}
+      onDoubleClick={state.isOpen ? dblClickHandler : undefined}
       draggable={true}
       onDragStart={handleOnStartDrag}
       onDragEnd={handleOnDragEnd}
@@ -187,7 +191,7 @@ const ResourceComponent: FC<ResourceProps> = observer((props) => {
     >
       <div
         className="resource__header"
-        onClick={state.isOpen ? clickHandler : null}
+        onClick={state.isOpen ? clickHandler : undefined}
       >
         {icon(r)}
         <div className="resource__title">{r.name}</div>

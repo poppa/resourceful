@@ -10,7 +10,7 @@ let store: Maybe<ProjectsStore>
 export class ProjectsStore {
   @observable private _projects: Project[] = []
 
-  static create(): ProjectsStore {
+  public static create(): ProjectsStore {
     return store ?? (store = new this())
   }
 
@@ -30,7 +30,7 @@ export class ProjectsStore {
   }
 
   @computed public get currentProject(): Project {
-    const p = this._projects.find((p) => p.selected)
+    const p = this._projects.find((pp) => pp.selected)
 
     if (!p) {
       throw new Error('No current project')

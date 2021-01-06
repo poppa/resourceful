@@ -28,7 +28,7 @@ async function getNameFromVSCodeProj(file: string): Promise<Maybe<string>> {
         return json.folders[0].name
       }
     }
-  } catch (e) {
+  } catch (e: unknown) {
     console.error('getNameFromVSCodeProj -> Error:', e)
   }
 
@@ -46,7 +46,7 @@ async function getPdfTitle(file: string): Promise<string> {
     const pdf = await pdfParser(buffer.result)
     // NOTE: Conscious "falsy" check here
     return pdf.info?.Title || getBasename(file)
-  } catch (e) {
+  } catch (e: unknown) {
     console.error('PDF parse error:', e)
     return getBasename(file)
   }

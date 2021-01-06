@@ -7,7 +7,7 @@ import { initSystemPrefs } from '../lib/system-preferences'
 let store: Maybe<StaticStore>
 
 export class StaticStore {
-  static create(): StaticStore {
+  public static create(): StaticStore {
     return store ?? (store = new this())
   }
 
@@ -21,7 +21,7 @@ export class StaticStore {
     initSystemPrefs()
   }
 
-  @computed get appRuntimeInfo(): Maybe<AppRuntimeInfo> {
+  @computed public get appRuntimeInfo(): Maybe<AppRuntimeInfo> {
     return this._appRuntimeInfo
   }
 }

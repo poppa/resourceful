@@ -1,8 +1,10 @@
-import React, { FC, useState } from 'react'
+import type { FC } from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
-import { OnCreateCallback } from './CreateProjectDialog'
-import ProjectForm, { State } from './ProjectForm'
-import { Project } from '../../../lib'
+import type { OnCreateCallback } from './CreateProjectDialog'
+import type { State } from './ProjectForm'
+import ProjectForm from './ProjectForm'
+import type { Project } from '../../../lib'
 import { projectsStore, pageStateStore } from '../../storage'
 import { PageState } from '../../storage/pagestate'
 
@@ -20,7 +22,7 @@ const EditProjectComponent: FC<Props> = observer(
     const [state, setState] = useState<State>({ isOk: false })
 
     const onSubmit = async (): Promise<boolean> => {
-      if (state.isOk) {
+      if (state.isOk && state.text) {
         project.name = state.text
         await projectsStore.saveProjectAndUpdate(project)
         pageStateStore.set(PageState.Projects)

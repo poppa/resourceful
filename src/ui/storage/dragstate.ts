@@ -5,7 +5,7 @@ import type { Point } from '../../lib'
 let store: Maybe<DragStateStore>
 
 export class DragStateStore {
-  static create(): DragStateStore {
+  public static create(): DragStateStore {
     return store ?? (store = new this())
   }
 

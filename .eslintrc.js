@@ -16,7 +16,7 @@ module.exports = {
     ecmaVersion: 2019,
     // Allows for the use of imports
     sourceType: 'module',
-    project: './tsconfig.json',
+    project: __dirname + '/tsconfig.json',
     ecmaFeatures: {
       jsx: true,
     },

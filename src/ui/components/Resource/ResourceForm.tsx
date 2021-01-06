@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
+import type { Resource, Maybe } from '../../../lib'
 import {
-  Resource,
   isFileResource,
-  Maybe,
   isCmdResource,
   isWebResource,
   isTextResource,
@@ -35,7 +35,7 @@ const ValueField: FC<ResourceFormProps> = ({ resource }) => {
     const classNames: string[] = []
     if (isTextResource(resource)) {
       label = 'Text'
-    } else if (isSnippetResource) {
+    } else if (isSnippetResource(resource)) {
       label = 'Source code'
       classNames.push('textarea--code')
     }

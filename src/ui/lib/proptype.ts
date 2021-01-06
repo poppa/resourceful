@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types'
-import type { PlainObject } from '../../lib'
+import type { AnyFunction, PlainObject } from '../../lib'
 
 export type AddPropTypes<F, T> = F & {
   propTypes: T
 }
 
-export type WithPropTypes<F extends Function> = AddPropTypes<F, PlainObject>
+export type WithPropTypes<F extends AnyFunction> = AddPropTypes<F, PlainObject>
 
-export type WithChildren<F extends Function> = AddPropTypes<
+export type WithChildren<F extends AnyFunction> = AddPropTypes<
   F,
   { children: PropTypes.Requireable<PropTypes.ReactNodeLike> }
 >
 
-export function withChildren<F extends Function>(f: F): WithChildren<F> {
+export function withChildren<F extends AnyFunction>(f: F): WithChildren<F> {
   const t = f as WithPropTypes<F>
 
   if (!t.propTypes) {

@@ -7,6 +7,7 @@ export interface RGB {
   a?: number
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export class RGBClass {
   public r: number
   public g: number

@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import { observer } from 'mobx-react'
 import Snackbar from '@material-ui/core/Snackbar/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent/SnackbarContent'
 import { createResourceState } from '../storage'
-import { FeedbackMessage } from '../../lib/ipc/types'
 
 const FeedbackMessage: FC = observer(() => {
   let message = createResourceState.message

@@ -1,3 +1,5 @@
+import type { AnyFunction } from '../../lib'
+
 const EnvString = Symbol('string')
 const EnvInt = Symbol('int')
 const EnvFloat = Symbol('float')
@@ -13,8 +15,10 @@ export type EnvType =
   | typeof EnvJson
   | typeof EnvArray
 
+type AnyObj = Record<string, unknown>
+
 export interface Env {
-  (name: string | string[], type: EnvType): Function
+  (name: string | string[], type: EnvType): AnyFunction
 
   String: typeof EnvString
   Int: typeof EnvInt
@@ -23,8 +27,6 @@ export interface Env {
   Json: typeof EnvJson
   Array: typeof EnvArray
 }
-
-type AnyObj = Record<string, unknown>
 
 /**
  * Method accessor decorator that will return the value of `process.env[name]`
@@ -35,12 +37,10 @@ type AnyObj = Record<string, unknown>
  * @param defaultValue - Default value to set if the `name` argument isn't
  *  found in `process.env`
  */
-export function Env(
-  name: string | string[],
-  type: EnvType = EnvString
-): Function {
-  return function (
-    _target: object,
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export function Env(name: string | string[], type: EnvType = EnvString) {
+  return function <T>(
+    _target: T,
     _propertyKey: string,
     descriptor: PropertyDescriptor
   ): void {

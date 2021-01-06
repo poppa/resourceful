@@ -8,5 +8,5 @@ export function findElementByClassName(
     return el
   }
 
-  return el.closest(`.${className}`) || undefined
+  return el.closest(`.${className}`) ?? undefined
 }

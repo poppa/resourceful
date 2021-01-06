@@ -27,7 +27,7 @@ export async function handler({
 
       const resource = makeResource({
         type: ResourceType.File,
-        name: (await getNameFromKnownFileType(buffer)) || basename(buffer),
+        name: (await getNameFromKnownFileType(buffer)) ?? basename(buffer),
         path: buffer,
         contentType: mime,
       } as FileResource)

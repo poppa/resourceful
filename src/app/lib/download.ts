@@ -40,7 +40,7 @@ function isAxiosError(o: unknown): o is AxiosError {
   return (
     o instanceof Error &&
     'isAxiosError' in o &&
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     o.isAxiosError === true
   )
@@ -193,7 +193,7 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
     } else {
       throw new Error(`Non-200 response ${x.status} ${x.statusText}`)
     }
-  } catch (e) {
+  } catch (e: unknown) {
     // FIXME: Write to log
     if (isAxiosError(e)) {
       debug(`Axios Error:`, e.config)
@@ -202,6 +202,6 @@ export async function downloadUrl(url: string): AsyncResult<DownloadData> {
       debug('Download Error:', e)
     }
 
-    return failure(e)
+    return failure(e as Error)
   }
 }

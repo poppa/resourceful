@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { CSSValue, cssRGBValue, cssColor } from './utils'
+import { CssValue, cssRGBValue, cssColor } from './utils'
 import type { RGB } from '../../lib/colors'
 import { lighten, darken } from '../../lib/colors'
 import { staticStore, confirmState } from '../storage'
 import type { SystemColors } from '../../app/colors'
 
 export interface ThemeProperies {
-  primary: CSSValue
-  primaryBg: CSSValue
-  primaryBg2: CSSValue
-  primaryBg3: CSSValue
-  primaryText: CSSValue
-  secondary: CSSValue
-  tabsBg: CSSValue
+  primary: CssValue
+  primaryBg: CssValue
+  primaryBg2: CssValue
+  primaryBg3: CssValue
+  primaryText: CssValue
+  secondary: CssValue
+  tabsBg: CssValue
 }
 
 let theme: Theme
@@ -55,15 +55,15 @@ export function applyTheme(): void {
 export class Theme implements ThemeProperies {
   protected root: CSSStyleDeclaration
 
-  public primary: CSSValue
-  public primaryOff: CSSValue
-  public primaryBg: CSSValue
-  public primaryBg2: CSSValue
-  public primaryBg3: CSSValue
-  public primaryText: CSSValue
-  public primaryTextContrast: CSSValue
-  public secondary: CSSValue
-  public tabsBg: CSSValue
+  public primary: CssValue
+  public primaryOff: CssValue
+  public primaryBg: CssValue
+  public primaryBg2: CssValue
+  public primaryBg3: CssValue
+  public primaryText: CssValue
+  public primaryTextContrast: CssValue
+  public secondary: CssValue
+  public tabsBg: CssValue
 
   constructor(colors: SystemColors) {
     this.root = (document.querySelector('html') as HTMLHtmlElement).style
@@ -83,7 +83,7 @@ export class Theme implements ThemeProperies {
     return this.root.getPropertyValue('--' + which)
   }
 
-  public setProp(which: string, what: CSSValue | string): this {
+  public setProp(which: string, what: CssValue | string): this {
     const val = what.toString()
     this.root.setProperty('--' + which, val)
     return this
@@ -94,10 +94,10 @@ export class Theme implements ThemeProperies {
     return this
   }
 
-  applyProp<K extends keyof ThemeProperies>(prop: K): this {
+  public applyProp<K extends keyof ThemeProperies>(prop: K): this {
     const val = this[prop]
 
-    if (val && val instanceof CSSValue) {
+    if (val && val instanceof CssValue) {
       if (!val.isUndefined()) {
         const cssprop = this.jsPropToCss(prop)
         this.setProp(cssprop, this[prop].toString())
@@ -107,11 +107,11 @@ export class Theme implements ThemeProperies {
     return this
   }
 
-  apply(): this {
+  public apply(): this {
     Object.getOwnPropertyNames(this).forEach((prop) => {
       const res = Reflect.get(this, prop)
 
-      if (res && res instanceof CSSValue) {
+      if (res && res instanceof CssValue) {
         this.applyProp(prop as keyof ThemeProperies)
       }
     })

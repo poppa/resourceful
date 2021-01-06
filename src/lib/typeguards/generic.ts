@@ -5,7 +5,7 @@ export function isPrimitive(t: unknown): t is number | boolean | string {
 
   return (
     to !== 'undefined' &&
-    (to === 'boolean' || to == 'string' || to === 'number')
+    (to === 'boolean' || to === 'string' || to === 'number')
   )
 }
 
@@ -29,6 +29,7 @@ export function isPlainObject(v: unknown): v is PlainObject {
   return typeof v === 'object' && v !== null && !('constructor' in v)
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isInstance(v: unknown): v is object {
   return typeof v === 'object' && v !== null && 'constructor' in v
 }

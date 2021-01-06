@@ -4,7 +4,7 @@ import type { Maybe } from '../../lib/types/types'
 let store: Maybe<TabDragStateStore>
 
 export class TabDragStateStore {
-  static create(): TabDragStateStore {
+  public static create(): TabDragStateStore {
     return store ?? (store = new this())
   }
 

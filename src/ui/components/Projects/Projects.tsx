@@ -1,6 +1,7 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import Tabs from './Tabs/Tabs'
-import { Project } from '../../../lib'
+import type { Project } from '../../../lib'
 import ProjectComponent from './Project/Project'
 import { staticStore, projectsStore, dragStateStore } from '../../storage'
 import { handleMovedResource } from '../../lib'
@@ -20,11 +21,8 @@ const handleDrop = async (e: React.DragEvent): Promise<void> => {
   const files = e.dataTransfer.files
 
   if (files.length) {
-    console.log(`Got file drop dude:`, e.dataTransfer.files)
+    console.log(`Got file drop:`, e.dataTransfer.files)
 
-    // FIXME: Why does files not have an iterator
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     for (const file of files) {
       await projectsStore.resolveResource(file.path)
     }
@@ -41,7 +39,7 @@ const handleDragEnter = (e: React.DragEvent): void => {
   if (dragStateStore.element) {
     e.dataTransfer.dropEffect = 'move'
   } else {
-    e.dataTransfer.dropEffect = 'file'
+    e.dataTransfer.dropEffect = 'copy'
   }
 }
 

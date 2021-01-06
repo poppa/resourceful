@@ -31,6 +31,7 @@ export async function saveProject(proj: Project): Promise<boolean> {
       return false
     }
 
+    // eslint-disable-next-line require-atomic-updates
     proj.selected = true
   }
 

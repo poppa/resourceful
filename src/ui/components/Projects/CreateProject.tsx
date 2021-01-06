@@ -1,10 +1,12 @@
-import React, { FC, useState } from 'react'
+import type { FC } from 'react'
+import React, { useState } from 'react'
 import { makeProject } from '../../lib/project'
 import { projectsStore, pageStateStore } from '../../storage'
 import { observer } from 'mobx-react'
-import { OnCreateCallback } from './CreateProjectDialog'
+import type { OnCreateCallback } from './CreateProjectDialog'
 import { PageState } from '../../storage/pagestate'
-import ProjectForm, { State } from './ProjectForm'
+import type { State } from './ProjectForm'
+import ProjectForm from './ProjectForm'
 
 interface Props {
   onCreate(fn: OnCreateCallback): void

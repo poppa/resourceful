@@ -85,7 +85,7 @@ export class EditProjectDialogState {
   @observable public isOpen = false
   @observable public project?: Project
 
-  @action setProject(proj?: Project): this {
+  @action public setProject(proj?: Project): this {
     if (proj) {
       this.isOpen = true
       this.project = proj
@@ -108,7 +108,7 @@ export class EditResourceDialogState {
   @observable public isOpen = false
   @observable public resource?: Resource
 
-  @action setResource(resource?: Resource): this {
+  @action public setResource(resource?: Resource): this {
     if (resource) {
       this.isOpen = true
       this.resource = resource
@@ -125,7 +125,7 @@ let createResourceStore: Maybe<CreateResourceState>
 
 export class CreateResourceState {
   public static create(): CreateResourceState {
-    return createResourceStore || (createResourceStore = new this())
+    return createResourceStore ?? (createResourceStore = new this())
   }
 
   private readonly defaultDoneMessage = 'Done'
@@ -146,7 +146,7 @@ export class CreateResourceState {
       return null
     }
 
-    return this.messages[0]?.message || this.defaultDoneMessage
+    return this.messages[0]?.message ?? this.defaultDoneMessage
   }
 
   @action public add(message: FeedbackMessage): void {

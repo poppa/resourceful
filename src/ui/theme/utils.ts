@@ -1,20 +1,20 @@
 import type { RGB } from '../../lib/colors'
 import { RGBClass, parseColor } from '../../lib/colors'
 
-type CSSValueType = string | RGB | RGBClass | number | undefined
+type CssValueType = string | RGB | RGBClass | number | undefined
 
-export class CSSValue {
-  public value: CSSValueType
+export class CssValue {
+  public value: CssValueType
 
-  constructor(value: CSSValueType) {
+  constructor(value: CssValueType) {
     this.value = value
   }
 
-  isUndefined(): boolean {
+  public isUndefined(): boolean {
     return this.value === undefined
   }
 
-  toString(): string {
+  public toString(): string {
     if (this.value !== undefined) {
       return this.value.toString()
     }
@@ -23,10 +23,10 @@ export class CSSValue {
   }
 }
 
-class CSSUnitValue extends CSSValue {
+class CssUnitValue extends CssValue {
   public unit = 'px'
 
-  constructor(value: CSSValueType, unit?: string) {
+  constructor(value: CssValueType, unit?: string) {
     super(value)
 
     if (unit) {
@@ -34,29 +34,29 @@ class CSSUnitValue extends CSSValue {
     }
   }
 
-  toString(): string {
+  public toString(): string {
     return super.toString() + this.unit
   }
 }
 
-export function cssValue(value: CSSValueType): CSSValue {
-  return new CSSValue(value)
+export function cssValue(value: CssValueType): CssValue {
+  return new CssValue(value)
 }
 
-export function cssUnitValue(value: CSSValueType, unit?: string): CSSUnitValue {
-  return new CSSUnitValue(value, unit)
+export function cssUnitValue(value: CssValueType, unit?: string): CssUnitValue {
+  return new CssUnitValue(value, unit)
 }
 
-export function cssRGBValue(rgb: RGB): CSSValue {
-  return new CSSValue(new RGBClass(rgb))
+export function cssRGBValue(rgb: RGB): CssValue {
+  return new CssValue(new RGBClass(rgb))
 }
 
-export function cssColor(c: string): CSSValue {
+export function cssColor(c: string): CssValue {
   const p = parseColor(c)
 
   if (p) {
-    return new CSSValue(p)
+    return new CssValue(p)
   } else {
-    return new CSSValue(c)
+    return new CssValue(c)
   }
 }

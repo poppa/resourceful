@@ -80,7 +80,7 @@ export class Colors extends EventEmitter implements SystemColors {
     return hexToRgbCss(systemPreferences.getAccentColor())
   }
 
-  [Symbol.toPrimitive](hint: string): unknown {
+  public [Symbol.toPrimitive](hint: string): unknown {
     console.log(`Primitive hint:`, hint)
     switch (hint) {
       case 'number':
@@ -88,6 +88,10 @@ export class Colors extends EventEmitter implements SystemColors {
 
       case 'string':
         return JSON.stringify(this.toPlainObject())
+
+      default:
+        // Do nothing
+        break
     }
 
     return this.toPlainObject()
@@ -103,8 +107,8 @@ export class Colors extends EventEmitter implements SystemColors {
         if (['string', 'boolean', 'number', 'bigint'].includes(typeof res)) {
           Reflect.set(tmp, p, res)
         }
-      } catch (e) {
-        console.error('Error:', e.message)
+      } catch (e: unknown) {
+        console.error('Error:', (e as Error).message)
       }
     }
 

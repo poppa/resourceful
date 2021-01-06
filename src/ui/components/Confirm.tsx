@@ -1,4 +1,5 @@
-import React, { FC } from 'react'
+import type { FC } from 'react'
+import React from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -16,7 +17,7 @@ const Confirm: FC = observer(() => {
       open={confirmState.isOpen}
       onClose={(_, reason): void => {
         if (reason === 'escapeKeyDown') {
-          confirmState.state?.onAbort()
+          confirmState.state?.onAbort?.()
         }
       }}
       onKeyDown={(e): void => {
@@ -34,7 +35,7 @@ const Confirm: FC = observer(() => {
       <DialogActions>
         {confirmState.state?.onAbort ? (
           <Button
-            onClick={(): void => confirmState.state?.onAbort()}
+            onClick={(): void => confirmState.state?.onAbort?.()}
             color="secondary"
           >
             Cancel
