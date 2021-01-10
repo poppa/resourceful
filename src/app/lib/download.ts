@@ -93,7 +93,10 @@ function parseHtmlSnippet(html: string): PageMeta {
 
   if (!pageMeta.title) {
     const ttl = $('title')
-    ttl.each((_, el) => (pageMeta.title = (el as cheerio.TagElement).nodeValue))
+
+    if (ttl.length) {
+      pageMeta.title = (ttl[0] as cheerio.TagElement).children[0].data
+    }
   }
 
   if (!pageMeta.title) {
