@@ -40,6 +40,13 @@ const resourceMenuTemplate: MenuItemConstructorOptions[] = [
     id: 'menu-resource-delete',
     label: 'Delete',
   },
+  { type: 'separator' },
+  {
+    id: 'menu-resource-favorite',
+    label: 'Favorite',
+    type: 'checkbox',
+    checked: false,
+  },
 ]
 
 function findItemById(
@@ -127,6 +134,16 @@ function setupResourceMenu(id: string): void {
   const editMenu = findItemById(resourceMenuTemplate, 'menu-resource-edit')
   editMenu.click = (): void => {
     editResourceDialogState.setResource(resource)
+  }
+
+  const favMenu = findItemById(resourceMenuTemplate, 'menu-resource-favorite')
+  favMenu.checked = resource.state?.favorite
+  favMenu.click = (): void => {
+    setResourceState({
+      resource,
+      state: { favorite: !resource.state?.favorite },
+      save: true,
+    })
   }
 }
 

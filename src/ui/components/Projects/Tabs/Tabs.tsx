@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 import React, { useState } from 'react'
 import AddIcon from '@material-ui/icons/AddCircleOutline'
+import FavoriteIcon from '@material-ui/icons/Favorite'
 import type { Project } from '../../../../lib'
 import type { ProjectProps } from '../Projects'
 import {
@@ -125,6 +126,14 @@ const Tabs: FC<ProjectProps> = (props): JSX.Element => {
         ))}
       </div>
       <div className="tabs__actions">
+        <button
+          className="tab tab__action tabs__action-favorites"
+          onClick={(): void => {
+            createProjectDialogState.isOpen = true
+          }}
+        >
+          <FavoriteIcon fontSize="small" />
+        </button>
         <button
           className="tab tab__action tabs__action-new-project"
           onClick={(): void => {

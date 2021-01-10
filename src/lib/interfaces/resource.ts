@@ -17,6 +17,8 @@ export interface ResourceAssets {
 
 export interface ResourceState extends PlainObject {
   collapsed?: boolean
+  hasCard?: boolean
+  favorite?: boolean
 }
 
 export interface Resource {

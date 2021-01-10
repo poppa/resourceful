@@ -8,6 +8,7 @@ import { setAppMenu } from './menu'
 import type { MaybeNull, Maybe } from '../lib'
 import { colors } from './colors'
 import { saveWindowBounds, store } from './store'
+import { getFavoriteResources } from './lib/resource'
 
 let mainWindow: MaybeNull<Electron.BrowserWindow> = null
 
@@ -55,6 +56,10 @@ function makeTrayIcon(): void {
       },
     ])
   )
+
+  getFavoriteResources().then((res) => {
+    console.log(`res:`, res.unwrap()[0])
+  })
 }
 
 colors.on('updated', () => {

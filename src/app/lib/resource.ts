@@ -73,3 +73,23 @@ export async function deleteResource(resource: Resource): AsyncResult<boolean> {
   console.log(`rm resource dir result:`, rmres)
   return rmres
 }
+
+export async function getFavoriteResources(): AsyncResult<Resource[]> {
+  const projs = await loadProjects()
+
+  if (!projs) {
+    return success([])
+  }
+
+  const favs: Resource[] = []
+
+  projs.forEach((p) => {
+    p.resources.forEach((res) => {
+      if (res.state?.favorite) {
+        favs.push(res)
+      }
+    })
+  })
+
+  return success(favs)
+}
